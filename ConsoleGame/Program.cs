@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Engine.Data;
+using Engine.Services;
 
 namespace Engine
 {
@@ -12,6 +9,25 @@ namespace Engine
 
         public static void Main(string[] args)
         {
+            var mapService = new MapService();
+            var map = mapService.Load("maps/map.dat");
+            var world = new World();
+
+            world.Map = map;
+            world.Player = new Player();
+
+            world.Player.PosX = map.PlayerStartPosX;
+            world.Player.PosY = map.PlayerStartPosY;
+
+            var drawService = new DrawService();
+            var controllService = new ControllService(world);
+
+            for (; ; )
+            {
+                var key = System.Console.ReadKey();
+                controllService.Controll(key);
+                drawService.Draw(world);
+            }
 
         }
 
