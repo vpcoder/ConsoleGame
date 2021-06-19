@@ -1,0 +1,7 @@
+C:\Users\kyctuk\Desktop\ConsoleGame\ConsoleApp1\bin\Debug\Maps\Map.Dat
+C:\Users\kyctuk\Desktop\ConsoleGame\ConsoleApp1\bin\Debug\ConsoleGame.exe.config
+C:\Users\kyctuk\Desktop\ConsoleGame\ConsoleApp1\bin\Debug\ConsoleGame.exe
+C:\Users\kyctuk\Desktop\ConsoleGame\ConsoleApp1\bin\Debug\ConsoleGame.pdb
+C:\Users\kyctuk\Desktop\ConsoleGame\ConsoleApp1\obj\Debug\ConsoleGame.csproj.CoreCompileInputs.cache
+C:\Users\kyctuk\Desktop\ConsoleGame\ConsoleApp1\obj\Debug\ConsoleGame.exe
+C:\Users\kyctuk\Desktop\ConsoleGame\ConsoleApp1\obj\Debug\ConsoleGame.pdb

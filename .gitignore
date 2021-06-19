@@ -1,0 +1,11 @@
+.vs
+/bin
+/obj
+/Debug
+/Release
+*.exe
+*.zip
+*.rar
+*.com
+*.bat
+*.cmd
