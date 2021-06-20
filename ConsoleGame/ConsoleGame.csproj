@@ -46,13 +46,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\Impls\Brick.cs" />
-    <Compile Include="Data\Impls\Road.cs" />
-    <Compile Include="Data\Impls\Tree.cs" />
+    <Compile Include="Data\Objects\Impls\Brick.cs" />
+    <Compile Include="Data\Objects\Impls\Bridge.cs" />
+    <Compile Include="Data\Objects\Impls\Dirt.cs" />
+    <Compile Include="Data\Objects\Impls\Sand.cs" />
+    <Compile Include="Data\Objects\Impls\Road.cs" />
+    <Compile Include="Data\Objects\Impls\Cactus.cs" />
+    <Compile Include="Data\Objects\Impls\DarkWater.cs" />
+    <Compile Include="Data\Objects\Impls\Water.cs" />
+    <Compile Include="Data\Objects\Impls\Tree.cs" />
     <Compile Include="Data\Map.cs" />
-    <Compile Include="Data\Object.cs" />
-    <Compile Include="Data\Player.cs" />
-    <Compile Include="Data\SpriteChar.cs" />
+    <Compile Include="Data\Objects\Object.cs" />
+    <Compile Include="Data\Player\Player.cs" />
+    <Compile Include="Data\Objects\SpriteChar.cs" />
     <Compile Include="Data\World.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

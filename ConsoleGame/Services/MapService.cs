@@ -5,6 +5,9 @@ using System.IO;
 namespace Engine.Services
 {
 
+    /// <summary>
+    /// Сервис работы с картами
+    /// </summary>
     public class MapService
     {
 
@@ -43,7 +46,7 @@ namespace Engine.Services
                 {
                     int itemY = y + 2;
                     int itemX = x;
-                    map.matrix[x, y] = ReadItem(x, y, mapData[itemY][itemX].ToString());
+                    map.Matrix[x, y] = ReadItem(x, y, mapData[itemY][itemX].ToString());
                 }
             }
 
@@ -59,7 +62,7 @@ namespace Engine.Services
             switch(txtItem)
             {
                 case "Ψ":
-                    item = new Tree();
+                    item = new Cactus();
                     break;
                 case "░":
                     item = new Road();
@@ -69,6 +72,24 @@ namespace Engine.Services
                     break;
                 case " ":
                     item = null;
+                    break;
+                case "=":
+                    item = new Bridge();
+                    break;
+                case "T":
+                    item = new Tree();
+                    break;
+                case "d":
+                    item = new Dirt();
+                    break;
+                case "w":
+                    item = new Water();
+                    break;
+                case "W":
+                    item = new DarkWater();
+                    break;
+                case "s":
+                    item = new Sand();
                     break;
                 default:
                     item = null;

@@ -4,6 +4,9 @@ using Engine.Services;
 namespace Engine
 {
 
+    /// <summary>
+    /// Точка входа программы
+    /// </summary>
     public class Program
     {
 
@@ -15,18 +18,21 @@ namespace Engine
 
             world.Map = map;
             world.Player = new Player();
-
             world.Player.PosX = map.PlayerStartPosX;
             world.Player.PosY = map.PlayerStartPosY;
 
-            var drawService = new DrawService();
+            var drawService = new DrawService(world);
             var controllService = new ControllService(world);
 
+            drawService.Draw();
             for (; ; )
             {
                 var key = System.Console.ReadKey();
+                //var playerPosX = world.Player.PosX;
+                //var playerPosY = world.Player.PosY;
                 controllService.Controll(key);
-                drawService.Draw(world);
+                drawService.Draw();
+                //drawService.Redraw(playerPosX, playerPosY);
             }
 
         }

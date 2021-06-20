@@ -21,11 +21,9 @@ namespace Engine.Services
         }
 
         /// <summary>
-        /// 
+        /// Метод одной итерации управления персонажем
         /// </summary>
         /// <param name="key">Что сделал игрок</param>
-        /// KeyCode - 
-        /// VirtualKey -
         public void Controll(ConsoleKeyInfo key)
         {
             int playerPosX = world.Player.PosX;
@@ -34,25 +32,25 @@ namespace Engine.Services
             switch(key.Key)
             {
                 case ConsoleKey.W:
-                    if(canWalkToXY(playerPosX, playerPosY - 1, world))
+                    if(canWalkToXY(playerPosX, playerPosY - 1))
                     {
                         world.Player.PosY -= 1;
                     }
                     break;
                 case ConsoleKey.A:
-                    if (canWalkToXY(playerPosX - 1, playerPosY, world))
+                    if (canWalkToXY(playerPosX - 1, playerPosY))
                     {
                         world.Player.PosX -= 1;
                     }
                     break;
                 case ConsoleKey.S:
-                    if (canWalkToXY(playerPosX, playerPosY + 1, world))
+                    if (canWalkToXY(playerPosX, playerPosY + 1))
                     {
                         world.Player.PosY += 1;
                     }
                     break;
                 case ConsoleKey.D:
-                    if (canWalkToXY(playerPosX + 1, playerPosY, world))
+                    if (canWalkToXY(playerPosX + 1, playerPosY))
                     {
                         world.Player.PosX += 1;
                     }
@@ -60,9 +58,16 @@ namespace Engine.Services
             }
         }
 
-        private bool canWalkToXY(int x, int y, World world)
+        /// <summary>
+        /// Определяет - можно ли ходить в точку x,y на карте или нет?
+        /// </summary>
+        /// <param name="x">Точка на карте по X</param>
+        /// <param name="y">Точка на карте по Y</param>
+        /// <param name="world">Мир, в котром выполняется расчёт</param>
+        /// <returns></returns>
+        private bool canWalkToXY(int x, int y)
         {
-            var charItem = world.Map.matrix[x, y];
+            var charItem = world.Map.Matrix[x, y];
             if (charItem == null)
             {
                 return true;
