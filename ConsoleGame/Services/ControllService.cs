@@ -67,6 +67,10 @@ namespace Engine.Services
         /// <returns></returns>
         private bool canWalkToXY(int x, int y)
         {
+            if (x < 0 || y < 0 || x >= world.Map.SizeX || y >= world.Map.SizeY)
+            {
+                return false;
+            }
             var charItem = world.Map.Matrix[x, y];
             if (charItem == null)
             {
