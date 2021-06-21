@@ -28,11 +28,10 @@ namespace Engine
             for (; ; )
             {
                 var key = System.Console.ReadKey();
-                //var playerPosX = world.Player.PosX;
-                //var playerPosY = world.Player.PosY;
+                var playerPosX = world.Player.PosX;
+                var playerPosY = world.Player.PosY;
                 controllService.Controll(key);
-                drawService.Draw();
-                //drawService.Redraw(playerPosX, playerPosY);
+                drawService.Redraw(playerPosX, playerPosY);
             }
 
         }
