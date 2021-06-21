@@ -28,6 +28,9 @@ namespace Engine.Services
         /// VirtualKey -
         public void Controll(ConsoleKeyInfo key)
         {
+            
+
+
             int playerPosX = world.Player.PosX;
             int playerPosY = world.Player.PosY;
 
@@ -62,6 +65,11 @@ namespace Engine.Services
 
         private bool canWalkToXY(int x, int y, World world)
         {
+            if (x < 0 || y < 0 || x >= world.Map.SizeX || y >= world.Map.SizeY)
+            {
+                return false;
+            }
+
             var charItem = world.Map.matrix[x, y];
             if (charItem == null)
             {

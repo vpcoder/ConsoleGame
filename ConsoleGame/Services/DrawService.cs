@@ -1,4 +1,5 @@
 ﻿using Engine.Data;
+using System.Drawing;
 using System.Text;
 
 namespace Engine.Services
@@ -9,7 +10,13 @@ namespace Engine.Services
     /// </summary>
     public class DrawService
     {
+        public Point LastPlayerPosition { get; set; }
 
+        public void SaveLastPositionPlayer(World world)
+        {
+            LastPlayerPosition = new Point(world.Player.PosX, world.Player.PosY);
+        }
+        
         /// <summary>
         /// Конструктор, срабатывает при создании экземпляра сервиса отрисовки
         /// </summary>
@@ -32,10 +39,10 @@ namespace Engine.Services
                 {
                     if(world.Player.PosX == x && world.Player.PosY == y)
                     {
-                        DrawPlayer(x, y, world.Player);
+                        DrawPlayer(world.Player);
                     } else
                     {
-                        DrawObject(x, y, world.Map.matrix[x, y]);
+                        DrawObject(world.Map.matrix[x, y]);
                     }
                 }
                 System.Console.WriteLine();
@@ -47,19 +54,29 @@ namespace Engine.Services
         /// ?
         /// </summary>
         /// <param name="world">Мир, который нужно перерисовать</param>
-        public void Redraw(int prevPosX, int prevPosY, World world)
+        public void Redraw(World world)
         {
-            // Реализовать перерисовку старого местоположения персонажа, не перерисовывая весь мир!
+            System.Console.SetCursorPosition(LastPlayerPosition.X, LastPlayerPosition.Y);
+            DrawObject(world.Map.matrix[LastPlayerPosition.X, LastPlayerPosition.Y]);
+
+            System.Console.SetCursorPosition(world.Player.PosX, world.Player.PosY);
+            DrawPlayer(world.Player);
+
+            System.Console.SetCursorPosition(0, 9);
+            System.Console.Write("\b \b");
+            
+
+
 
         }
 
-        private void DrawPlayer(int x, int y, Player player)
+        private void DrawPlayer(Player player)
         {
             System.Console.ForegroundColor = player.Color;
             System.Console.Write(player.Symbol);
         }
 
-        private void DrawObject(int x, int y, SpriteChar obj)
+        private void DrawObject( SpriteChar obj)
         {
             if(obj == null)
             {

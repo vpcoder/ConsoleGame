@@ -21,12 +21,14 @@ namespace Engine
 
             var drawService = new DrawService();
             var controllService = new ControllService(world);
-
+            drawService.Draw(world);
             for (; ; )
             {
                 var key = System.Console.ReadKey();
+                drawService.SaveLastPositionPlayer(world);
                 controllService.Controll(key);
-                drawService.Draw(world);
+                //drawService.Draw(world);
+                drawService.Redraw(world);
             }
 
         }
