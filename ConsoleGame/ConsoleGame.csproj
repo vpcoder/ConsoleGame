@@ -56,6 +56,15 @@
     <Compile Include="Data\Objects\Impls\Water.cs" />
     <Compile Include="Data\Objects\Impls\Tree.cs" />
     <Compile Include="Data\Map.cs" />
+    <Compile Include="Data\Objects\Inventory\Inventory.cs" />
+    <Compile Include="Data\Objects\Items\Impls\HealthPotion.cs" />
+    <Compile Include="Data\Objects\Items\Impls\IronSword.cs" />
+    <Compile Include="Data\Objects\Items\UsedItem.cs" />
+    <Compile Include="Data\Objects\Items\Armor.cs" />
+    <Compile Include="Data\Objects\Items\Item.cs" />
+    <Compile Include="Data\Objects\Items\MeleeWeapon.cs" />
+    <Compile Include="Data\Objects\Items\RangedWeapon.cs" />
+    <Compile Include="Data\Objects\Items\Weapon.cs" />
     <Compile Include="Data\Objects\Object.cs" />
     <Compile Include="Data\Player\Player.cs" />
     <Compile Include="Data\Objects\SpriteChar.cs" />
@@ -72,5 +81,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

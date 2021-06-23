@@ -36,13 +36,15 @@ namespace Engine.Services
                     System.Console.SetCursorPosition(x, y);
                     if(world.Player.PosX == x && world.Player.PosY == y)
                     {
-                        DrawPlayer(x, y);
+                        DrawPlayer();
                     } else
                     {
-                        DrawObject(x, y, world.Map.Matrix[x, y]);
+                        DrawObject(world.Map.Matrix[x, y]);
                     }
                 }
             }
+            DrawInventory();
+
             System.Console.SetCursorPosition(0, world.Map.SizeY+1);
             System.Console.ForegroundColor = System.ConsoleColor.White;
             System.Console.Write("input:");
@@ -54,15 +56,11 @@ namespace Engine.Services
         /// </summary>
         public void Redraw(int prevPosX, int prevPosY)
         {
-            if(prevPosX == world.Player.PosX && prevPosY == world.Player.PosY)
-            {
-                EndDraw();
-                return;
-            }
             System.Console.SetCursorPosition(prevPosX, prevPosY);
-            DrawObject(prevPosX, prevPosY, world.Map.Matrix[prevPosX, prevPosY]);
+            DrawObject(world.Map.Matrix[prevPosX, prevPosY]);
             System.Console.SetCursorPosition(world.Player.PosX, world.Player.PosY);
-            DrawPlayer(world.Player.PosX, world.Player.PosY);
+            DrawPlayer();
+            DrawInventory();
             EndDraw();
         }
 
@@ -77,7 +75,7 @@ namespace Engine.Services
         /// </summary>
         /// <param name="x">Располоэение персонажа по X</param>
         /// <param name="y">Располоэение персонажа по Y</param>
-        private void DrawPlayer(int x, int y)
+        private void DrawPlayer()
         {
             System.Console.ForegroundColor = world.Player.Color;
             System.Console.Write(world.Player.Symbol);
@@ -89,7 +87,7 @@ namespace Engine.Services
         /// <param name="x">Располоэение объекта по X</param>
         /// <param name="y">Располоэение объекта по Y</param>
         /// <param name="obj">Рисуемый объект</param>
-        private void DrawObject(int x, int y, SpriteChar obj)
+        private void DrawObject(SpriteChar obj)
         {
             if(obj == null)
             {
@@ -98,6 +96,46 @@ namespace Engine.Services
             }
             System.Console.ForegroundColor = obj.Color;
             System.Console.Write(obj.Symbol);
+        }
+
+        /// <summary>
+        /// Рисует инвентарь в игре
+        /// </summary>
+        private void DrawInventory()
+        {
+            var inventory = world.Player.Inventory;
+            var index = -1;
+            foreach(Item item in inventory.Items)
+            {
+                index++;
+                if (inventory.SelectedIndex == index)
+                {
+                    System.Console.ForegroundColor = System.ConsoleColor.White;
+                    System.Console.SetCursorPosition(world.Map.SizeX + 2, 4);
+                    System.Console.BackgroundColor = System.ConsoleColor.Black;
+                    System.Console.Write(GetNormalizedTetxt(item?.Title));
+                    System.Console.SetCursorPosition(world.Map.SizeX + 2, 5);
+                    System.Console.BackgroundColor = System.ConsoleColor.Black;
+                    System.Console.Write(GetNormalizedTetxt(item?.Description));
+
+                    System.Console.BackgroundColor = System.ConsoleColor.DarkGreen;
+                }
+                else
+                {
+                    System.Console.BackgroundColor = System.ConsoleColor.Black;
+                }
+                System.Console.SetCursorPosition(world.Map.SizeX + 2 + index % 5, 1 + index / 5);
+                DrawObject(item);
+            }
+        }
+
+        private string GetNormalizedTetxt(string text)
+        {
+            if(text == null)
+            {
+                return string.Empty.PadRight(30, ' ');
+            }
+            return text.PadRight(30, ' ');
         }
 
     }

@@ -18,17 +18,22 @@ namespace Engine.Data
         /// <summary>
         /// Здоровье персонажа
         /// </summary>
-        public int HP { get; set; }
+        public int HP { get; set; } = 100;
 
         /// <summary>
-        /// Урон персонажа
+        /// Оружие
         /// </summary>
-        public int Damage { get; set; }
+        public Weapon Weapon { get; set; } = null;
 
         /// <summary>
-        /// Защита персонажа
+        /// Броня персонажа
         /// </summary>
-        public int Armor { get; set; }
+        public Armor Armor { get; set; } = null;
+
+        /// <summary>
+        /// Инвентарь
+        /// </summary>
+        public Inventory Inventory { get; set; } = new Inventory();
 
     }
 

@@ -1,4 +1,5 @@
 ﻿using Engine.Data;
+using Engine.Data.Impls;
 using System;
 
 namespace Engine.Services
@@ -55,6 +56,17 @@ namespace Engine.Services
                         world.Player.PosX += 1;
                     }
                     break;
+
+                case ConsoleKey.LeftArrow:
+                    world.Player.Inventory.SelectedIndex--;
+                    if (world.Player.Inventory.SelectedIndex < 0)
+                        world.Player.Inventory.SelectedIndex = world.Player.Inventory.Items.Length - 1;
+                    break;
+                case ConsoleKey.RightArrow:
+                    world.Player.Inventory.SelectedIndex++;
+                    if (world.Player.Inventory.SelectedIndex >= world.Player.Inventory.Items.Length)
+                        world.Player.Inventory.SelectedIndex = 0;
+                    break;
             }
         }
 
@@ -76,12 +88,12 @@ namespace Engine.Services
             {
                 return true;
             }
-            var objItem = charItem as Engine.Data.Object;
+            var objItem = charItem as Engine.Data.Object; // Пробуем скастовать чар к объекту на карте
             if (objItem != null)
             {
                 return objItem.Walkable;
             }
-            return false;
+            return false; // не знаем что за объект, на всякий случай, ходить по нему нельзя
         }
 
     }
