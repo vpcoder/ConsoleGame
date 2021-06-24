@@ -57,7 +57,10 @@
     <Compile Include="Data\Objects\Impls\Tree.cs" />
     <Compile Include="Data\Map.cs" />
     <Compile Include="Data\Objects\Inventory\Inventory.cs" />
+    <Compile Include="Data\Objects\Items\Impls\BronzeArmor.cs" />
+    <Compile Include="Data\Objects\Items\Impls\ClothArmor.cs" />
     <Compile Include="Data\Objects\Items\Impls\HealthPotion.cs" />
+    <Compile Include="Data\Objects\Items\Impls\IronArmor.cs" />
     <Compile Include="Data\Objects\Items\Impls\IronSword.cs" />
     <Compile Include="Data\Objects\Items\UsedItem.cs" />
     <Compile Include="Data\Objects\Items\Armor.cs" />
@@ -77,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Maps\Map.Dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
