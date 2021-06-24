@@ -67,6 +67,16 @@ namespace Engine.Services
                     if (world.Player.Inventory.SelectedIndex >= world.Player.Inventory.Items.Length)
                         world.Player.Inventory.SelectedIndex = 0;
                     break;
+                case ConsoleKey.UpArrow:
+                    world.Player.Inventory.SelectedIndex -= 5;
+                    if (world.Player.Inventory.SelectedIndex < 0)
+                        world.Player.Inventory.SelectedIndex += world.Player.Inventory.Items.Length;
+                    break;
+                case ConsoleKey.DownArrow:
+                    world.Player.Inventory.SelectedIndex += 5;
+                    if (world.Player.Inventory.SelectedIndex >= world.Player.Inventory.Items.Length)
+                        world.Player.Inventory.SelectedIndex -= world.Player.Inventory.Items.Length;
+                    break;
             }
         }
 

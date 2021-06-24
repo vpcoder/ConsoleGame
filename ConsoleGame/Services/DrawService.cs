@@ -111,10 +111,10 @@ namespace Engine.Services
                 if (inventory.SelectedIndex == index)
                 {
                     System.Console.ForegroundColor = System.ConsoleColor.White;
-                    System.Console.SetCursorPosition(world.Map.SizeX + 2, 4);
+                    System.Console.SetCursorPosition(world.Map.SizeX + 2, 6);
                     System.Console.BackgroundColor = System.ConsoleColor.Black;
                     System.Console.Write(GetNormalizedTetxt(item?.Title));
-                    System.Console.SetCursorPosition(world.Map.SizeX + 2, 5);
+                    System.Console.SetCursorPosition(world.Map.SizeX + 2, 7);
                     System.Console.BackgroundColor = System.ConsoleColor.Black;
                     System.Console.Write(GetNormalizedTetxt(item?.Description));
 
