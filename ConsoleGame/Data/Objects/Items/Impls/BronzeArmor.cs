@@ -10,7 +10,7 @@ namespace Engine.Data
             this.MaxStackSize = 1;
             this.StackSize = 1;
             this.Color = ConsoleColor.Green;
-            this.Symbol = '∯';
+            this.Symbol = 'ﬄ';
             this.Defence = 5;
 
             this.Title = "Бронзовая броня";
