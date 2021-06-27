@@ -14,7 +14,7 @@ namespace Engine.Data
             this.StackSize    = 1;
             this.Damage       = 1;
             this.Symbol       = '†';
-            this.Color        = ConsoleColor.DarkRed;
+            this.Color        = ConsoleColor.Gray;
 
             this.Title        = "Железный меч";
             this.Description  = "Простейший меч из железа";
