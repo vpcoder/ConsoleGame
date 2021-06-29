@@ -29,6 +29,7 @@ namespace Engine.Services
         /// <param name="world">Мир, который нужно отрисовать</param>
         public void Draw()
         {
+            var map = world.Map;
             for(var y = 0; y < world.Map.SizeY; y++)
             {
                 for (var x = 0; x < world.Map.SizeX; x++)
@@ -39,7 +40,7 @@ namespace Engine.Services
                         DrawPlayer();
                     } else
                     {
-                        DrawObject(world.Map.Matrix[x, y]);
+                        DrawObject(GetVisibleObject(x, y));
                     }
                 }
             }
@@ -51,13 +52,19 @@ namespace Engine.Services
             EndDraw();
         }
 
+        private SpriteChar GetVisibleObject(int x, int y)
+        {
+            var map = world.Map;
+            return map.Frontground(x, y) ?? map.Background(x, y); // Сначала смотрим на то что на переднем плане, а потом на то что на заднем плане
+        }
+
         /// <summary>
         /// Метод перерисовки последнего местоположения персонажа
         /// </summary>
         public void Redraw(int prevPosX, int prevPosY)
         {
             System.Console.SetCursorPosition(prevPosX, prevPosY);
-            DrawObject(world.Map.Matrix[prevPosX, prevPosY]);
+            DrawObject(GetVisibleObject(prevPosX, prevPosY));
             System.Console.SetCursorPosition(world.Player.PosX, world.Player.PosY);
             DrawPlayer();
             DrawInventory();

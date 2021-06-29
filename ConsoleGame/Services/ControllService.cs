@@ -93,7 +93,7 @@ namespace Engine.Services
             {
                 return false;
             }
-            var charItem = world.Map.Matrix[x, y];
+            var charItem = world.Map.Matrix0[x, y];
             if (charItem == null)
             {
                 return true;

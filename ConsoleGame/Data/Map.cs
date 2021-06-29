@@ -27,9 +27,14 @@ namespace Engine.Data
         public int SizeY { get; }
 
         /// <summary>
-        /// Матрица карты
+        /// Матрица карты - то что лежит "снизу"
         /// </summary>
-        public SpriteChar[,] Matrix;
+        public SpriteChar[,] Matrix0;
+
+        /// <summary>
+        /// Матрица карты - то что лежит "сверху"
+        /// </summary>
+        public SpriteChar[,] Matrix1;
 
         /// <summary>
         /// Инициализация карты (конструкторв)
@@ -40,7 +45,27 @@ namespace Engine.Data
         {
             this.SizeX = w;
             this.SizeY = h;
-            this.Matrix = new SpriteChar[w, h];
+            this.Matrix0 = new SpriteChar[w, h];
+            this.Matrix1 = new SpriteChar[w, h];
+        }
+
+        public SpriteChar Background(int x, int y)
+        {
+            if (!isIntersection(x, y))
+                return null;
+            return Matrix0[x, y];
+        }
+
+        public SpriteChar Frontground(int x, int y)
+        {
+            if (!isIntersection(x, y))
+                return null;
+            return Matrix1[x, y];
+        }
+        
+        private bool isIntersection(int x, int y)
+        {
+            return !(x < 0 || x >= SizeX || y < 0 || y >= SizeY);
         }
 
     }

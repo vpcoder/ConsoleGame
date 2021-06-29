@@ -28,6 +28,8 @@ namespace Engine.Services
         /// <returns>Прочитанный объект мира</returns>
         public Map Load(string mapName)
         {
+            int LAYOUTS_COUNT = 2; // Число слоёв на карте
+
             string[] mapData = File.ReadAllText(mapName).Replace("\r", "").Split('\n');
             string name = mapData[0];
             string[] playerPosition = mapData[1].Split(',');
@@ -36,7 +38,7 @@ namespace Engine.Services
             int posY = int.Parse(playerPosition[1]);
 
             int mapSizeX = mapData[mapData.Length - 1].Length;
-            int mapSizeY = mapData.Length - 2;
+            int mapSizeY = (mapData.Length - 2) / LAYOUTS_COUNT;
 
             var map = new Map(mapSizeX, mapSizeY);
 
@@ -46,7 +48,8 @@ namespace Engine.Services
                 {
                     int itemY = y + 2;
                     int itemX = x;
-                    map.Matrix[x, y] = ReadItem(x, y, mapData[itemY][itemX].ToString());
+                    map.Matrix0[x, y] = ReadItem(x, y, mapData[itemY][itemX].ToString()); // Заполняем первый слой
+                    map.Matrix1[x, y] = ReadItem(x, y, mapData[itemY + mapSizeY][itemX].ToString()); // Заполняем второй слой
                 }
             }
 
