@@ -77,6 +77,29 @@ namespace Engine.Services
                     if (world.Player.Inventory.SelectedIndex >= world.Player.Inventory.Items.Length)
                         world.Player.Inventory.SelectedIndex -= world.Player.Inventory.Items.Length;
                     break;
+
+                case ConsoleKey.E:
+                    var selectedItem = world.Player.Inventory.Selected;
+                    if (selectedItem is UsedItem) // Используемые предметы?
+                    {
+
+                        break;
+                    }
+                    if (selectedItem is Armor) // Броня?
+                    {
+                        var armor = selectedItem as Armor;
+                        var tmpArmor = world.Player.Armor;
+                        world.Player.Armor = armor;
+                        world.Player.Inventory.Selected = tmpArmor;
+                        break;
+                    }
+                    if (selectedItem is Weapon) // Оружие?
+                    {
+
+                        break;
+                    }
+                    // Непонятно что за предмет, возможно ошибка в коде?
+                    break;
             }
         }
 
