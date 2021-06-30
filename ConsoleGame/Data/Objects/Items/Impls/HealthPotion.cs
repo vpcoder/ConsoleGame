@@ -20,7 +20,13 @@ namespace Engine.Data
 
         public override void Use(World world)
         {
+            
             world.Player.HP += 10;
+            if (world.Player.HP > world.Player.MaxHP)
+            {
+                world.Player.HP = world.Player.MaxHP;
+            }
+
         }
 
     }

@@ -45,6 +45,7 @@ namespace Engine.Services
                 }
             }
             DrawInventory();
+            DrawPlayerCharacteristic();
 
             System.Console.SetCursorPosition(0, world.Map.SizeY+1);
             System.Console.ForegroundColor = System.ConsoleColor.White;
@@ -68,6 +69,7 @@ namespace Engine.Services
             System.Console.SetCursorPosition(world.Player.PosX, world.Player.PosY);
             DrawPlayer();
             DrawInventory();
+            DrawPlayerCharacteristic();
             EndDraw();
         }
 
@@ -136,6 +138,28 @@ namespace Engine.Services
             }
         }
 
+        private void DrawPlayerCharacteristic()
+        {
+            System.Console.SetCursorPosition(world.Map.SizeX + 2, 9);
+            System.Console.BackgroundColor = System.ConsoleColor.Black;
+
+            var barLength = world.Player.HP / (world.Player.MaxHP / 10);
+            var emptyLength = 10 - barLength;
+            System.Console.ForegroundColor = System.ConsoleColor.DarkRed;
+            var progress = (string.Empty.PadRight(barLength, '█')).PadRight(10, '▒') + $" {world.Player.HP}/{world.Player.MaxHP}";
+
+          
+
+            System.Console.Write(progress);
+            System.Console.ForegroundColor = System.ConsoleColor.White;
+            System.Console.SetCursorPosition(world.Map.SizeX + 2, 11);
+            
+            var info = $"АТК: {world.Player.Damage} ЗАЩ: {world.Player.Defence}   ";
+            System.Console.Write(info);
+
+        }
+
+
         private string GenerateItemDescription(Item item)
         {
             if (item == null)
@@ -170,9 +194,9 @@ namespace Engine.Services
         {
             if(text == null)
             {
-                return string.Empty.PadRight(50, ' ');
+                return string.Empty.PadRight(60, ' ');
             }
-            return text.PadRight(50, ' ');
+            return text.PadRight(60, ' ');
         }
 
     }
