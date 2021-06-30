@@ -80,9 +80,23 @@ namespace Engine.Services
 
                 case ConsoleKey.E:
                     var selectedItem = world.Player.Inventory.Selected;
+                    if(selectedItem == null)
+                    {
+                        break;
+                    }
+
                     if (selectedItem is UsedItem) // Используемые предметы?
                     {
-
+                        var usedItem = selectedItem as UsedItem;
+                        usedItem.Use(world);
+                        if (selectedItem.StackSize != 1)
+                        {
+                            selectedItem.StackSize -= 1;
+                        }
+                        else
+                        {
+                            world.Player.Inventory.Selected = null;
+                        }
                         break;
                     }
                     if (selectedItem is Armor) // Броня?
@@ -95,7 +109,10 @@ namespace Engine.Services
                     }
                     if (selectedItem is Weapon) // Оружие?
                     {
-
+                        var weapon = selectedItem as Weapon;
+                        var tmpWeapon = world.Player.Weapon;
+                        world.Player.Weapon = weapon;
+                        world.Player.Inventory.Selected = tmpWeapon;
                         break;
                     }
                     // Непонятно что за предмет, возможно ошибка в коде?

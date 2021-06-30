@@ -120,10 +120,10 @@ namespace Engine.Services
                     System.Console.ForegroundColor = System.ConsoleColor.White;
                     System.Console.SetCursorPosition(world.Map.SizeX + 2, 6);
                     System.Console.BackgroundColor = System.ConsoleColor.Black;
-                    System.Console.Write(GetNormalizedTetxt(item?.Title));
+                    System.Console.Write(GetNormalizedText(item?.Title));
                     System.Console.SetCursorPosition(world.Map.SizeX + 2, 7);
                     System.Console.BackgroundColor = System.ConsoleColor.Black;
-                    System.Console.Write(GetNormalizedTetxt(item?.Description));
+                    System.Console.Write(GetNormalizedText(GenerateItemDescription(item)));
 
                     System.Console.BackgroundColor = System.ConsoleColor.DarkGreen;
                 }
@@ -136,13 +136,43 @@ namespace Engine.Services
             }
         }
 
-        private string GetNormalizedTetxt(string text)
+        private string GenerateItemDescription(Item item)
+        {
+            if (item == null)
+                return null;
+            StringBuilder builder = new StringBuilder();
+            builder.Append(item.Description);
+
+            if(item is Armor)
+            {
+                var armor = (Armor)item;
+                builder.Append(" +" + armor.Defence + "ед. защиты");
+            }
+            if (item is Weapon)
+            {
+                var weapon = (Weapon)item;
+                builder.Append(" +" + weapon.Damage + "ед. урона");
+            }
+            if (item is UsedItem)
+            {
+                var usedItem = (UsedItem)item;
+                builder.Append(" <используется>");
+            }
+
+
+            if (item.MaxStackSize != 1)
+                builder.Append(" " + item.StackSize + "/" + item.MaxStackSize + " шт.");
+
+            return builder.ToString();
+        }
+
+        private string GetNormalizedText(string text)
         {
             if(text == null)
             {
-                return string.Empty.PadRight(30, ' ');
+                return string.Empty.PadRight(50, ' ');
             }
-            return text.PadRight(30, ' ');
+            return text.PadRight(50, ' ');
         }
 
     }
