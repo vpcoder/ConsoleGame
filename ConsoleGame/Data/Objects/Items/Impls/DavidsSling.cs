@@ -10,7 +10,7 @@ namespace Engine.Data
             this.MaxStackSize = 1;
             this.StackSize = 1;
             this.Damage = 30;
-            this.Symbol = '/';
+            this.Symbol = '∂';
             this.Color = ConsoleColor.Green;
             this.Distance = 5;
 
