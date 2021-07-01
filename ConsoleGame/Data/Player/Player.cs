@@ -25,7 +25,7 @@ namespace Engine.Data
         /// Максимальное здоровье персонажа
         /// </summary>
 
-        public int MaxHP { get ; set; } = 100;
+        public int MaxHP { get; set; } = 100;
 
         /// <summary>
         /// Оружие
@@ -39,16 +39,22 @@ namespace Engine.Data
 
         public void AddBuff(Buff buff)
         {
-            if(CurrentBuffs.Count == 0) CurrentBuffs.Add(buff);
-            for (int i = 0; i < CurrentBuffs.Count; i++) 
+            bool flag = false;
+            if (CurrentBuffs.Count == 0)
             {
-                if (CurrentBuffs[i].IDBuff != buff.IDBuff) CurrentBuffs.Add(buff);//Скорей всего от этого можно избавиться, но через IndexOF и IndexFind у меня не вышло
-                else
+                CurrentBuffs.Add(buff); return;
+            }
+            for (int i = 0; i < CurrentBuffs.Count; i++)
+            {
+                if (CurrentBuffs[i].IDBuff != buff.IDBuff) flag = true;//Скорей всего от этого можно избавиться, но через IndexOF и IndexFind у меня не вышло
+                if (CurrentBuffs[i].IDBuff == buff.IDBuff)
                 {
                     CurrentBuffs.RemoveAt(i);
                     CurrentBuffs.Add(buff);
+                    return;
                 }
             }
+            if (flag) CurrentBuffs.Add(buff);
         }
 
 
@@ -57,21 +63,26 @@ namespace Engine.Data
         /// <summary>
         /// Текущий урон героя
         /// </summary>
-        public int Damage { get 
-            { 
+        public int Damage
+        {
+            get
+            {
                 int sumAdditionalDamage = 0;
-                foreach(var elem in CurrentBuffs)
+                foreach (var elem in CurrentBuffs)
                 {
                     sumAdditionalDamage += elem.AdditionalDamage;
                 }
                 if (Weapon != null) return Weapon.Damage + sumAdditionalDamage; // если нет оружия, то нет урона. Думаю нужно добавить оружие "кулаки". когда в слоте weapon - null, будут находится кулаки, которые слабы по урону. Или же добавить на старте меч.
                 else return 0;
-            } }
+            }
+        }
 
         /// <summary>
-        /// Текущий защита героя
+        /// Текущая защита героя
         /// </summary>
-        public int Defence { get
+        public int Defence
+        {
+            get
             {
                 int sumAdditionalDefence = 0;
                 foreach (var elem in CurrentBuffs)
@@ -82,7 +93,7 @@ namespace Engine.Data
                 else return 0 + sumAdditionalDefence;
             }
         }
-    
+
 
 
 

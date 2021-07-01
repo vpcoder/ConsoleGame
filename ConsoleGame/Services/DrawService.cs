@@ -19,7 +19,7 @@ namespace Engine.Services
         {
             this.world = world;
             System.Console.OutputEncoding = Encoding.UTF8;
-            System.Console.InputEncoding  = Encoding.UTF8;
+            System.Console.InputEncoding = Encoding.UTF8;
         }
 
         /// <summary>
@@ -30,15 +30,16 @@ namespace Engine.Services
         public void Draw()
         {
             var map = world.Map;
-            for(var y = 0; y < world.Map.SizeY; y++)
+            for (var y = 0; y < world.Map.SizeY; y++)
             {
                 for (var x = 0; x < world.Map.SizeX; x++)
                 {
                     System.Console.SetCursorPosition(x, y);
-                    if(world.Player.PosX == x && world.Player.PosY == y)
+                    if (world.Player.PosX == x && world.Player.PosY == y)
                     {
                         DrawPlayer();
-                    } else
+                    }
+                    else
                     {
                         DrawObject(GetVisibleObject(x, y));
                     }
@@ -47,7 +48,7 @@ namespace Engine.Services
             DrawInventory();
             DrawPlayerCharacteristic();
 
-            System.Console.SetCursorPosition(0, world.Map.SizeY+1);
+            System.Console.SetCursorPosition(0, world.Map.SizeY + 1);
             System.Console.ForegroundColor = System.ConsoleColor.White;
             System.Console.Write("input:");
             EndDraw();
@@ -98,7 +99,7 @@ namespace Engine.Services
         /// <param name="obj">Рисуемый объект</param>
         private void DrawObject(SpriteChar obj)
         {
-            if(obj == null)
+            if (obj == null)
             {
                 System.Console.Write(" ");
                 return;
@@ -114,7 +115,7 @@ namespace Engine.Services
         {
             var inventory = world.Player.Inventory;
             var index = -1;
-            foreach(Item item in inventory.Items)
+            foreach (Item item in inventory.Items)
             {
                 index++;
                 if (inventory.SelectedIndex == index)
@@ -148,12 +149,12 @@ namespace Engine.Services
             System.Console.ForegroundColor = System.ConsoleColor.DarkRed;
             var progress = (string.Empty.PadRight(barLength, '█')).PadRight(10, '▒') + $" {world.Player.HP}/{world.Player.MaxHP}";
 
-          
+
 
             System.Console.Write(progress);
             System.Console.ForegroundColor = System.ConsoleColor.White;
             System.Console.SetCursorPosition(world.Map.SizeX + 2, 11);
-            
+
             var info = $"АТК: {world.Player.Damage} ЗАЩ: {world.Player.Defence}   ";
             System.Console.Write(info);
 
@@ -167,7 +168,7 @@ namespace Engine.Services
             StringBuilder builder = new StringBuilder();
             builder.Append(item.Description);
 
-            if(item is Armor)
+            if (item is Armor)
             {
                 var armor = (Armor)item;
                 builder.Append(" +" + armor.Defence + "ед. защиты");
@@ -192,7 +193,7 @@ namespace Engine.Services
 
         private string GetNormalizedText(string text)
         {
-            if(text == null)
+            if (text == null)
             {
                 return string.Empty.PadRight(60, ' ');
             }

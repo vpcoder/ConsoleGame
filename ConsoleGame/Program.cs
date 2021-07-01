@@ -9,7 +9,6 @@ namespace Engine
     /// </summary>
     public class Program
     {
-
         public static void Main(string[] args)
         {
             var mapService = new MapService();
@@ -28,6 +27,8 @@ namespace Engine
             world.Player.Inventory.Items[4] = new BronzeArmor();
             world.Player.Inventory.Items[5] = new PowerPotion();
             world.Player.Inventory.Items[5].StackSize = 8;
+            world.Player.Inventory.Items[6] = new PowerFruit();
+            world.Player.Inventory.Items[6].StackSize = 8;
 
 
             var drawService = new DrawService(world);

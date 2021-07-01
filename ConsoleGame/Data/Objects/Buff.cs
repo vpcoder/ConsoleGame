@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Engine.Data
 {
     public class Buff
-    {    
+    {
         public Buff(int IDBuff)    //Должно быть у любого баффа!
         {
             this.IDBuff = IDBuff;
@@ -15,6 +15,6 @@ namespace Engine.Data
         public int AdditionalHP { get; set; }   // Доп. хп
         public int AdditionalDamage { get; set; }   // Доп. урон
         public int AdditionalDefence { get; set; }  //Доп. защита
-       
+
     }
 }
