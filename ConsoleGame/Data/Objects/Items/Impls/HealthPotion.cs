@@ -15,7 +15,7 @@ namespace Engine.Data
             this.Symbol       = 'b';
             this.Color        = ConsoleColor.Red;
             this.Title        = "Зелье здоровья";
-            this.Description  = "Повышает здоровье на 10ед.";
+            this.Description  = "Восстанавливает здоровье на 10ед.";
         }
 
         public override void Use(World world)

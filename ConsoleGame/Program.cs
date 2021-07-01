@@ -26,6 +26,9 @@ namespace Engine
             world.Player.Inventory.Items[2] = new IronArmor();
             world.Player.Inventory.Items[3] = new ClothArmor();
             world.Player.Inventory.Items[4] = new BronzeArmor();
+            world.Player.Inventory.Items[5] = new PowerPotion();
+            world.Player.Inventory.Items[5].StackSize = 8;
+
 
             var drawService = new DrawService(world);
             var controllService = new ControllService(world);
