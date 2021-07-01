@@ -52,14 +52,14 @@ namespace Engine.Data
                     CurrentBuffs.RemoveAt(i);
                     CurrentBuffs.Add(buff);
                     return;
-                }
+                }   
             }
             if (flag) CurrentBuffs.Add(buff);
         }
 
 
         // РЕАЛИЗОВАТЬ 
-
+        
         /// <summary>
         /// Текущий урон героя
         /// </summary>
@@ -68,9 +68,17 @@ namespace Engine.Data
             get
             {
                 int sumAdditionalDamage = 0;
+                List<int> usedIDs = new List<int>();
+                
                 foreach (var elem in CurrentBuffs)
                 {
-                    sumAdditionalDamage += elem.AdditionalDamage;
+
+                    if (!usedIDs.Contains(elem.IDBuff))
+                    {
+                        sumAdditionalDamage += elem.AdditionalDamage;
+                        usedIDs.Add(elem.IDBuff);
+                    }
+                                        
                 }
                 if (Weapon != null) return Weapon.Damage + sumAdditionalDamage; // если нет оружия, то нет урона. Думаю нужно добавить оружие "кулаки". когда в слоте weapon - null, будут находится кулаки, которые слабы по урону. Или же добавить на старте меч.
                 else return 0;
@@ -84,10 +92,21 @@ namespace Engine.Data
         {
             get
             {
+                List<int> usedIDs = new List<int>();
                 int sumAdditionalDefence = 0;
+
+
                 foreach (var elem in CurrentBuffs)
                 {
-                    sumAdditionalDefence += elem.AdditionalDefence;
+
+                    if (!usedIDs.Contains(elem.IDBuff))
+                    {
+                        sumAdditionalDefence += elem.AdditionalDamage;
+                        usedIDs.Add(elem.IDBuff);
+                    }
+
+
+
                 }
                 if (Armor != null) return Armor.Defence + sumAdditionalDefence;
                 else return 0 + sumAdditionalDefence;

@@ -195,9 +195,9 @@ namespace Engine.Services
         {
             if (text == null)
             {
-                return string.Empty.PadRight(60, ' ');
+                return string.Empty.PadRight(70, ' ');
             }
-            return text.PadRight(60, ' ');
+            return text.PadRight(70, ' ');
         }
 
     }

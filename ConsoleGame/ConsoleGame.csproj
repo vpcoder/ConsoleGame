@@ -58,6 +58,7 @@
     <Compile Include="Data\Objects\Impls\Tree.cs" />
     <Compile Include="Data\Map.cs" />
     <Compile Include="Data\Objects\Inventory\Inventory.cs" />
+    <Compile Include="Data\Objects\Items\Impls\Apple.cs" />
     <Compile Include="Data\Objects\Items\Impls\BronzeArmor.cs" />
     <Compile Include="Data\Objects\Items\Impls\ClothArmor.cs" />
     <Compile Include="Data\Objects\Items\Impls\DavidsSling.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Data\Objects\Items\Impls\IronArmor.cs" />
     <Compile Include="Data\Objects\Items\Impls\IronSword.cs" />
     <Compile Include="Data\Objects\Items\Impls\Katana.cs" />
+    <Compile Include="Data\Objects\Items\Impls\PowerFruit.cs" />
     <Compile Include="Data\Objects\Items\Impls\PowerPotion.cs" />
     <Compile Include="Data\Objects\Items\Impls\SunlightSpear.cs" />
     <Compile Include="Data\Objects\Items\Impls\ThieveDagger.cs" />

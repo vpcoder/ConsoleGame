@@ -1,5 +1,6 @@
 ﻿using System;
 
+
 namespace Engine.Data
 {
     class PowerFruit : UsedItem

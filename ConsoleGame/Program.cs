@@ -27,8 +27,13 @@ namespace Engine
             world.Player.Inventory.Items[4] = new BronzeArmor();
             world.Player.Inventory.Items[5] = new PowerPotion();
             world.Player.Inventory.Items[5].StackSize = 8;
-            world.Player.Inventory.Items[6] = new PowerFruit();
-            world.Player.Inventory.Items[6].StackSize = 8;
+            world.Player.Inventory.Items[6] = new Apple();
+            world.Player.Inventory.Items[6].StackSize = 5;
+            world.Player.Inventory.Items[7] = new PowerFruit();
+            world.Player.Inventory.Items[7].StackSize = 7;
+            world.Player.Inventory.Items[9] = new Katana();
+
+
 
 
             var drawService = new DrawService(world);

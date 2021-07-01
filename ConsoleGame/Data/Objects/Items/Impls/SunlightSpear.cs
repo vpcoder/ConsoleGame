@@ -15,7 +15,9 @@ namespace Engine.Data
             this.Distance = 10;
 
             this.Title = "Копьё Света";
-            this.Description = "Копьё, выкаванное из осветлённого золота";
+
+            this.Description = "Копьё, выкованное из осветлённого золота";
+
         }
     }
 }
