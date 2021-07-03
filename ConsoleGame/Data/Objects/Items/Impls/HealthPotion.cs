@@ -15,12 +15,18 @@ namespace Engine.Data
             this.Symbol       = 'b';
             this.Color        = ConsoleColor.Red;
             this.Title        = "Зелье здоровья";
-            this.Description  = "Повышает здоровье на 10ед.";
+            this.Description  = "Восстанавливает здоровье на 10ед.";
         }
 
         public override void Use(World world)
         {
+            
             world.Player.HP += 10;
+            if (world.Player.HP > world.Player.MaxHP)
+            {
+                world.Player.HP = world.Player.MaxHP;
+            }
+
         }
 
     }

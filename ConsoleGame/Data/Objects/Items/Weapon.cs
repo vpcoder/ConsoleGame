@@ -4,8 +4,7 @@ namespace Engine.Data
 
     public abstract class Weapon : Item
     {
-
-        public long Damage { get; set; }
+        public int Damage { get; set; }
 
     }
 

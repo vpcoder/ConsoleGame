@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Objects\Buff.cs" />
     <Compile Include="Data\Objects\Impls\Brick.cs" />
     <Compile Include="Data\Objects\Impls\Bridge.cs" />
     <Compile Include="Data\Objects\Impls\Dirt.cs" />
@@ -58,11 +59,19 @@
     <Compile Include="Data\Objects\Impls\Tree.cs" />
     <Compile Include="Data\Map.cs" />
     <Compile Include="Data\Objects\Inventory\Inventory.cs" />
+    <Compile Include="Data\Objects\Items\Impls\Apple.cs" />
     <Compile Include="Data\Objects\Items\Impls\BronzeArmor.cs" />
     <Compile Include="Data\Objects\Items\Impls\ClothArmor.cs" />
+    <Compile Include="Data\Objects\Items\Impls\DavidsSling.cs" />
+    <Compile Include="Data\Objects\Items\Impls\ElvenBow.cs" />
     <Compile Include="Data\Objects\Items\Impls\HealthPotion.cs" />
     <Compile Include="Data\Objects\Items\Impls\IronArmor.cs" />
     <Compile Include="Data\Objects\Items\Impls\IronSword.cs" />
+    <Compile Include="Data\Objects\Items\Impls\Katana.cs" />
+    <Compile Include="Data\Objects\Items\Impls\PowerFruit.cs" />
+    <Compile Include="Data\Objects\Items\Impls\PowerPotion.cs" />
+    <Compile Include="Data\Objects\Items\Impls\SunlightSpear.cs" />
+    <Compile Include="Data\Objects\Items\Impls\ThieveDagger.cs" />
     <Compile Include="Data\Objects\Items\UsedItem.cs" />
     <Compile Include="Data\Objects\Items\Armor.cs" />
     <Compile Include="Data\Objects\Items\Item.cs" />
