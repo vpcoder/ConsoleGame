@@ -1,4 +1,6 @@
-﻿using Engine.Data;
+﻿using Engine.AStarSharp;
+using Engine.Data;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Engine.Services
@@ -10,16 +12,16 @@ namespace Engine.Services
     public class DrawService
     {
 
+        private IConsole console;
         private World world;
 
         /// <summary>
         /// Конструктор, срабатывает при создании экземпляра сервиса отрисовки
         /// </summary>
-        public DrawService(World world)
+        public DrawService(World world, IConsole console)
         {
             this.world = world;
-            System.Console.OutputEncoding = Encoding.UTF8;
-            System.Console.InputEncoding  = Encoding.UTF8;
+            this.console = console;
         }
 
         /// <summary>
@@ -68,6 +70,22 @@ namespace Engine.Services
             System.Console.SetCursorPosition(world.Player.PosX, world.Player.PosY);
             DrawPlayer();
             DrawInventory();
+            EndDraw();
+        }
+
+        public void DrawPath(List<Node> path)
+        {
+            if (path == null)
+            {
+                EndDraw();
+                return;
+            }
+            foreach(var node in path)
+            {
+                System.Console.SetCursorPosition(node.Position.X, node.Position.Y);
+                System.Console.ForegroundColor = System.ConsoleColor.Green;
+                System.Console.Write("▒");
+            }
             EndDraw();
         }
 
@@ -158,7 +176,6 @@ namespace Engine.Services
                 var usedItem = (UsedItem)item;
                 builder.Append(" <используется>");
             }
-
 
             if (item.MaxStackSize != 1)
                 builder.Append(" " + item.StackSize + "/" + item.MaxStackSize + " шт.");

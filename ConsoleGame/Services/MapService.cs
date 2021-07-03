@@ -18,7 +18,7 @@ namespace Engine.Services
         /// <param name="mapName">Имя файла, в который нужно сохранить мир</param>
         public void Save(Map map, string mapName)
         {
-
+            
         }
 
         /// <summary>

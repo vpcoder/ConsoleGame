@@ -17,7 +17,7 @@ namespace Engine.Data
         /// <summary>
         /// Цвет символа
         /// </summary>
-        public virtual ConsoleColor    Color { get; set; }
+        public virtual ConsoleColor Color { get; set; }
 
         /// <summary>
         /// Положение объекта в мире по X

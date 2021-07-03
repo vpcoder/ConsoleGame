@@ -25,60 +25,59 @@ namespace Engine.Services
         /// Метод одной итерации управления персонажем
         /// </summary>
         /// <param name="key">Что сделал игрок</param>
-        public void Controll(ConsoleKeyInfo key)
+        public void Controll(int keyCode)
         {
             int playerPosX = world.Player.PosX;
             int playerPosY = world.Player.PosY;
-
-            switch(key.Key)
+            switch (keyCode)
             {
-                case ConsoleKey.W:
+                case (int)ConsoleKey.W:
                     if(canWalkToXY(playerPosX, playerPosY - 1))
                     {
                         world.Player.PosY -= 1;
                     }
                     break;
-                case ConsoleKey.A:
+                case (int)ConsoleKey.A:
                     if (canWalkToXY(playerPosX - 1, playerPosY))
                     {
                         world.Player.PosX -= 1;
                     }
                     break;
-                case ConsoleKey.S:
+                case (int)ConsoleKey.S:
                     if (canWalkToXY(playerPosX, playerPosY + 1))
                     {
                         world.Player.PosY += 1;
                     }
                     break;
-                case ConsoleKey.D:
+                case (int)ConsoleKey.D:
                     if (canWalkToXY(playerPosX + 1, playerPosY))
                     {
                         world.Player.PosX += 1;
                     }
                     break;
 
-                case ConsoleKey.LeftArrow:
+                case (int)ConsoleKey.LeftArrow:
                     world.Player.Inventory.SelectedIndex--;
                     if (world.Player.Inventory.SelectedIndex < 0)
                         world.Player.Inventory.SelectedIndex = world.Player.Inventory.Items.Length - 1;
                     break;
-                case ConsoleKey.RightArrow:
+                case (int)ConsoleKey.RightArrow:
                     world.Player.Inventory.SelectedIndex++;
                     if (world.Player.Inventory.SelectedIndex >= world.Player.Inventory.Items.Length)
                         world.Player.Inventory.SelectedIndex = 0;
                     break;
-                case ConsoleKey.UpArrow:
+                case (int)ConsoleKey.UpArrow:
                     world.Player.Inventory.SelectedIndex -= 5;
                     if (world.Player.Inventory.SelectedIndex < 0)
                         world.Player.Inventory.SelectedIndex += world.Player.Inventory.Items.Length;
                     break;
-                case ConsoleKey.DownArrow:
+                case (int)ConsoleKey.DownArrow:
                     world.Player.Inventory.SelectedIndex += 5;
                     if (world.Player.Inventory.SelectedIndex >= world.Player.Inventory.Items.Length)
                         world.Player.Inventory.SelectedIndex -= world.Player.Inventory.Items.Length;
                     break;
 
-                case ConsoleKey.E:
+                case (int)ConsoleKey.E:
                     var selectedItem = world.Player.Inventory.Selected;
                     if(selectedItem == null)
                     {
