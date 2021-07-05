@@ -25,7 +25,14 @@ namespace Engine
             Console.ForegroundColor = ClosestConsoleColor(foreColor.R,foreColor.G,foreColor.B);
             Console.Write(text);
         }
-
+        public void Draw(string text, Color foreColor, Color backgroundColor, int x, int y)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.BackgroundColor = ClosestConsoleColor(backgroundColor.R, backgroundColor.G, backgroundColor.B);
+            Console.ForegroundColor = ClosestConsoleColor(foreColor.R, foreColor.G, foreColor.B);
+            Console.Write(text);
+            Console.BackgroundColor = ConsoleColor.Black;
+        }
         public int ReadKey()
         {
             return (int)Console.ReadKey().Key;

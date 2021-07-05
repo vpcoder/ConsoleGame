@@ -44,7 +44,7 @@ namespace Engine.Services
                     }
                     else
                     {
-                        DrawObject(GetVisibleObject(x, y), x, y);
+                        DrawObject(GetVisibleObject(x, y), x, y, Color.Empty);
                     }
                 }
             }
@@ -66,7 +66,7 @@ namespace Engine.Services
         /// </summary>
         public void Redraw(int prevPosX, int prevPosY)
         {
-            DrawObject(GetVisibleObject(prevPosX, prevPosY), prevPosX, prevPosY);            
+            DrawObject(GetVisibleObject(prevPosX, prevPosY), prevPosX, prevPosY, Color.Empty);
             DrawPlayer(world.Player.PosX, world.Player.PosY);
             DrawInventory();
             DrawPlayerCharacteristic();
@@ -80,9 +80,9 @@ namespace Engine.Services
                 EndDraw();
                 return;
             }
-            foreach(var node in path)
+            foreach (var node in path)
             {
-                console.Draw("▒", Color.Green, node.Position.X, node.Position.Y);               
+                console.Draw("▒", Color.Green, node.Position.X, node.Position.Y);
             }
             EndDraw();
         }
@@ -99,7 +99,7 @@ namespace Engine.Services
         /// <param name="y">Располоэение персонажа по Y</param>
         private void DrawPlayer(int posX, int posY)
         {
-            console.Draw(Convert.ToString(world.Player.Symbol), world.Player.Color, posX, posY);          
+            console.Draw(Convert.ToString(world.Player.Symbol), world.Player.Color, posX, posY);
         }
 
         /// <summary>
@@ -108,14 +108,16 @@ namespace Engine.Services
         /// <param name="x">Располоэение объекта по X</param>
         /// <param name="y">Располоэение объекта по Y</param>
         /// <param name="obj">Рисуемый объект</param>
-        private void DrawObject(SpriteChar obj, int posX, int posY)
+        private void DrawObject(SpriteChar obj, int posX, int posY, Color backgroundClolor)
         {
             if (obj == null)
             {
-                console.Draw(" ", Color.Black, posX, posY);             
+                if (backgroundClolor == Color.Empty) console.Draw(" ", Color.Black, posX, posY);
+                else console.Draw(" ", Color.Black, backgroundClolor, posX, posY);
                 return;
             }
-            console.Draw(Convert.ToString(obj.Symbol), obj.Color, posX, posY);          
+            if (backgroundClolor == Color.Empty) console.Draw(Convert.ToString(obj.Symbol), obj.Color, posX, posY);
+            else console.Draw(Convert.ToString(obj.Symbol), obj.Color, backgroundClolor, posX, posY);
         }
 
         /// <summary>
@@ -129,23 +131,23 @@ namespace Engine.Services
             {
                 index++;
                 if (inventory.SelectedIndex == index)
-                {                  
+                {
                     console.Draw(GetNormalizedText(item?.Title), Color.White, world.Map.SizeX + 2, 6);
-                   
+
                     console.Draw(GetNormalizedText(GenerateItemDescription(item)), Color.White, world.Map.SizeX + 2, 7);
 
-                    //System.Console.BackgroundColor = System.ConsoleColor.DarkGreen;
+                    DrawObject(item, world.Map.SizeX + 2 + index % 5, 1 + index / 5, Color.DarkGreen);
                 }
                 else
                 {
-                    //System.Console.BackgroundColor = System.ConsoleColor.Black;
+                    DrawObject(item, world.Map.SizeX + 2 + index % 5, 1 + index / 5, Color.Black);
+
                 }
-                DrawObject(item, world.Map.SizeX + 2 + index % 5, 1 + index / 5);
             }
         }
 
         private void DrawPlayerCharacteristic()
-        {          
+        {
             var barLength = world.Player.HP / (world.Player.MaxHP / 10);
             var emptyLength = 10 - barLength;
             var progress = (string.Empty.PadRight(barLength, '█')).PadRight(10, '▒') + $" {world.Player.HP}/{world.Player.MaxHP}";
@@ -153,7 +155,7 @@ namespace Engine.Services
             console.Draw(progress, Color.DarkRed, world.Map.SizeX + 2, 9);
 
             var info = $"АТК: {world.Player.Damage} ЗАЩ: {world.Player.Defence}   ";
-            console.Draw(info, Color.White, world.Map.SizeX + 2, 11);           
+            console.Draw(info, Color.White, world.Map.SizeX + 2, 11);
         }
 
 

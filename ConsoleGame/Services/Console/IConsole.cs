@@ -14,6 +14,7 @@ namespace Engine
 
         // - Рисовать символ/символы определённого цвета в определённом месте
         void Draw(string text, Color foreColor, int x, int y);
+        void Draw(string text, Color foreColor, Color backgroundColor, int x, int y);
 
     }
 

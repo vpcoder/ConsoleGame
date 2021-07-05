@@ -102,7 +102,7 @@ namespace Engine.Data
 
                     if (!usedIDs.Contains(elem.IDBuff))
                     {
-                        sumAdditionalDefence += elem.AdditionalDamage;
+                        sumAdditionalDefence += elem.AdditionalDefence;
                         usedIDs.Add(elem.IDBuff);
                     }
 
