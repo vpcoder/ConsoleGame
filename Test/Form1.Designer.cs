@@ -33,9 +33,10 @@
             // 
             // test
             // 
-            this.test.Location = new System.Drawing.Point(-4, -3);
+            this.test.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.test.Location = new System.Drawing.Point(0, 0);
             this.test.Name = "test";
-            this.test.Size = new System.Drawing.Size(769, 529);
+            this.test.Size = new System.Drawing.Size(766, 524);
             this.test.TabIndex = 0;
             // 
             // Form1

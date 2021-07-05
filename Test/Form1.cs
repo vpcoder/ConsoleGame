@@ -17,11 +17,17 @@ namespace Test
         public Form1()
         {
             InitializeComponent();
+            var timer = new Timer();
+            timer.Enabled = true;
+            timer.Interval = 200;
+            timer.Tick += (o, e) => {
+                test.Refresh();
+            };
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            DoubleBuffered = false;
+            DoubleBuffered = true;
         }
 
     }

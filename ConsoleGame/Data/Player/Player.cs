@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Drawing;
 
 namespace Engine.Data
@@ -10,7 +10,7 @@ namespace Engine.Data
     /// </summary>
     public class Player : SpriteChar
     {
-
+        
         public Player()
         {
             this.Color = Color.White;
@@ -36,28 +36,13 @@ namespace Engine.Data
         /// <summary>
         /// Баффы
         /// </summary>
-        public List<Buff> CurrentBuffs = new List<Buff>();
+        public HashSet<Buff> CurrentBuffs = new HashSet<Buff>();
 
         public void AddBuff(Buff buff)
         {
-            bool flag = false;
-            if (CurrentBuffs.Count == 0)
-            {
-                CurrentBuffs.Add(buff); return;
-            }
-            for (int i = 0; i < CurrentBuffs.Count; i++)
-            {
-                if (CurrentBuffs[i].IDBuff != buff.IDBuff) flag = true;//Скорей всего от этого можно избавиться, но через IndexOF и IndexFind у меня не вышло
-                if (CurrentBuffs[i].IDBuff == buff.IDBuff)
-                {
-                    CurrentBuffs.RemoveAt(i);
-                    CurrentBuffs.Add(buff);
-                    return;
-                }   
-            }
-            if (flag) CurrentBuffs.Add(buff);
+            CurrentBuffs.Add(buff);
+            return;
         }
-
 
         // РЕАЛИЗОВАТЬ 
         
@@ -68,21 +53,12 @@ namespace Engine.Data
         {
             get
             {
-                int sumAdditionalDamage = 0;
-                List<int> usedIDs = new List<int>();
-                
-                foreach (var elem in CurrentBuffs)
-                {
+                int sumAdditionalDamage = CurrentBuffs.Count == 0 ? 0 : CurrentBuffs.Select(buff => buff.AdditionalDamage).Sum();
 
-                    if (!usedIDs.Contains(elem.IDBuff))
-                    {
-                        sumAdditionalDamage += elem.AdditionalDamage;
-                        usedIDs.Add(elem.IDBuff);
-                    }
-                                        
-                }
-                if (Weapon != null) return Weapon.Damage + sumAdditionalDamage; // если нет оружия, то нет урона. Думаю нужно добавить оружие "кулаки". когда в слоте weapon - null, будут находится кулаки, которые слабы по урону. Или же добавить на старте меч.
-                else return 0;
+                if (Weapon == null)
+                    return sumAdditionalDamage;
+
+                return Weapon.Damage + sumAdditionalDamage; // если нет оружия, то нет урона. Думаю нужно добавить оружие "кулаки". когда в слоте weapon - null, будут находится кулаки, которые слабы по урону. Или же добавить на старте меч.
             }
         }
 
@@ -93,29 +69,14 @@ namespace Engine.Data
         {
             get
             {
-                List<int> usedIDs = new List<int>();
-                int sumAdditionalDefence = 0;
+                int sumAdditionalDefence = CurrentBuffs.Count == 0 ? 0 : CurrentBuffs.Select(buff => buff.AdditionalDefence).Sum();
 
+                if (Armor == null)
+                    return sumAdditionalDefence;
 
-                foreach (var elem in CurrentBuffs)
-                {
-
-                    if (!usedIDs.Contains(elem.IDBuff))
-                    {
-                        sumAdditionalDefence += elem.AdditionalDefence;
-                        usedIDs.Add(elem.IDBuff);
-                    }
-
-
-
-                }
-                if (Armor != null) return Armor.Defence + sumAdditionalDefence;
-                else return 0 + sumAdditionalDefence;
+                return Armor.Defence + sumAdditionalDefence;
             }
         }
-
-
-
 
         /// <summary>
         /// Броня персонажа

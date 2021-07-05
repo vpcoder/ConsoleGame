@@ -36,9 +36,6 @@ namespace Engine
             world.Player.Inventory.Items[7].StackSize = 7;
             world.Player.Inventory.Items[9] = new Katana();
 
-
-
-
             var drawService = new DrawService(world, console);
             var controllService = new ControllService(world);
 
