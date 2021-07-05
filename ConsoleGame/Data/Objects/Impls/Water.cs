@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace Engine.Data.Impls
 {
@@ -12,7 +13,7 @@ namespace Engine.Data.Impls
         public Water()
         {
             this.Symbol   = '░';
-            this.Color    = ConsoleColor.Blue;
+            this.Color    = Color.Blue;
             this.Walkable = false;
         }
 

@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Drawing;
 
 namespace Engine.Data
 {
@@ -10,7 +10,7 @@ namespace Engine.Data
             this.IsQuestItem = false;
             this.MaxStackSize = 1;
             this.StackSize = 1;
-            this.Color = ConsoleColor.Blue;
+            this.Color = Color.Blue;
             this.Symbol = '₩';
             this.Defence = 8;
 

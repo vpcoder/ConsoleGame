@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Drawing;
 
 namespace Engine.Data
 {
@@ -11,7 +11,7 @@ namespace Engine.Data
             this.MaxStackSize = 10;
             this.StackSize = 1;
             this.Symbol = 'Ȯ';
-            this.Color = ConsoleColor.Blue;
+            this.Color = Color.Blue;
 
 
             this.Title = "Зелье силы";

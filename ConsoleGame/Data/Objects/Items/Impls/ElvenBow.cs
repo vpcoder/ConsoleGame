@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace Engine.Data
 {
@@ -11,7 +12,7 @@ namespace Engine.Data
             this.StackSize = 1;
             this.Damage = 10;
             this.Symbol = '}';
-            this.Color = ConsoleColor.Green;
+            this.Color = Color.Green;
             this.Distance = 10;
 
             this.Title = "Эльфийский лук";

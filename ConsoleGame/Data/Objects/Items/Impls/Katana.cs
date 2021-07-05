@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace Engine.Data
 {
@@ -11,7 +12,7 @@ namespace Engine.Data
             this.StackSize = 1;
             this.Damage = 30;
             this.Symbol = '†';
-            this.Color = ConsoleColor.Yellow;
+            this.Color = Color.Yellow;
 
             this.Title = "Катана";
             this.Description = "Кровавый привет из Японии";

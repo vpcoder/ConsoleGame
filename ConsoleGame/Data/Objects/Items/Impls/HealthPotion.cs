@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Drawing;
 
 namespace Engine.Data
 {
@@ -13,7 +13,7 @@ namespace Engine.Data
             this.MaxStackSize = 10;
             this.StackSize    = 1;
             this.Symbol       = 'b';
-            this.Color        = ConsoleColor.Red;
+            this.Color        = Color.Red;
             this.Title        = "Зелье здоровья";
             this.Description  = "Восстанавливает здоровье на 10ед.";
         }

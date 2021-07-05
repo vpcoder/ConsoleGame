@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace Engine.Data.Impls
 {
@@ -12,7 +13,7 @@ namespace Engine.Data.Impls
         public Road()
         {
             this.Symbol   = '░';
-            this.Color    = ConsoleColor.DarkGray;
+            this.Color    = Color.DarkGray;
             this.Walkable = true;
         }
 

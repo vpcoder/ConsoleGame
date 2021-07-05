@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace Engine.Data
 {
@@ -12,7 +13,7 @@ namespace Engine.Data
 
         public Player()
         {
-            this.Color = ConsoleColor.White;
+            this.Color = Color.White;
             this.Symbol = '☺';
         }
 

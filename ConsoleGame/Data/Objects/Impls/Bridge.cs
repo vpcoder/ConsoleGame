@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace Engine.Data.Impls
 {
@@ -12,7 +13,7 @@ namespace Engine.Data.Impls
         public Bridge()
         {
             this.Symbol   = '═';
-            this.Color    = ConsoleColor.DarkRed;
+            this.Color    = Color.DarkRed;
             this.Walkable = true;
         }
 

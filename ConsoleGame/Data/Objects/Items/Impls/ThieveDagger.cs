@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace Engine.Data
 {
@@ -11,7 +12,7 @@ namespace Engine.Data
             this.StackSize = 1;
             this.Damage = 15;
             this.Symbol = '†';
-            this.Color = ConsoleColor.Blue;
+            this.Color = Color.Blue;
 
             this.Title = "Воровской кинжал";
             this.Description = "\"Месть Марии\" - Кинжал воров из корабельных доков";

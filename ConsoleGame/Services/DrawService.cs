@@ -1,4 +1,8 @@
-﻿using Engine.Data;
+﻿using Engine.AStarSharp;
+using Engine.Data;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 
 namespace Engine.Services
@@ -34,23 +38,20 @@ namespace Engine.Services
             {
                 for (var x = 0; x < world.Map.SizeX; x++)
                 {
-                    System.Console.SetCursorPosition(x, y);
                     if (world.Player.PosX == x && world.Player.PosY == y)
                     {
-                        DrawPlayer();
+                        DrawPlayer(x, y);
                     }
                     else
                     {
-                        DrawObject(GetVisibleObject(x, y));
+                        DrawObject(GetVisibleObject(x, y), x, y);
                     }
                 }
             }
             DrawInventory();
             DrawPlayerCharacteristic();
 
-            System.Console.SetCursorPosition(0, world.Map.SizeY + 1);
-            System.Console.ForegroundColor = System.ConsoleColor.White;
-            System.Console.Write("input:");
+            console.Draw("input:", Color.White, 0, world.Map.SizeY + 1);
             EndDraw();
         }
 
@@ -65,10 +66,8 @@ namespace Engine.Services
         /// </summary>
         public void Redraw(int prevPosX, int prevPosY)
         {
-            System.Console.SetCursorPosition(prevPosX, prevPosY);
-            DrawObject(GetVisibleObject(prevPosX, prevPosY));
-            System.Console.SetCursorPosition(world.Player.PosX, world.Player.PosY);
-            DrawPlayer();
+            DrawObject(GetVisibleObject(prevPosX, prevPosY), prevPosX, prevPosY);            
+            DrawPlayer(world.Player.PosX, world.Player.PosY);
             DrawInventory();
             DrawPlayerCharacteristic();
             EndDraw();
@@ -83,17 +82,14 @@ namespace Engine.Services
             }
             foreach(var node in path)
             {
-                System.Console.SetCursorPosition(node.Position.X, node.Position.Y);
-                System.Console.ForegroundColor = System.ConsoleColor.Green;
-                System.Console.Write("▒");
+                console.Draw("▒", Color.Green, node.Position.X, node.Position.Y);               
             }
             EndDraw();
         }
 
         private void EndDraw()
         {
-            System.Console.ForegroundColor = System.ConsoleColor.White;
-            System.Console.SetCursorPosition(7, world.Map.SizeY + 1);
+            console.Draw("", Color.White, 7, world.Map.SizeY + 1);
         }
 
         /// <summary>
@@ -101,10 +97,9 @@ namespace Engine.Services
         /// </summary>
         /// <param name="x">Располоэение персонажа по X</param>
         /// <param name="y">Располоэение персонажа по Y</param>
-        private void DrawPlayer()
+        private void DrawPlayer(int posX, int posY)
         {
-            System.Console.ForegroundColor = world.Player.Color;
-            System.Console.Write(world.Player.Symbol);
+            console.Draw(Convert.ToString(world.Player.Symbol), world.Player.Color, posX, posY);          
         }
 
         /// <summary>
@@ -113,15 +108,14 @@ namespace Engine.Services
         /// <param name="x">Располоэение объекта по X</param>
         /// <param name="y">Располоэение объекта по Y</param>
         /// <param name="obj">Рисуемый объект</param>
-        private void DrawObject(SpriteChar obj)
+        private void DrawObject(SpriteChar obj, int posX, int posY)
         {
             if (obj == null)
             {
-                System.Console.Write(" ");
+                console.Draw(" ", Color.Black, posX, posY);             
                 return;
             }
-            System.Console.ForegroundColor = obj.Color;
-            System.Console.Write(obj.Symbol);
+            console.Draw(Convert.ToString(obj.Symbol), obj.Color, posX, posY);          
         }
 
         /// <summary>
@@ -135,45 +129,31 @@ namespace Engine.Services
             {
                 index++;
                 if (inventory.SelectedIndex == index)
-                {
-                    System.Console.ForegroundColor = System.ConsoleColor.White;
-                    System.Console.SetCursorPosition(world.Map.SizeX + 2, 6);
-                    System.Console.BackgroundColor = System.ConsoleColor.Black;
-                    System.Console.Write(GetNormalizedText(item?.Title));
-                    System.Console.SetCursorPosition(world.Map.SizeX + 2, 7);
-                    System.Console.BackgroundColor = System.ConsoleColor.Black;
-                    System.Console.Write(GetNormalizedText(GenerateItemDescription(item)));
+                {                  
+                    console.Draw(GetNormalizedText(item?.Title), Color.White, world.Map.SizeX + 2, 6);
+                   
+                    console.Draw(GetNormalizedText(GenerateItemDescription(item)), Color.White, world.Map.SizeX + 2, 7);
 
-                    System.Console.BackgroundColor = System.ConsoleColor.DarkGreen;
+                    //System.Console.BackgroundColor = System.ConsoleColor.DarkGreen;
                 }
                 else
                 {
-                    System.Console.BackgroundColor = System.ConsoleColor.Black;
+                    //System.Console.BackgroundColor = System.ConsoleColor.Black;
                 }
-                System.Console.SetCursorPosition(world.Map.SizeX + 2 + index % 5, 1 + index / 5);
-                DrawObject(item);
+                DrawObject(item, world.Map.SizeX + 2 + index % 5, 1 + index / 5);
             }
         }
 
         private void DrawPlayerCharacteristic()
-        {
-            System.Console.SetCursorPosition(world.Map.SizeX + 2, 9);
-            System.Console.BackgroundColor = System.ConsoleColor.Black;
-
+        {          
             var barLength = world.Player.HP / (world.Player.MaxHP / 10);
             var emptyLength = 10 - barLength;
-            System.Console.ForegroundColor = System.ConsoleColor.DarkRed;
             var progress = (string.Empty.PadRight(barLength, '█')).PadRight(10, '▒') + $" {world.Player.HP}/{world.Player.MaxHP}";
 
-
-
-            System.Console.Write(progress);
-            System.Console.ForegroundColor = System.ConsoleColor.White;
-            System.Console.SetCursorPosition(world.Map.SizeX + 2, 11);
+            console.Draw(progress, Color.DarkRed, world.Map.SizeX + 2, 9);
 
             var info = $"АТК: {world.Player.Damage} ЗАЩ: {world.Player.Defence}   ";
-            System.Console.Write(info);
-
+            console.Draw(info, Color.White, world.Map.SizeX + 2, 11);           
         }
 
 

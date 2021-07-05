@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace Engine.Data
 {
@@ -9,7 +10,7 @@ namespace Engine.Data
             this.IsQuestItem = false;
             this.MaxStackSize = 1;
             this.StackSize = 1;
-            this.Color = ConsoleColor.Green;
+            this.Color = Color.Green;
             this.Symbol = 'ﬄ';
             this.Defence = 5;
 

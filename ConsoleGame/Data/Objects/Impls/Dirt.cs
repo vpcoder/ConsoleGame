@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace Engine.Data.Impls
 {
@@ -12,7 +13,7 @@ namespace Engine.Data.Impls
         public Dirt()
         {
             this.Symbol   = '░';
-            this.Color    = ConsoleColor.DarkGreen;
+            this.Color    = Color.DarkGreen;
             this.Walkable = true;
         }
 
