@@ -39,6 +39,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,7 +52,7 @@
     <Compile Include="Data\Objects\Buff.cs" />
     <Compile Include="Data\Objects\Impls\Brick.cs" />
     <Compile Include="Data\Objects\Impls\Bridge.cs" />
-    <Compile Include="Data\Objects\Impls\Dirt.cs" />
+    <Compile Include="Data\Objects\Impls\Grass.cs" />
     <Compile Include="Data\Objects\Impls\Sand.cs" />
     <Compile Include="Data\Objects\Impls\Road.cs" />
     <Compile Include="Data\Objects\Impls\Cactus.cs" />
@@ -88,9 +90,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AStar.cs" />
     <Compile Include="Services\Console\IConsole.cs" />
-    <Compile Include="Services\Console\SystemConsole.cs" />
     <Compile Include="Services\ControllService.cs" />
     <Compile Include="Services\DrawService.cs" />
+    <Compile Include="Services\Game.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\Game.Designer.cs">
+      <DependentUpon>Game.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\GraphicConsole.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Services\GraphicConsole.Designer.cs">
+      <DependentUpon>GraphicConsole.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ImageFactory.cs" />
     <Compile Include="Services\MapService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -99,6 +113,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Services\Game.resx">
+      <DependentUpon>Game.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\GraphicConsole.resx">
+      <DependentUpon>GraphicConsole.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

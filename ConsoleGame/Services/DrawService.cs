@@ -38,13 +38,11 @@ namespace Engine.Services
             {
                 for (var x = 0; x < world.Map.SizeX; x++)
                 {
+                    DrawObject(GetVisibleObject(x, y), x, y, Color.Empty);
+
                     if (world.Player.PosX == x && world.Player.PosY == y)
                     {
-                        DrawPlayer(x, y);
-                    }
-                    else
-                    {
-                        DrawObject(GetVisibleObject(x, y), x, y, Color.Empty);
+                        DrawObject(world.Player, x, y, Color.Empty);
                     }
                 }
             }
@@ -55,7 +53,7 @@ namespace Engine.Services
             EndDraw();
         }
 
-        private SpriteChar GetVisibleObject(int x, int y)
+        private Sprite GetVisibleObject(int x, int y)
         {
             var map = world.Map;
             return map.Frontground(x, y) ?? map.Background(x, y); // Сначала смотрим на то что на переднем плане, а потом на то что на заднем плане
@@ -67,7 +65,7 @@ namespace Engine.Services
         public void Redraw(int prevPosX, int prevPosY)
         {
             DrawObject(GetVisibleObject(prevPosX, prevPosY), prevPosX, prevPosY, Color.Empty);
-            DrawPlayer(world.Player.PosX, world.Player.PosY);
+            DrawObject(world.Player, world.Player.PosX, world.Player.PosY, Color.Empty);
             DrawInventory();
             DrawPlayerCharacteristic();
             EndDraw();
@@ -99,7 +97,7 @@ namespace Engine.Services
         /// <param name="y">Располоэение персонажа по Y</param>
         private void DrawPlayer(int posX, int posY)
         {
-            console.Draw(Convert.ToString(world.Player.Symbol), world.Player.Color, posX, posY);
+            console.Draw(Convert.ToString(world.Player.ID), world.Player.Color, posX, posY);
         }
 
         /// <summary>
@@ -108,16 +106,9 @@ namespace Engine.Services
         /// <param name="x">Располоэение объекта по X</param>
         /// <param name="y">Располоэение объекта по Y</param>
         /// <param name="obj">Рисуемый объект</param>
-        private void DrawObject(SpriteChar obj, int posX, int posY, Color backgroundClolor)
+        private void DrawObject(Sprite obj, int posX, int posY, Color backgroundClolor)
         {
-            if (obj == null)
-            {
-                if (backgroundClolor == Color.Empty) console.Draw(" ", Color.Black, posX, posY);
-                else console.Draw(" ", Color.Black, backgroundClolor, posX, posY);
-                return;
-            }
-            if (backgroundClolor == Color.Empty) console.Draw(Convert.ToString(obj.Symbol), obj.Color, posX, posY);
-            else console.Draw(Convert.ToString(obj.Symbol), obj.Color, backgroundClolor, posX, posY);
+            console.Draw(obj, posX, posY);
         }
 
         /// <summary>
@@ -135,7 +126,6 @@ namespace Engine.Services
                     console.Draw(GetNormalizedText(item?.Title), Color.White, world.Map.SizeX + 2, 6);
 
                     console.Draw(GetNormalizedText(GenerateItemDescription(item)), Color.White, world.Map.SizeX + 2, 7);
-
                     DrawObject(item, world.Map.SizeX + 2 + index % 5, 1 + index / 5, Color.DarkGreen);
                 }
                 else

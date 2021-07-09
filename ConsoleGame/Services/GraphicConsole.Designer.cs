@@ -1,6 +1,6 @@
-﻿namespace Test
+﻿namespace Engine
 {
-    partial class TestComponent
+    partial class GraphicConsole
     {
         /// <summary> 
         /// Обязательная переменная конструктора.
@@ -34,8 +34,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "TestComponent";
-            this.Load += new System.EventHandler(this.TestComponent_Load);
+            this.Name = "GraphicConsole";
+            this.Load += new System.EventHandler(this.GraphicConsole_Load);
             this.ResumeLayout(false);
 
         }

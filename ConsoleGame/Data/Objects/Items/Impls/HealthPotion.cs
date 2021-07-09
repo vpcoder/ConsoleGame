@@ -12,7 +12,7 @@ namespace Engine.Data
             this.IsQuestItem  = false;
             this.MaxStackSize = 10;
             this.StackSize    = 1;
-            this.Symbol       = 'b';
+            this.ID = "item/used/healtpotion";
             this.Color        = Color.Red;
             this.Title        = "Зелье здоровья";
             this.Description  = "Восстанавливает здоровье на 10ед.";

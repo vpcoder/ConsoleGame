@@ -4,7 +4,7 @@
 namespace Engine.Data
 {
 
-    public class Item : SpriteChar
+    public class Item : Sprite
     {
 
         public bool IsQuestItem { get; set; }

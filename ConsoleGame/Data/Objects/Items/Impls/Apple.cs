@@ -10,7 +10,7 @@ namespace Engine.Data
             this.IsQuestItem = false;
             this.MaxStackSize = 10;
             this.StackSize = 1;
-            this.Symbol = 'ѽ';
+            this.ID = "item/used/apple";
             this.Color = Color.Red;
             this.Title = "Яблоко";
             this.Description = "Большое сладкое яблоко, налитое соком";

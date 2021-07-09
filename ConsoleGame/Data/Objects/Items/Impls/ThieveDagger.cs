@@ -11,7 +11,7 @@ namespace Engine.Data
             this.MaxStackSize = 1;
             this.StackSize = 1;
             this.Damage = 15;
-            this.Symbol = '†';
+            this.ID = "item/weapon/thievedagger";
             this.Color = Color.Blue;
 
             this.Title = "Воровской кинжал";

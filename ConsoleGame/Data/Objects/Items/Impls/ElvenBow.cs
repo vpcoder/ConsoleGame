@@ -11,7 +11,7 @@ namespace Engine.Data
             this.MaxStackSize = 1;
             this.StackSize = 1;
             this.Damage = 10;
-            this.Symbol = '}';
+            this.ID = "item/weapon/elvenbow";
             this.Color = Color.Green;
             this.Distance = 10;
 

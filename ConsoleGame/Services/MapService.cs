@@ -34,9 +34,6 @@ namespace Engine.Services
             string name = mapData[0];
             string[] playerPosition = mapData[1].Split(',');
 
-            int posX = int.Parse(playerPosition[0]);
-            int posY = int.Parse(playerPosition[1]);
-
             int mapSizeX = mapData[mapData.Length - 1].Length;
             int mapSizeY = (mapData.Length - 2) / LAYOUTS_COUNT;
 
@@ -53,15 +50,17 @@ namespace Engine.Services
                 }
             }
 
+            int posX = int.Parse(playerPosition[0]);
+            int posY = int.Parse(playerPosition[1]);
             map.PlayerStartPosX = posX;
             map.PlayerStartPosY = posY;
 
             return map;
         }
 
-        private SpriteChar ReadItem(int x, int y, string txtItem)
+        private Sprite ReadItem(int x, int y, string txtItem)
         {
-            SpriteChar item;
+            Sprite item;
             switch(txtItem)
             {
                 case "Ψ":
@@ -83,7 +82,7 @@ namespace Engine.Services
                     item = new Tree();
                     break;
                 case "d":
-                    item = new Dirt();
+                    item = new Grass();
                     break;
                 case "w":
                     item = new Water();

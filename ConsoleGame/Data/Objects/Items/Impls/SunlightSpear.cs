@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace Engine.Data
 {
-    class SunlightSpear : RangedWeapon
+    public class SunlightSpear : RangedWeapon
     {
         public SunlightSpear()
         {
@@ -11,7 +11,7 @@ namespace Engine.Data
             this.MaxStackSize = 1;
             this.StackSize = 1;
             this.Damage = 30;
-            this.Symbol = '/';
+            this.ID = "item/weapon/sunlightspear";
             this.Color = Color.Green;
             this.Distance = 10;
 

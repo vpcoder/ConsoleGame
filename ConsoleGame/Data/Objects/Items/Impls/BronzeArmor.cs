@@ -11,7 +11,7 @@ namespace Engine.Data
             this.MaxStackSize = 1;
             this.StackSize = 1;
             this.Color = Color.Green;
-            this.Symbol = 'ﬄ';
+            this.ID = "item/armor/bronzearmor";
             this.Defence = 5;
 
             this.Title = "Бронзовая броня";

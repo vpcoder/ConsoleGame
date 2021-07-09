@@ -8,13 +8,13 @@ namespace Engine.Data
     /// <summary>
     /// Базовый класс игрока
     /// </summary>
-    public class Player : SpriteChar
+    public class Player : Sprite
     {
         
         public Player()
         {
             this.Color = Color.White;
-            this.Symbol = '☺';
+            this.ID = "player/character";
         }
 
         /// <summary>

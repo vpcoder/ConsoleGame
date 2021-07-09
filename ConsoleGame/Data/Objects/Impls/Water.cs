@@ -12,7 +12,7 @@ namespace Engine.Data.Impls
 
         public Water()
         {
-            this.Symbol   = '░';
+            this.ID = "tile/water";
             this.Color    = Color.Blue;
             this.Walkable = false;
         }

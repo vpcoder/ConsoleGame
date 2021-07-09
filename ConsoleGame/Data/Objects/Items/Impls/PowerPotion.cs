@@ -10,9 +10,8 @@ namespace Engine.Data
             this.IsQuestItem = false;
             this.MaxStackSize = 10;
             this.StackSize = 1;
-            this.Symbol = 'Ȯ';
+            this.ID = "item/used/powerpotion";
             this.Color = Color.Blue;
-
 
             this.Title = "Зелье силы";
             this.Description = "Увеличивает силу атаки на 10ед.";

@@ -11,7 +11,7 @@ namespace Engine.Data
             this.MaxStackSize = 1;
             this.StackSize = 1;
             this.Color = Color.Blue;
-            this.Symbol = '₩';
+            this.ID = "item/armor/ironarmor";
             this.Defence = 8;
 
             this.Title = "Железная броня";

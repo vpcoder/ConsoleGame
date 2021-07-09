@@ -12,7 +12,7 @@ namespace Engine.Data.Impls
 
         public Brick()
         {
-            this.Symbol   = '█';
+            this.ID = "tile/brick";
             this.Color    = Color.DarkRed;
             this.Walkable = false;
         }

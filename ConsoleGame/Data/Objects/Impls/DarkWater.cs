@@ -12,7 +12,7 @@ namespace Engine.Data.Impls
 
         public DarkWater()
         {
-            this.Symbol   = '▒';
+            this.ID = "tile/darkwater";
             this.Color    = Color.DarkBlue;
             this.Walkable = false;
         }

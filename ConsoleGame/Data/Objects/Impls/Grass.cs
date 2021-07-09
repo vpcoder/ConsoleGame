@@ -5,14 +5,14 @@ namespace Engine.Data.Impls
 {
 
     /// <summary>
-    /// Земля
+    /// Трава
     /// </summary>
-    public class Dirt : Object
+    public class Grass : Object
     {
 
-        public Dirt()
+        public Grass()
         {
-            this.Symbol   = '░';
+            this.ID = "tile/grass";
             this.Color    = Color.DarkGreen;
             this.Walkable = true;
         }

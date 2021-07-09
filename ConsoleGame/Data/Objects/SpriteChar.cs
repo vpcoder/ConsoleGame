@@ -7,13 +7,13 @@ namespace Engine.Data
     /// <summary>
     /// Базовый класс для описания символа в консоли - любого видимого объекта в игре
     /// </summary>
-    public abstract class SpriteChar
+    public abstract class Sprite
     {
 
         /// <summary>
         /// Символ, которым изображён объект в мире
         /// </summary>
-        public virtual char Symbol { get; set; }
+        public virtual string ID { get; set; }
 
         /// <summary>
         /// Цвет символа

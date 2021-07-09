@@ -10,7 +10,7 @@ namespace Engine.Data
             this.IsQuestItem = false;
             this.MaxStackSize = 10;
             this.StackSize = 1;
-            this.Symbol = 'Ѡ';
+            this.ID = "item/used/powerfruit";
             this.Color = Color.DarkCyan;
             this.Title = "Плод Древа силы";
             this.Description = "Этот фрукт выглядит очень странно...";

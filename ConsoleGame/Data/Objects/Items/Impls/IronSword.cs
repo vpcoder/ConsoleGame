@@ -13,7 +13,7 @@ namespace Engine.Data
             this.MaxStackSize = 1;
             this.StackSize    = 1;
             this.Damage       = 1;
-            this.Symbol       = '†';
+            this.ID = "item/weapon/ironsword";
             this.Color        = Color.Gray;
 
             this.Title        = "Железный меч";

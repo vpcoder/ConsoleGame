@@ -12,7 +12,7 @@ namespace Engine.Data.Impls
 
         public Cactus()
         {
-            this.Symbol   = 'Ψ';
+            this.ID = "tile/cactus";
             this.Color    = Color.Green;
             this.Walkable = false;
         }
