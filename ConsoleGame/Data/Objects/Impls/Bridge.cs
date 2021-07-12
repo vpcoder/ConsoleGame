@@ -13,7 +13,6 @@ namespace Engine.Data.Impls
         public Bridge()
         {
             this.ID = "tile/bridge";
-            this.Color    = Color.DarkRed;
             this.Walkable = true;
         }
 

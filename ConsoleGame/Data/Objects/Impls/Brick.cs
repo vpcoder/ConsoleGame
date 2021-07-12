@@ -13,7 +13,6 @@ namespace Engine.Data.Impls
         public Brick()
         {
             this.ID = "tile/brick";
-            this.Color    = Color.DarkRed;
             this.Walkable = false;
         }
 

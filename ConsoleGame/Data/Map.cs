@@ -8,6 +8,12 @@ namespace Engine.Data
     public class Map
     {
 
+        private const int LAYOUT_COUNT = 7;
+
+        public int LayoutCount { get; } = LAYOUT_COUNT;
+
+        public int CenterLayout { get; } = (LAYOUT_COUNT / 2) + 1;
+
         /// <summary>
         /// Стартовая позиция персонажа на карте по X
         /// </summary>
@@ -29,12 +35,7 @@ namespace Engine.Data
         /// <summary>
         /// Матрица карты - то что лежит "снизу"
         /// </summary>
-        public Sprite[,] Matrix0;
-
-        /// <summary>
-        /// Матрица карты - то что лежит "сверху"
-        /// </summary>
-        public Sprite[,] Matrix1;
+        private Sprite[][,] Matrix;
 
         /// <summary>
         /// Инициализация карты (конструкторв)
@@ -45,24 +46,48 @@ namespace Engine.Data
         {
             this.SizeX = w;
             this.SizeY = h;
-            this.Matrix0 = new Sprite[w, h];
-            this.Matrix1 = new Sprite[w, h];
+            this.Matrix = new Sprite[LayoutCount][,];
+            for(int layout = 0; layout < LayoutCount; layout++)
+                this.Matrix[layout] = new Sprite[w, h];
         }
 
-        public Sprite Background(int x, int y)
+        public Sprite Get(int layout, int x, int y)
         {
             if (!isIntersection(x, y))
                 return null;
-            return Matrix0[x, y];
+            return Matrix[layout][x, y];
         }
 
-        public Sprite Frontground(int x, int y)
+        public void Set(Sprite sprite, int layout, int x, int y)
         {
-            if (!isIntersection(x, y))
-                return null;
-            return Matrix1[x, y];
+            this.Matrix[layout][x, y] = sprite;
         }
-        
+
+        public bool IsWalkable(int x, int y)
+        {
+            if(!isIntersection(x,y))
+                return false;
+            for(int layout = CenterLayout; layout<=0; layout--)
+            {
+                var sprite = Matrix[layout][x, y];
+                if(sprite == null)
+                {
+                    continue;
+                }
+                var obj = sprite as Object;
+                if(obj == null)
+                {
+                    continue;
+                }
+                if(obj.Walkable)
+                {
+                    continue;
+                }
+                return false;
+            }
+            return true;
+        }
+
         private bool isIntersection(int x, int y)
         {
             return !(x < 0 || x >= SizeX || y < 0 || y >= SizeY);

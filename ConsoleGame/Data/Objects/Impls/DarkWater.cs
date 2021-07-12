@@ -13,7 +13,6 @@ namespace Engine.Data.Impls
         public DarkWater()
         {
             this.ID = "tile/darkwater";
-            this.Color    = Color.DarkBlue;
             this.Walkable = false;
         }
 

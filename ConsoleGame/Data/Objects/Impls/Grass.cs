@@ -13,7 +13,6 @@ namespace Engine.Data.Impls
         public Grass()
         {
             this.ID = "tile/grass";
-            this.Color    = Color.DarkGreen;
             this.Walkable = true;
         }
 

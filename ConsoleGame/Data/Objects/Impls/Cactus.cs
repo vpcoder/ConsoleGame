@@ -13,7 +13,6 @@ namespace Engine.Data.Impls
         public Cactus()
         {
             this.ID = "tile/cactus";
-            this.Color    = Color.Green;
             this.Walkable = false;
         }
 

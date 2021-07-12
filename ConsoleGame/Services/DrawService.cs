@@ -1,6 +1,5 @@
 ﻿using Engine.AStarSharp;
 using Engine.Data;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
@@ -34,15 +33,23 @@ namespace Engine.Services
         public void Draw()
         {
             var map = world.Map;
-            for (var y = 0; y < world.Map.SizeY; y++)
+            for (int layout = 0; layout < map.LayoutCount; layout++) // Перебираем слои карты
             {
-                for (var x = 0; x < world.Map.SizeX; x++)
+                for (var y = 0; y < console.ViewHeight; y++) // Перебираем объекты во фрейме
                 {
-                    DrawObject(GetVisibleObject(x, y), x, y, Color.Empty);
-
-                    if (world.Player.PosX == x && world.Player.PosY == y)
+                    for (var x = 0; x < console.ViewWidth; x++) // Перебираем объекты во фрейме
                     {
-                        DrawObject(world.Player, x, y, Color.Empty);
+                        var indexX = x + world.View.PosX;
+                        var indexY = y + world.View.PosY;
+
+                        var sprite = map.Get(layout, indexX, indexY); // Получаем объект в указанной точке карты на указанном слое
+
+                        DrawObject(sprite, x, y, Color.Empty); // Рисуем объект в области видимости на указанном слое
+
+                        if (map.CenterLayout == layout && world.Player.PosX == x && world.Player.PosY == y)
+                        {
+                            DrawObject(world.Player, x, y, Color.Empty);
+                        }
                     }
                 }
             }
@@ -50,12 +57,6 @@ namespace Engine.Services
             DrawPlayerCharacteristic();
 
             console.Draw("input:", Color.White, 0, world.Map.SizeY + 1);
-        }
-
-        private Sprite GetVisibleObject(int x, int y)
-        {
-            var map = world.Map;
-            return map.Frontground(x, y) ?? map.Background(x, y); // Сначала смотрим на то что на переднем плане, а потом на то что на заднем плане
         }
 
         public void DrawPath(List<Node> path)
@@ -95,11 +96,11 @@ namespace Engine.Services
                 {
                     console.Draw(GetNormalizedText(item?.Title), Color.White, world.Map.SizeX + 2, 6);
                     console.Draw(GetNormalizedText(GenerateItemDescription(item)), Color.White, world.Map.SizeX + 2, 7);
-                    DrawObject(item, world.Map.SizeX + 2 + index % 5, 1 + index / 5, Color.DarkGreen);
+                    DrawObject(item, world.Map.SizeX + 2 + index % 5, 1 + index / 5, Color.Green);
                 }
                 else
                 {
-                    DrawObject(item, world.Map.SizeX + 2 + index % 5, 1 + index / 5, Color.Black);
+                    DrawObject(item, world.Map.SizeX + 2 + index % 5, 1 + index / 5, Color.Empty);
 
                 }
             }
@@ -107,6 +108,9 @@ namespace Engine.Services
 
         private void DrawPlayerCharacteristic()
         {
+            /*
+            var player = world.Player;
+
             var barLength = world.Player.HP / (world.Player.MaxHP / 10);
             var emptyLength = 10 - barLength;
             var progress = (string.Empty.PadRight(barLength, '█')).PadRight(10, '▒') + $" {world.Player.HP}/{world.Player.MaxHP}";
@@ -115,6 +119,7 @@ namespace Engine.Services
 
             var info = $"АТК: {world.Player.Damage} ЗАЩ: {world.Player.Defence}   ";
             console.Draw(info, Color.White, world.Map.SizeX + 2, 11);
+            */
         }
 
         private string GenerateItemDescription(Item item)

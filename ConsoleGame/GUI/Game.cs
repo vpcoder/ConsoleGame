@@ -11,7 +11,6 @@ namespace Engine
     {
         private static int globalFps = 0;
 
-        private MapService mapService;
         private Map        map;
         private World      world;
 
@@ -44,12 +43,12 @@ namespace Engine
 
             Shown += GameLoad;
 
-            mapService = new MapService();
-            map = mapService.Load("maps/map.dat");
+            map = MapService.Instance.Load("maps/map.dat");
             world = new World();
 
             world.Map = map;
-            world.Player = new Player();
+            world.View = new Data.View();
+            world.Player = new Data.Player();
             world.Player.PosX = map.PlayerStartPosX;
             world.Player.PosY = map.PlayerStartPosY;
             world.Player.Inventory.Items[0] = new IronSword(); // Добавляем предметы в инвентарь

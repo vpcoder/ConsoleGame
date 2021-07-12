@@ -1,5 +1,6 @@
 ﻿using Engine.Data;
 using Engine.Data.Impls;
+using System;
 using System.IO;
 
 namespace Engine.Services
@@ -10,6 +11,16 @@ namespace Engine.Services
     /// </summary>
     public class MapService
     {
+
+        private static Lazy<MapService> instance = new Lazy<MapService>(() => new MapService());
+
+        public static MapService Instance
+        {
+            get
+            {
+                return instance.Value;
+            }
+        }
 
         /// <summary>
         /// Сохраняет наш мир в файл
@@ -39,14 +50,15 @@ namespace Engine.Services
 
             var map = new Map(mapSizeX, mapSizeY);
 
+            var layout = 0;
             for(int y = 0; y < mapSizeY; y++)
             {
                 for(int x = 0; x < mapSizeX; x++)
                 {
-                    int itemY = y + 2;
-                    int itemX = x;
-                    map.Matrix0[x, y] = ReadItem(x, y, mapData[itemY][itemX].ToString()); // Заполняем первый слой
-                    map.Matrix1[x, y] = ReadItem(x, y, mapData[itemY + mapSizeY][itemX].ToString()); // Заполняем второй слой
+                    var itemY = y + 2;
+                    var itemX = x;
+                    var sprite = ReadItem(x, y, mapData[itemY][itemX].ToString()); // Заполняем слой
+                    map.Set(sprite, layout, x, y);
                 }
             }
 

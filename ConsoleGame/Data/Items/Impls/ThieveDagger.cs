@@ -12,7 +12,6 @@ namespace Engine.Data
             this.StackSize = 1;
             this.Damage = 15;
             this.ID = "item/weapon/thievedagger";
-            this.Color = Color.Blue;
 
             this.Title = "Воровской кинжал";
             this.Description = "\"Месть Марии\" - Кинжал воров из корабельных доков";

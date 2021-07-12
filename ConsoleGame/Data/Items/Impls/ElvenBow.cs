@@ -11,8 +11,8 @@ namespace Engine.Data
             this.MaxStackSize = 1;
             this.StackSize = 1;
             this.Damage = 10;
+
             this.ID = "item/weapon/elvenbow";
-            this.Color = Color.Green;
             this.Distance = 10;
 
             this.Title = "Эльфийский лук";

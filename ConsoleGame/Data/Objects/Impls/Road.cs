@@ -13,7 +13,6 @@ namespace Engine.Data.Impls
         public Road()
         {
             this.ID   = "tile/road";
-            this.Color    = Color.DarkGray;
             this.Walkable = true;
         }
 

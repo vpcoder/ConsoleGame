@@ -14,7 +14,6 @@ namespace Engine.Data
             this.StackSize    = 1;
             this.Damage       = 1;
             this.ID = "item/weapon/ironsword";
-            this.Color        = Color.Gray;
 
             this.Title        = "Железный меч";
             this.Description  = "Простейший меч из железа";

@@ -12,7 +12,6 @@ namespace Engine.Data
             this.StackSize = 1;
             this.Damage = 30;
             this.ID = "item/weapon/katana";
-            this.Color = Color.Yellow;
 
             this.Title = "Катана";
             this.Description = "Кровавый привет из Японии";

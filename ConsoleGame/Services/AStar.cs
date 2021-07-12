@@ -106,24 +106,10 @@ namespace Engine.AStarSharp
             {
                 for(int x = 0; x < map.SizeX; x++)
                 {
-                    var item = map.Background(x, y);
+                    var walkable = map.IsWalkable(x, y);
                     var node = Grid[x, y];
-                    if (item == null)
-                    {
-                        node.Walkable = true;
-                        node.Weight = 1f;
-                        continue;
-                    }
-                    var obj = item as Engine.Data.Object;
-                    if(obj != null)
-                    {
-                        node.Walkable = obj.Walkable;
-                        node.Weight = 1f;
-                        continue;
-                    }
-                    node.Walkable = false;
-                    node.Weight = 2f;
-                    continue;
+                    node.Walkable = walkable;
+                    node.Weight = walkable ? 1f : 2f;
                 }
             }
         }

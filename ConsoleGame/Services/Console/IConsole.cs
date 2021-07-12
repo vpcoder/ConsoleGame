@@ -9,9 +9,14 @@ namespace Engine
     ///</summary>
     public interface IConsole
     {
+        int ViewWidth { get; }
+
+        int ViewHeight { get; }
+
 
         // Рисует спрайт
         void Draw(Sprite sprite, int x, int y);
+        
         // Рисует спрайт
         void Draw(Sprite sprite, Color backgroundColor, int x, int y);
 

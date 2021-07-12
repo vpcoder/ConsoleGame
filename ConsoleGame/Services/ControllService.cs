@@ -34,27 +34,31 @@ namespace Engine.Services
             switch (keyCode)
             {
                 case Keys.W:
-                    if(canWalkToXY(playerPosX, playerPosY - 1))
+                    if(world.Map.IsWalkable(playerPosX, playerPosY - 1))
                     {
-                        world.Player.PosY -= 1;
+                        world.Player.PosY -= 1; // Двигаем персонажа
+                        world.View.PosY -= 1; // Двигаем рамку
                     }
                     break;
                 case Keys.A:
-                    if (canWalkToXY(playerPosX - 1, playerPosY))
+                    if (world.Map.IsWalkable(playerPosX - 1, playerPosY))
                     {
                         world.Player.PosX -= 1;
+                        world.View.PosX -= 1;
                     }
                     break;
                 case Keys.S:
-                    if (canWalkToXY(playerPosX, playerPosY + 1))
+                    if (world.Map.IsWalkable(playerPosX, playerPosY + 1))
                     {
                         world.Player.PosY += 1;
+                        world.View.PosY += 1;
                     }
                     break;
                 case Keys.D:
-                    if (canWalkToXY(playerPosX + 1, playerPosY))
+                    if (world.Map.IsWalkable(playerPosX + 1, playerPosY))
                     {
                         world.Player.PosX += 1;
+                        world.View.PosX += 1;
                     }
                     break;
 
@@ -119,32 +123,6 @@ namespace Engine.Services
                     // Непонятно что за предмет, возможно ошибка в коде?
                     break;
             }
-        }
-
-        /// <summary>
-        /// Определяет - можно ли ходить в точку x,y на карте или нет?
-        /// </summary>
-        /// <param name="x">Точка на карте по X</param>
-        /// <param name="y">Точка на карте по Y</param>
-        /// <param name="world">Мир, в котром выполняется расчёт</param>
-        /// <returns></returns>
-        private bool canWalkToXY(int x, int y)
-        {
-            if (x < 0 || y < 0 || x >= world.Map.SizeX || y >= world.Map.SizeY)
-            {
-                return false;
-            }
-            var charItem = world.Map.Matrix0[x, y];
-            if (charItem == null)
-            {
-                return true;
-            }
-            var objItem = charItem as Engine.Data.Object; // Пробуем скастовать чар к объекту на карте
-            if (objItem != null)
-            {
-                return objItem.Walkable;
-            }
-            return false; // не знаем что за объект, на всякий случай, ходить по нему нельзя
         }
 
     }

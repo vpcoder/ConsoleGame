@@ -49,7 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\Objects\Buff.cs" />
+    <Compile Include="Data\Items\Armor\IArmor.cs" />
+    <Compile Include="Data\Objects\Base\ISprite.cs" />
+    <Compile Include="Data\Items\Base\IItem.cs" />
+    <Compile Include="Data\Player\Base\Character.cs" />
+    <Compile Include="Data\Player\Base\Buff.cs" />
     <Compile Include="Data\Objects\Impls\Brick.cs" />
     <Compile Include="Data\Objects\Impls\Bridge.cs" />
     <Compile Include="Data\Objects\Impls\Grass.cs" />
@@ -60,48 +64,56 @@
     <Compile Include="Data\Objects\Impls\Water.cs" />
     <Compile Include="Data\Objects\Impls\Tree.cs" />
     <Compile Include="Data\Map.cs" />
-    <Compile Include="Data\Objects\Inventory\Inventory.cs" />
-    <Compile Include="Data\Objects\Items\Impls\Apple.cs" />
-    <Compile Include="Data\Objects\Items\Impls\BronzeArmor.cs" />
-    <Compile Include="Data\Objects\Items\Impls\ClothArmor.cs" />
-    <Compile Include="Data\Objects\Items\Impls\DavidsSling.cs" />
-    <Compile Include="Data\Objects\Items\Impls\ElvenBow.cs" />
-    <Compile Include="Data\Objects\Items\Impls\HealthPotion.cs" />
-    <Compile Include="Data\Objects\Items\Impls\IronArmor.cs" />
-    <Compile Include="Data\Objects\Items\Impls\IronSword.cs" />
-    <Compile Include="Data\Objects\Items\Impls\Katana.cs" />
-    <Compile Include="Data\Objects\Items\Impls\PowerFruit.cs" />
-    <Compile Include="Data\Objects\Items\Impls\PowerPotion.cs" />
-    <Compile Include="Data\Objects\Items\Impls\SunlightSpear.cs" />
-    <Compile Include="Data\Objects\Items\Impls\ThieveDagger.cs" />
-    <Compile Include="Data\Objects\Items\UsedItem.cs" />
-    <Compile Include="Data\Objects\Items\Armor.cs" />
-    <Compile Include="Data\Objects\Items\Item.cs" />
-    <Compile Include="Data\Objects\Items\MeleeWeapon.cs" />
-    <Compile Include="Data\Objects\Items\RangedWeapon.cs" />
-    <Compile Include="Data\Objects\Items\Weapon.cs" />
+    <Compile Include="Data\Player\Base\Characteristics.cs" />
+    <Compile Include="Data\Player\Inventory\Inventory.cs" />
+    <Compile Include="Data\Items\Impls\Apple.cs" />
+    <Compile Include="Data\Items\Impls\BronzeArmor.cs" />
+    <Compile Include="Data\Items\Impls\ClothArmor.cs" />
+    <Compile Include="Data\Items\Impls\DavidsSling.cs" />
+    <Compile Include="Data\Items\Impls\ElvenBow.cs" />
+    <Compile Include="Data\Items\Impls\HealthPotion.cs" />
+    <Compile Include="Data\Items\Impls\IronArmor.cs" />
+    <Compile Include="Data\Items\Impls\IronSword.cs" />
+    <Compile Include="Data\Items\Impls\Katana.cs" />
+    <Compile Include="Data\Items\Impls\PowerFruit.cs" />
+    <Compile Include="Data\Items\Impls\PowerPotion.cs" />
+    <Compile Include="Data\Items\Impls\SunlightSpear.cs" />
+    <Compile Include="Data\Items\Impls\ThieveDagger.cs" />
+    <Compile Include="Data\Items\Used\UsedItem.cs" />
+    <Compile Include="Data\Items\Armor\Armor.cs" />
+    <Compile Include="Data\Items\Base\Item.cs" />
+    <Compile Include="Data\Items\Weapon\MeleeWeapon.cs" />
+    <Compile Include="Data\Items\Weapon\RangedWeapon.cs" />
+    <Compile Include="Data\Items\Weapon\Weapon.cs" />
     <Compile Include="Data\Objects\NPC\CharacterType.cs" />
     <Compile Include="Data\Objects\NPC\NPC.cs" />
     <Compile Include="Data\Objects\Object.cs" />
     <Compile Include="Data\Player\Player.cs" />
-    <Compile Include="Data\Objects\SpriteChar.cs" />
+    <Compile Include="Data\Objects\Base\Sprite.cs" />
+    <Compile Include="Data\View.cs" />
     <Compile Include="Data\World.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Services\AStar.cs" />
+    <Compile Include="Services\CalculationService.cs" />
     <Compile Include="Services\Console\IConsole.cs" />
     <Compile Include="Services\ControllService.cs" />
     <Compile Include="Services\DrawService.cs" />
-    <Compile Include="Services\Game.cs">
+    <Compile Include="GUI\Game.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Services\Game.Designer.cs">
+    <Compile Include="GUI\Game.Designer.cs">
       <DependentUpon>Game.cs</DependentUpon>
     </Compile>
-    <Compile Include="Services\GraphicConsole.cs">
+    <Compile Include="GUI\GraphicConsole.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Services\GraphicConsole.Designer.cs">
+    <Compile Include="GUI\GraphicConsole.Designer.cs">
       <DependentUpon>GraphicConsole.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\ImageFactory.cs" />
@@ -112,12 +124,16 @@
     <None Include="Maps\map.dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Services\Game.resx">
+    <EmbeddedResource Include="GUI\Game.resx">
       <DependentUpon>Game.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Services\GraphicConsole.resx">
+    <EmbeddedResource Include="GUI\GraphicConsole.resx">
       <DependentUpon>GraphicConsole.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

@@ -10,7 +10,6 @@ namespace Engine.Data
             this.IsQuestItem = false;
             this.MaxStackSize = 1;
             this.StackSize = 1;
-            this.Color = Color.Green;
             this.ID = "item/armor/bronzearmor";
             this.Defence = 5;
 

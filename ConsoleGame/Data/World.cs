@@ -14,6 +14,11 @@ namespace Engine.Data
         public Map Map { get; set; }
 
         /// <summary>
+        /// Видимая часть мира (рамка карты)
+        /// </summary>
+        public View View { get; set; }
+
+        /// <summary>
         /// Персонаж
         /// </summary>
         public Player Player { get; set; }

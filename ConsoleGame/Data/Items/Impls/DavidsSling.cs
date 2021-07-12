@@ -11,8 +11,8 @@ namespace Engine.Data
             this.MaxStackSize = 1;
             this.StackSize = 1;
             this.Damage = 30;
+
             this.ID = "item/weapon/davidssling";
-            this.Color = Color.Green;
             this.Distance = 5;
 
             this.Title = "Праща Давида";

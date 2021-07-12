@@ -13,7 +13,6 @@ namespace Engine.Data.Impls
         public Tree()
         {
             this.ID = "tile/tree";
-            this.Color    = Color.Green;
             this.Walkable = false;
         }
 

@@ -6,16 +6,35 @@ using System.Windows.Forms;
 
 namespace Engine
 {
+
     public partial class GraphicConsole : UserControl, IConsole
     {
-        private const int CELL_COUNT_X = 60;
-        private const int CELL_COUNT_Y = 42;
+        private static Properties.Settings settings = Properties.Settings.Default;
+
+        private readonly int CELL_COUNT_X;
+        private readonly int CELL_COUNT_Y;
+
+        private readonly int TILE_SIZE_X;
+        private readonly int TILE_SIZE_Y;
 
         private Image bufferedImage;
         private Graphics graphics;
 
-        private const int TILE_SIZE_X = 32;
-        private const int TILE_SIZE_Y = 32;
+        public int ViewWidth
+        {
+            get
+            {
+                return CELL_COUNT_X;
+            }
+        }
+
+        public int ViewHeight
+        {
+            get
+            {
+                return CELL_COUNT_Y;
+            }
+        }
 
         public int CellSizeX
         {
@@ -37,9 +56,9 @@ namespace Engine
         {
             get
             {
-                if(Width <= 0 || Width > 4000)
+                if(Width <= 0 || Width > settings.MaxWidth)
                 {
-                    return 1024;
+                    return settings.DefaultResolutionX;
                 }
                 return Width;
             }
@@ -49,9 +68,9 @@ namespace Engine
         {
             get
             {
-                if (Height <= 0 || Height > 4000)
+                if (Height <= 0 || Height > settings.MaxHeight)
                 {
-                    return 720;
+                    return settings.DefaultResolutionY;
                 }
                 return Height;
             }
@@ -59,6 +78,11 @@ namespace Engine
 
         public GraphicConsole()
         {
+            TILE_SIZE_X = settings.TileSizeX;
+            TILE_SIZE_Y = settings.TileSizeY;
+            CELL_COUNT_X = settings.ConsoleResolutionX;
+            CELL_COUNT_Y = settings.ConsoleResolutionY;
+
             InitializeComponent();
             DoubleBuffered = true;
 

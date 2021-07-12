@@ -5,7 +5,10 @@ namespace Engine.Data
     public class Inventory
     {
 
-        public Item[] Items { get; set; } = new Item[20];
+        private const int INVENTORY_SIZE = 20;
+
+
+        public Item[] Items { get; set; } = new Item[INVENTORY_SIZE];
 
         public int SelectedIndex { get; set; } = 0;
 

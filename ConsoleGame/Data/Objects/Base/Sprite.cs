@@ -1,24 +1,17 @@
-﻿using System;
-using System.Drawing;
-
+﻿
 namespace Engine.Data
 {
 
     /// <summary>
-    /// Базовый класс для описания символа в консоли - любого видимого объекта в игре
+    /// Базовый класс для описания спрайта
     /// </summary>
-    public abstract class Sprite
+    public abstract class Sprite : ISprite
     {
 
         /// <summary>
         /// Символ, которым изображён объект в мире
         /// </summary>
         public virtual string ID { get; set; }
-
-        /// <summary>
-        /// Цвет символа
-        /// </summary>
-        public virtual Color Color { get; set; }
 
         /// <summary>
         /// Положение объекта в мире по X
