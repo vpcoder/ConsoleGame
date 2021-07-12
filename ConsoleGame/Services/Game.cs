@@ -9,6 +9,7 @@ namespace Engine
 
     public partial class Game : Form
     {
+        private static int globalFps = 0;
 
         private MapService mapService;
         private Map        map;
@@ -22,12 +23,25 @@ namespace Engine
             InitializeComponent();
 
             DoubleBuffered = true;
+            Width = 1024;
+            Height = 720;
 
             var timer = new Timer();
             timer.Enabled = true;
-            timer.Interval = 500;
+            timer.Interval = 1;
             timer.Tick += Runtime;
             console.KeyDown += OnKeyDown;
+            KeyDown += OnKeyDown;
+
+            var fpsTimer = new Timer();
+            fpsTimer.Enabled = true;
+            fpsTimer.Interval = 1000;
+            fpsTimer.Tick += (o, e) =>
+            {
+                Text = $"game; fps: {globalFps}";
+                globalFps = 0;
+            };
+
             Shown += GameLoad;
 
             mapService = new MapService();
@@ -58,15 +72,14 @@ namespace Engine
 
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
-            var playerPosX = world.Player.PosX;
-            var playerPosY = world.Player.PosY;
-            controllService.Controll((int)e.KeyCode);
-            drawService.Redraw(playerPosX, playerPosY);
+            controllService.Controll(e);
+            drawService.Draw();
             console.Refresh();
         }
 
         private void Runtime(object sender, EventArgs e)
         {
+            globalFps++;
             drawService.Draw();
             console.Refresh();
         }

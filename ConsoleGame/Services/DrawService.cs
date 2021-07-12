@@ -50,7 +50,6 @@ namespace Engine.Services
             DrawPlayerCharacteristic();
 
             console.Draw("input:", Color.White, 0, world.Map.SizeY + 1);
-            EndDraw();
         }
 
         private Sprite GetVisibleObject(int x, int y)
@@ -59,45 +58,16 @@ namespace Engine.Services
             return map.Frontground(x, y) ?? map.Background(x, y); // Сначала смотрим на то что на переднем плане, а потом на то что на заднем плане
         }
 
-        /// <summary>
-        /// Метод перерисовки последнего местоположения персонажа
-        /// </summary>
-        public void Redraw(int prevPosX, int prevPosY)
-        {
-            DrawObject(GetVisibleObject(prevPosX, prevPosY), prevPosX, prevPosY, Color.Empty);
-            DrawObject(world.Player, world.Player.PosX, world.Player.PosY, Color.Empty);
-            DrawInventory();
-            DrawPlayerCharacteristic();
-            EndDraw();
-        }
-
         public void DrawPath(List<Node> path)
         {
             if (path == null)
             {
-                EndDraw();
                 return;
             }
             foreach (var node in path)
             {
                 console.Draw("▒", Color.Green, node.Position.X, node.Position.Y);
             }
-            EndDraw();
-        }
-
-        private void EndDraw()
-        {
-            console.Draw("", Color.White, 7, world.Map.SizeY + 1);
-        }
-
-        /// <summary>
-        /// Рисует персонажа в указанной позиции
-        /// </summary>
-        /// <param name="x">Располоэение персонажа по X</param>
-        /// <param name="y">Располоэение персонажа по Y</param>
-        private void DrawPlayer(int posX, int posY)
-        {
-            console.Draw(Convert.ToString(world.Player.ID), world.Player.Color, posX, posY);
         }
 
         /// <summary>
@@ -108,7 +78,7 @@ namespace Engine.Services
         /// <param name="obj">Рисуемый объект</param>
         private void DrawObject(Sprite obj, int posX, int posY, Color backgroundClolor)
         {
-            console.Draw(obj, posX, posY);
+            console.Draw(obj, backgroundClolor, posX, posY);
         }
 
         /// <summary>
@@ -124,7 +94,6 @@ namespace Engine.Services
                 if (inventory.SelectedIndex == index)
                 {
                     console.Draw(GetNormalizedText(item?.Title), Color.White, world.Map.SizeX + 2, 6);
-
                     console.Draw(GetNormalizedText(GenerateItemDescription(item)), Color.White, world.Map.SizeX + 2, 7);
                     DrawObject(item, world.Map.SizeX + 2 + index % 5, 1 + index / 5, Color.DarkGreen);
                 }
@@ -147,7 +116,6 @@ namespace Engine.Services
             var info = $"АТК: {world.Player.Damage} ЗАЩ: {world.Player.Defence}   ";
             console.Draw(info, Color.White, world.Map.SizeX + 2, 11);
         }
-
 
         private string GenerateItemDescription(Item item)
         {

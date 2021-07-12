@@ -1,5 +1,4 @@
-﻿using Engine;
-using Engine.Data;
+﻿using Engine.Data;
 using Engine.Services;
 using System;
 using System.Drawing;
@@ -10,7 +9,7 @@ namespace Engine
     public partial class GraphicConsole : UserControl, IConsole
     {
         private const int CELL_COUNT_X = 60;
-        private const int CELL_COUNT_Y = 60;
+        private const int CELL_COUNT_Y = 42;
 
         private Image bufferedImage;
         private Graphics graphics;
@@ -34,6 +33,30 @@ namespace Engine
             }
         }
 
+        private int CurrentWidth
+        {
+            get
+            {
+                if(Width <= 0 || Width > 4000)
+                {
+                    return 1024;
+                }
+                return Width;
+            }
+        }
+
+        private int CurrentHeight
+        {
+            get
+            {
+                if (Height <= 0 || Height > 4000)
+                {
+                    return 720;
+                }
+                return Height;
+            }
+        }
+
         public GraphicConsole()
         {
             InitializeComponent();
@@ -42,9 +65,7 @@ namespace Engine
             Resize += (o, e) =>
             {
                 var fontSize = CellSizeY;
-                var maxW = 1280;
-                var maxH = 1024;
-                bufferedImage = new Bitmap(Width > maxW ? maxW : Width, Height > maxH ? maxH : Height);
+                bufferedImage = new Bitmap(CurrentWidth, CurrentHeight);
                 if(graphics != null)
                     graphics.Dispose();
                 graphics = Graphics.FromImage(bufferedImage);
@@ -68,17 +89,27 @@ namespace Engine
 
         public void Draw(Sprite sprite, int x, int y)
         {
-            if(sprite == null)
+            Draw(sprite, Color.Empty, x, y);
+        }
+
+        public void Draw(Sprite sprite, Color backgroundColor, int x, int y)
+        {
+            var posX = x * CellSizeX;
+            var posY = y * CellSizeY;
+
+            if (backgroundColor != Color.Empty)
+            {
+                DrawRect(backgroundColor, posX, posY, CellSizeX, CellSizeY);
+            }
+
+            if (sprite == null)
             {
                 return;
             }
 
-            var posX = x * CellSizeX;
-            var posY = y * CellSizeY;
-
             var image = ImageFactory.Instance.Get(sprite.ID);
 
-            if(image == null)
+            if (image == null)
                 return;
 
             graphics.DrawImage(image, posX, posY, CellSizeX, CellSizeY);
@@ -95,15 +126,38 @@ namespace Engine
             if (backgroundColor != Color.Empty)
             {
                 var size = TextRenderer.MeasureText(graphics, text, Font, emptySize, flags);
-                backColorBrush.Color = backgroundColor;
-                graphics.FillRectangle(backColorBrush, posX, posY, size.Width, size.Height);
+                DrawRect(backgroundColor, posX, posY, size.Width, size.Height);
             }
             graphics.DrawString(text, Font, foreColorBrush, posX, posY);
+        }
+
+        private void DrawRect(Color backgroundColor, int x, int y, int w, int h)
+        {
+            backColorBrush.Color = backgroundColor;
+            graphics.FillRectangle(backColorBrush, x, y, w, h);
         }
 
         public void Draw(string text, Color foreColor, int x, int y)
         {
             Draw(text, foreColor, Color.Empty, x, y);
+        }
+
+        protected override bool IsInputKey(Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Right:
+                case Keys.Left:
+                case Keys.Up:
+                case Keys.Down:
+                    return true;
+                case Keys.Shift | Keys.Right:
+                case Keys.Shift | Keys.Left:
+                case Keys.Shift | Keys.Up:
+                case Keys.Shift | Keys.Down:
+                    return true;
+            }
+            return base.IsInputKey(keyData);
         }
 
     }
