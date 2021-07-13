@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EE24327D-8299-4111-8FCB-238B210DD5E3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Engine.Data</RootNamespace>
+    <AssemblyName>Engine.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Engine\Data\Items\Armor\Base\Armor.cs" />
+    <Compile Include="Engine\Data\Items\Armor\Base\IArmor.cs" />
+    <Compile Include="Engine\Data\Items\IItem.cs" />
+    <Compile Include="Engine\Data\Items\Item.cs" />
+    <Compile Include="Engine\Data\Items\Used\Impls\Apple.cs" />
+    <Compile Include="Engine\Data\Items\Armor\Impls\BronzeArmor.cs" />
+    <Compile Include="Engine\Data\Items\Armor\Impls\ClothArmor.cs" />
+    <Compile Include="Engine\Data\Items\Weapon\Impls\DavidsSling.cs" />
+    <Compile Include="Engine\Data\Items\Weapon\Impls\ElvenBow.cs" />
+    <Compile Include="Engine\Data\Items\Used\Impls\HealthPotion.cs" />
+    <Compile Include="Engine\Data\Items\Armor\Impls\IronArmor.cs" />
+    <Compile Include="Engine\Data\Items\Weapon\Impls\IronSword.cs" />
+    <Compile Include="Engine\Data\Items\Weapon\Impls\Katana.cs" />
+    <Compile Include="Engine\Data\Items\Used\Impls\PowerFruit.cs" />
+    <Compile Include="Engine\Data\Items\Used\Impls\PowerPotion.cs" />
+    <Compile Include="Engine\Data\Items\Weapon\Impls\SunlightSpear.cs" />
+    <Compile Include="Engine\Data\Items\Weapon\Impls\ThieveDagger.cs" />
+    <Compile Include="Engine\Data\Items\Used\Base\UsedItem.cs" />
+    <Compile Include="Engine\Data\Items\Weapon\Base\MeleeWeapon.cs" />
+    <Compile Include="Engine\Data\Items\Weapon\Base\RangedWeapon.cs" />
+    <Compile Include="Engine\Data\Items\Weapon\Base\Weapon.cs" />
+    <Compile Include="Engine\Data\Map.cs" />
+    <Compile Include="Engine\Data\Objects\ISprite.cs" />
+    <Compile Include="Engine\Data\Objects\Sprite.cs" />
+    <Compile Include="Engine\Data\Objects\Tiles\Impls\Brick.cs" />
+    <Compile Include="Engine\Data\Objects\Tiles\Impls\Bridge.cs" />
+    <Compile Include="Engine\Data\Objects\Tiles\Impls\Cactus.cs" />
+    <Compile Include="Engine\Data\Objects\Tiles\Impls\DarkWater.cs" />
+    <Compile Include="Engine\Data\Objects\Tiles\Impls\Grass.cs" />
+    <Compile Include="Engine\Data\Objects\Tiles\Impls\Road.cs" />
+    <Compile Include="Engine\Data\Objects\Tiles\Impls\Sand.cs" />
+    <Compile Include="Engine\Data\Objects\Tiles\Impls\Tree.cs" />
+    <Compile Include="Engine\Data\Objects\Tiles\Impls\Water.cs" />
+    <Compile Include="Engine\Data\Objects\NPC\CharacterType.cs" />
+    <Compile Include="Engine\Data\Objects\NPC\NPC.cs" />
+    <Compile Include="Engine\Data\Objects\Tiles\Base\Object.cs" />
+    <Compile Include="Engine\Data\Player\Base\Buff.cs" />
+    <Compile Include="Engine\Data\Player\Base\Character.cs" />
+    <Compile Include="Engine\Data\Player\Base\Characteristics.cs" />
+    <Compile Include="Engine\Data\Player\Inventory\Inventory.cs" />
+    <Compile Include="Engine\Data\Player\Player.cs" />
+    <Compile Include="Engine\Data\View.cs" />
+    <Compile Include="Engine\Data\World.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
