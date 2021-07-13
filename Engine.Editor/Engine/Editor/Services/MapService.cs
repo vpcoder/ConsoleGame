@@ -1,4 +1,4 @@
-﻿using Engine;
+﻿using Engine.Console;
 using Engine.Data;
 using Engine.Services;
 using System;
@@ -37,7 +37,7 @@ namespace GameEditor
             return map;
         }
 
-        public void DrawMap(World world, GraphicConsole console)
+        public void DrawMap(World world, IConsole console)
         {
             var map = world.Map;
             for (int layout = 0; layout < map.LayoutCount; layout++) // Перебираем слои карты
@@ -56,7 +56,7 @@ namespace GameEditor
                     }
                 }
             }
-            console.Refresh();
+            ((Control)console).Refresh();
         }
 
     }

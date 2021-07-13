@@ -27,7 +27,7 @@ namespace GameEditor
 
             lstLayout.SelectedIndex = 0;
 
-            MapService.Instance.DrawMap(world, console);
+            MapService.Instance.DrawMap(world, null /*console*/);
         }
 
 

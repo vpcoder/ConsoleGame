@@ -29,7 +29,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.console = new Engine.GraphicConsole();
+            this.console = new Engine.Console.GraphicConsole();
             this.SuspendLayout();
             // 
             // test
@@ -57,7 +57,7 @@
         #endregion
 
 
-        private Engine.GraphicConsole console = null;
+        private Engine.Console.GraphicConsole console = null;
     }
 
 }

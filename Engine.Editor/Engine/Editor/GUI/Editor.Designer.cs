@@ -30,17 +30,16 @@ namespace GameEditor
         /// </summary>
         private void InitializeComponent()
         {
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.mainLayout = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnLoad = new System.Windows.Forms.Button();
-            this.console = new Engine.GraphicConsole();
             this.tabObjects = new System.Windows.Forms.TabControl();
             this.tabTile = new System.Windows.Forms.TabPage();
             this.objectsTree = new System.Windows.Forms.TreeView();
             this.tabItems = new System.Windows.Forms.TabPage();
             this.tabNPC = new System.Windows.Forms.TabPage();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.manu = new System.Windows.Forms.MenuStrip();
             this.menuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemLoad = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemSave = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,39 +49,37 @@ namespace GameEditor
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblLayout = new System.Windows.Forms.Label();
             this.lstLayout = new System.Windows.Forms.ComboBox();
-            this.graphicConsole1 = new Engine.GraphicConsole();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.mainLayout.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tabObjects.SuspendLayout();
             this.tabTile.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            this.manu.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 71.65005F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.34995F));
-            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.tabObjects, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.menuStrip1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.graphicConsole1, 0, 2);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 4;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(903, 619);
-            this.tableLayoutPanel1.TabIndex = 2;
+            this.mainLayout.ColumnCount = 2;
+            this.mainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 71.65005F));
+            this.mainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.34995F));
+            this.mainLayout.Controls.Add(this.flowLayoutPanel1, 0, 3);
+            this.mainLayout.Controls.Add(this.tabObjects, 1, 2);
+            this.mainLayout.Controls.Add(this.manu, 0, 0);
+            this.mainLayout.Controls.Add(this.flowLayoutPanel2, 0, 1);
+            this.mainLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainLayout.Location = new System.Drawing.Point(0, 0);
+            this.mainLayout.Name = "tableLayoutPanel1";
+            this.mainLayout.RowCount = 4;
+            this.mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
+            this.mainLayout.Size = new System.Drawing.Size(903, 619);
+            this.mainLayout.TabIndex = 2;
             // 
             // flowLayoutPanel1
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.flowLayoutPanel1, 2);
+            this.mainLayout.SetColumnSpan(this.flowLayoutPanel1, 2);
             this.flowLayoutPanel1.Controls.Add(this.btnSave);
             this.flowLayoutPanel1.Controls.Add(this.btnLoad);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -110,17 +107,7 @@ namespace GameEditor
             this.btnLoad.TabIndex = 1;
             this.btnLoad.Text = "Загрузить";
             this.btnLoad.UseVisualStyleBackColor = true;
-            // 
-            // console
-            // 
-            this.console.BackColor = System.Drawing.Color.Black;
-            this.console.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.console.Font = new System.Drawing.Font("Arial", 22F);
-            this.console.Location = new System.Drawing.Point(0, 0);
-            this.console.Margin = new System.Windows.Forms.Padding(271425, 166809, 271425, 166809);
-            this.console.Name = "console";
-            this.console.Size = new System.Drawing.Size(903, 619);
-            this.console.TabIndex = 2;
+
             // 
             // tabObjects
             // 
@@ -176,16 +163,16 @@ namespace GameEditor
             // 
             // menuStrip1
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.menuStrip1, 2);
-            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mainLayout.SetColumnSpan(this.manu, 2);
+            this.manu.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.manu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemFile,
             this.menuItemDebug});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(903, 20);
-            this.menuStrip1.TabIndex = 1;
-            this.menuStrip1.Text = "menuStrip1";
+            this.manu.Location = new System.Drawing.Point(0, 0);
+            this.manu.Name = "menuStrip1";
+            this.manu.Size = new System.Drawing.Size(903, 20);
+            this.manu.TabIndex = 1;
+            this.manu.Text = "menuStrip1";
             // 
             // menuItemFile
             // 
@@ -232,7 +219,7 @@ namespace GameEditor
             // 
             // flowLayoutPanel2
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.flowLayoutPanel2, 2);
+            this.mainLayout.SetColumnSpan(this.flowLayoutPanel2, 2);
             this.flowLayoutPanel2.Controls.Add(this.lblLayout);
             this.flowLayoutPanel2.Controls.Add(this.lstLayout);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -260,30 +247,22 @@ namespace GameEditor
             this.lstLayout.Size = new System.Drawing.Size(121, 21);
             this.lstLayout.TabIndex = 1;
             // 
-            // graphicConsole1
-            // 
-            this.graphicConsole1.Location = new System.Drawing.Point(3, 63);
-            this.graphicConsole1.Name = "graphicConsole1";
-            this.graphicConsole1.Size = new System.Drawing.Size(150, 150);
-            this.graphicConsole1.TabIndex = 5;
-            // 
             // Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(903, 619);
-            this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.console);
-            this.MainMenuStrip = this.menuStrip1;
+            this.Controls.Add(this.mainLayout);
+            this.MainMenuStrip = this.manu;
             this.Name = "Editor";
             this.Text = "Editor";
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.mainLayout.ResumeLayout(false);
+            this.mainLayout.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.tabObjects.ResumeLayout(false);
             this.tabTile.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.manu.ResumeLayout(false);
+            this.manu.PerformLayout();
             this.flowLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -291,17 +270,16 @@ namespace GameEditor
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel mainLayout;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnLoad;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip manu;
         private System.Windows.Forms.ToolStripMenuItem menuItemFile;
         private System.Windows.Forms.ToolStripMenuItem menuItemLoad;
         private System.Windows.Forms.ToolStripMenuItem menuItemSave;
         private System.Windows.Forms.ToolStripMenuItem menuItemDebug;
         private System.Windows.Forms.ToolStripMenuItem menuItemRun;
-        private Engine.GraphicConsole console;
         private System.Windows.Forms.TabControl tabObjects;
         private System.Windows.Forms.TabPage tabTile;
         private System.Windows.Forms.TreeView objectsTree;
@@ -311,7 +289,6 @@ namespace GameEditor
         private System.Windows.Forms.Label lblLayout;
         private System.Windows.Forms.ComboBox lstLayout;
         private System.Windows.Forms.ToolStripMenuItem menuItemNew;
-        private Engine.GraphicConsole graphicConsole1;
     }
 }
 
