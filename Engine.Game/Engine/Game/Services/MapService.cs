@@ -2,15 +2,36 @@
 using Engine.Data.Impls;
 using System;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Engine.Services
 {
+
+    [Serializable]
+    public class MapHeader
+    {
+        public string Name { get; set; }
+
+        public int SizeX { get; set; }
+        public int SizeY { get; set; }
+
+        public int PlayerPosX { get; set; }
+        public int PlayerPosY { get; set; }
+    }
+
+    [Serializable]
+    public class MapBody
+    {
+        public Type[][,] Data;
+    }
 
     /// <summary>
     /// Сервис работы с картами
     /// </summary>
     public class MapService
     {
+
+        #region Singleton
 
         private static Lazy<MapService> instance = new Lazy<MapService>(() => new MapService());
 
@@ -22,6 +43,10 @@ namespace Engine.Services
             }
         }
 
+        private MapService() { }
+
+        #endregion
+
         /// <summary>
         /// Сохраняет наш мир в файл
         /// </summary>
@@ -29,7 +54,70 @@ namespace Engine.Services
         /// <param name="mapName">Имя файла, в который нужно сохранить мир</param>
         public void Save(Map map, string mapName)
         {
-            
+            var serializator = new BinaryFormatter();
+
+            var header = new MapHeader();
+            header.Name = map.Name;
+            header.SizeX = map.SizeX;
+            header.SizeY = map.SizeY;
+            header.PlayerPosX = map.PlayerStartPosX;
+            header.PlayerPosY = map.PlayerStartPosY;
+
+            using (var stream = new StreamWriter(new FileStream(mapName, FileMode.CreateNew)))
+            {
+                serializator.Serialize(stream.BaseStream, header); // Записываем заголовок карты
+                serializator.Serialize(stream.BaseStream, ToBody(map)); // Записываем тело карты
+            }
+        }
+
+        /// <summary>
+        /// Вытаскивает матрицу карты, преобразуя в тело для записи в файл
+        /// </summary>
+        /// <param name="map">Карта</param>
+        /// <returns>Тело карты для записи в файл</returns>
+        private MapBody ToBody(Map map)
+        {
+            var body = new MapBody();
+            body.Data = new Type[map.LayoutCount][,];
+            for(int layout = 0; layout < map.LayoutCount; layout++)
+            {
+                body.Data[layout] = new Type[map.SizeX, map.SizeY];
+                for (int y = 0; y< map.SizeY; y++)
+                {
+                    for (int x = 0; x < map.SizeX; x++)
+                    {
+                        var sprite = map.Get(layout, x, y);
+                        body.Data[layout][x, y] = sprite?.GetType() ?? null;
+                    }
+                }
+            }
+            return body;
+        }
+
+        /// <summary>
+        /// Выполняет запись объектов из тела карты в карту
+        /// </summary>
+        /// <param name="body">Тело карты из файла</param>
+        /// <param name="map">Карта</param>
+        private void WriteFromBody(MapBody body, Map map)
+        {
+            for (int layout = 0; layout < map.LayoutCount; layout++)
+            {
+                for (int y = 0; y < map.SizeY; y++)
+                {
+                    for (int x = 0; x < map.SizeX; x++)
+                    {
+                        var type = body.Data[layout][x, y];
+                        if(type == null)
+                        {
+                            map.Set(null, layout, x, y); // В этой точке ничего нет, так и запишем в карту
+                            continue;
+                        }
+                        var instance = (ISprite)Activator.CreateInstance(type);
+                        map.Set(instance, layout, x, y);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -39,84 +127,22 @@ namespace Engine.Services
         /// <returns>Прочитанный объект мира</returns>
         public Map Load(string mapName)
         {
-            int LAYOUTS_COUNT = 2; // Число слоёв на карте
+            Map map = null;
+            var serializator = new BinaryFormatter();
 
-            string[] mapData = File.ReadAllText(mapName).Replace("\r", "").Split('\n');
-            string name = mapData[0];
-            string[] playerPosition = mapData[1].Split(',');
-
-            int mapSizeX = mapData[mapData.Length - 1].Length;
-            int mapSizeY = (mapData.Length - 2) / LAYOUTS_COUNT;
-
-            var map = new Map(mapSizeX, mapSizeY);
-
-            var layout = 0;
-            for(int y = 0; y < mapSizeY; y++)
+            using (var stream = new StreamReader(new FileStream(mapName, FileMode.Open)))
             {
-                for(int x = 0; x < mapSizeX; x++)
-                {
-                    var itemY = y + 2;
-                    var itemX = x;
-                    var sprite = ReadItem(x, y, mapData[itemY][itemX].ToString()); // Заполняем слой
-                    map.Set(sprite, layout, x, y);
-                }
-            }
+                var header = (MapHeader)serializator.Deserialize(stream.BaseStream); // Читаем заголовок карты
+                map = new Map(header.SizeX, header.SizeY);
+                map.Name = header.Name;
+                map.PlayerStartPosX = header.PlayerPosX;
+                map.PlayerStartPosY = header.PlayerPosY;
 
-            int posX = int.Parse(playerPosition[0]);
-            int posY = int.Parse(playerPosition[1]);
-            map.PlayerStartPosX = posX;
-            map.PlayerStartPosY = posY;
+                var body = (MapBody)serializator.Deserialize(stream.BaseStream); // Читаем тело карты
+                WriteFromBody(body, map);
+            }
 
             return map;
-        }
-
-        private Sprite ReadItem(int x, int y, string txtItem)
-        {
-            Sprite item;
-            switch(txtItem)
-            {
-                case "Ψ":
-                    item = new Cactus();
-                    break;
-                case "░":
-                    item = new Road();
-                    break;
-                case "█":
-                    item = new Brick();
-                    break;
-                case " ":
-                    item = null;
-                    break;
-                case "=":
-                    item = new Bridge();
-                    break;
-                case "T":
-                    item = new Tree();
-                    break;
-                case "d":
-                    item = new Grass();
-                    break;
-                case "w":
-                    item = new Water();
-                    break;
-                case "W":
-                    item = new DarkWater();
-                    break;
-                case "s":
-                    item = new Sand();
-                    break;
-                default:
-                    item = null;
-                    break;
-            }
-
-            if(item != null)
-            {
-                item.PosX = x;
-                item.PosY = y;
-            }
-
-            return item;
         }
 
     }

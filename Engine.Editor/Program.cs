@@ -16,7 +16,7 @@ namespace GameEditor
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Editor());
+            Application.Run(new EditorForm());
         }
     }
 }

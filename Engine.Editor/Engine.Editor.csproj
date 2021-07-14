@@ -49,11 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine\Editor\GUI\Editor.cs">
+    <Compile Include="Engine\Editor\GUI\EditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Engine\Editor\GUI\Editor.Designer.cs">
-      <DependentUpon>Editor.cs</DependentUpon>
+    <Compile Include="Engine\Editor\GUI\EditorForm.Designer.cs">
+      <DependentUpon>EditorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Engine\Editor\GUI\NewMapDialog.cs">
       <SubType>Form</SubType>
@@ -61,11 +61,12 @@
     <Compile Include="Engine\Editor\GUI\NewMapDialog.Designer.cs">
       <DependentUpon>NewMapDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Engine\Editor\Services\ObjectProviderService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Engine\Editor\Services\MapService.cs" />
-    <EmbeddedResource Include="Engine\Editor\GUI\Editor.resx">
-      <DependentUpon>Editor.cs</DependentUpon>
+    <EmbeddedResource Include="Engine\Editor\GUI\EditorForm.resx">
+      <DependentUpon>EditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Engine\Editor\GUI\NewMapDialog.resx">
       <DependentUpon>NewMapDialog.cs</DependentUpon>
@@ -78,6 +79,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -105,6 +107,14 @@
       <Project>{ea64b522-ca02-40ab-8f3f-50fa8d6528ec}</Project>
       <Name>Engine.Console</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\tools_add_tile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\empty.png" />
+    <None Include="Images\tools_move_tile.png" />
+    <None Include="Images\tools_delete_tile.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

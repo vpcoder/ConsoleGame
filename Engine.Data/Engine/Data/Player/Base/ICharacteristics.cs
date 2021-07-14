@@ -6,43 +6,34 @@ namespace Engine.Data
     /// <summary>
     /// Характеристики
     /// </summary>
-    public class Characteristics : ICharacteristics
+    public interface ICharacteristics
     {
 
         /// <summary>
         /// Здоровье
         /// </summary>
-        public int Health { get; set; } = 60;
+        int Health { get; set; }
 
         /// <summary>
         /// Максимальное здоровье
         /// </summary>
-        public int MaxHealth { get; set; } = 100;
+        int MaxHealth { get; set; }
 
         /// <summary>
         /// Персонаж умер
         /// </summary>
-        public bool IsDead
-        {
-            get
-            {
-                return Health <= 0;
-            }
-        }
+        bool IsDead { get; }
 
         /// <summary>
         /// Баффы
         /// </summary>
-        public ICollection<IBuff> CurrentBuffs { get; } = new HashSet<IBuff>();
+        ICollection<IBuff> CurrentBuffs { get; }
 
         /// <summary>
         /// Добавляем бафф
         /// </summary>
         /// <param name="buff"></param>
-        public void AddBuff(IBuff buff)
-        {
-            CurrentBuffs.Add(buff);
-        }
+        void AddBuff(IBuff buff);
 
     }
 

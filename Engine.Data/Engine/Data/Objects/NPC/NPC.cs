@@ -4,7 +4,7 @@
 namespace Engine.Data
 {
 
-    public abstract class NPC : Character
+    public abstract class NPC : Character, INPC
     {
 
         public string Name { get; set; }

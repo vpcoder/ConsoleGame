@@ -7,7 +7,7 @@ using System.Windows.Forms;
 namespace Engine
 {
 
-    public partial class Game : Form
+    public partial class GameForm : Form
     {
         private static int globalFps = 0;
 
@@ -17,7 +17,7 @@ namespace Engine
         private DrawService drawService;
         private ControllService controllService;
 
-        public Game()
+        public GameForm()
         {
             InitializeComponent();
 

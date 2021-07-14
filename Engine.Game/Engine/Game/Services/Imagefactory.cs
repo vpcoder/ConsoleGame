@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System;
+using Engine.Properties;
 
 namespace Engine.Services
 {
@@ -9,6 +10,11 @@ namespace Engine.Services
     {
 
         private static Lazy<ImageFactory> instance = new Lazy<ImageFactory>(() => new ImageFactory(), true);
+
+        /// <summary>
+        /// Настройки
+        /// </summary>
+        private static Settings settings = Settings.Default;
 
         private ImageFactory() { }
 
@@ -30,7 +36,7 @@ namespace Engine.Services
                 return tmpImage;
             }
 #if DEBUG
-            var path = "../../images/" + id + ".png";
+            var path = settings.ImagesPath + id + ".png";
 #else
             var path = "images/" + id + ".png";
 #endif

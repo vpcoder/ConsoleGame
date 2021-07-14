@@ -1,7 +1,7 @@
 ﻿namespace Engine
 {
 
-    partial class Game
+    partial class GameForm
     {
         /// <summary>
         /// Required designer variable.
@@ -32,23 +32,24 @@
             this.console = new Engine.Console.GraphicConsole();
             this.SuspendLayout();
             // 
-            // test
+            // console
             // 
+            this.console.BackColor = System.Drawing.Color.Black;
             this.console.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.console.Font = new System.Drawing.Font("Consolas", 14F);
+            this.console.Font = new System.Drawing.Font("Arial", 18F);
             this.console.Location = new System.Drawing.Point(0, 0);
-            this.console.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.console.Margin = new System.Windows.Forms.Padding(5);
             this.console.Name = "console";
             this.console.Size = new System.Drawing.Size(766, 524);
             this.console.TabIndex = 0;
             // 
-            // Form1
+            // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(766, 524);
             this.Controls.Add(this.console);
-            this.Name = "Game";
+            this.Name = "GameForm";
             this.Text = "Game";
             this.ResumeLayout(false);
 

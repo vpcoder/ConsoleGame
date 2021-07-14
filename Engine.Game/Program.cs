@@ -10,7 +10,7 @@ namespace Engine
     {
         public static void Main(string[] args)
         {
-            Application.Run(new Game());
+            Application.Run(new GameForm());
         }
 
     }

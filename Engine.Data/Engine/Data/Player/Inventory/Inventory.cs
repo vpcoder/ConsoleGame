@@ -2,17 +2,20 @@
 namespace Engine.Data
 {
 
-    public class Inventory
+    /// <summary>
+    /// Инвентарь
+    /// </summary>
+    public class Inventory : IInventory
     {
 
         private const int INVENTORY_SIZE = 20;
 
 
-        public Item[] Items { get; set; } = new Item[INVENTORY_SIZE];
+        public IItem[] Items { get; set; } = new Item[INVENTORY_SIZE];
 
         public int SelectedIndex { get; set; } = 0;
 
-        public Item Selected { get { return Items[SelectedIndex]; } set { Items[SelectedIndex] = value; } }
+        public IItem Selected { get { return Items[SelectedIndex]; } set { Items[SelectedIndex] = value; } }
 
     }
 

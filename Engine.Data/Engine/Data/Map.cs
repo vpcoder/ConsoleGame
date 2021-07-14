@@ -40,7 +40,7 @@ namespace Engine.Data
         /// <summary>
         /// Матрица карты - то что лежит "снизу"
         /// </summary>
-        private Sprite[][,] Matrix;
+        private ISprite[][,] Matrix;
 
         /// <summary>
         /// Инициализация карты (конструкторв)
@@ -56,15 +56,17 @@ namespace Engine.Data
                 this.Matrix[layout] = new Sprite[w, h];
         }
 
-        public Sprite Get(int layout, int x, int y)
+        public ISprite Get(int layout, int x, int y)
         {
             if (!isIntersection(x, y))
                 return null;
             return Matrix[layout][x, y];
         }
 
-        public void Set(Sprite sprite, int layout, int x, int y)
+        public void Set(ISprite sprite, int layout, int x, int y)
         {
+            if (!isIntersection(x, y))
+                return;
             this.Matrix[layout][x, y] = sprite;
         }
 
@@ -79,7 +81,7 @@ namespace Engine.Data
                 {
                     continue;
                 }
-                var obj = sprite as Object;
+                var obj = sprite as IObject;
                 if(obj == null)
                 {
                     continue;

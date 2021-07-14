@@ -2,7 +2,7 @@
 namespace Engine.Data
 {
 
-    public abstract class Armor : Item
+    public abstract class Armor : Item, IArmor
     {
 
         /// <summary>

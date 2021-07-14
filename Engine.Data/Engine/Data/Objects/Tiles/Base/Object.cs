@@ -5,7 +5,7 @@ namespace Engine.Data
     /// <summary>
     /// Базоывай класс статических объектов в мире
     /// </summary>
-    public abstract class Object : Sprite
+    public abstract class Object : Sprite, IObject
     {
 
         /// <summary>

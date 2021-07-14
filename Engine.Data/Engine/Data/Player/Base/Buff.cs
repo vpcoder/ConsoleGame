@@ -3,7 +3,7 @@
 namespace Engine.Data
 {
 
-    public class Buff
+    public class Buff : IBuff
     {
 
         public Buff(int IDBuff)    //Должно быть у любого баффа!

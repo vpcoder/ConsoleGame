@@ -46,6 +46,7 @@
     <Compile Include="Engine\Data\Items\Used\Impls\Apple.cs" />
     <Compile Include="Engine\Data\Items\Armor\Impls\BronzeArmor.cs" />
     <Compile Include="Engine\Data\Items\Armor\Impls\ClothArmor.cs" />
+    <Compile Include="Engine\Data\Items\Weapon\Base\IWeapon.cs" />
     <Compile Include="Engine\Data\Items\Weapon\Impls\DavidsSling.cs" />
     <Compile Include="Engine\Data\Items\Weapon\Impls\ElvenBow.cs" />
     <Compile Include="Engine\Data\Items\Used\Impls\HealthPotion.cs" />
@@ -62,7 +63,9 @@
     <Compile Include="Engine\Data\Items\Weapon\Base\Weapon.cs" />
     <Compile Include="Engine\Data\Map.cs" />
     <Compile Include="Engine\Data\Objects\ISprite.cs" />
+    <Compile Include="Engine\Data\Objects\NPC\INPC.cs" />
     <Compile Include="Engine\Data\Objects\Sprite.cs" />
+    <Compile Include="Engine\Data\Objects\Tiles\Base\IObject.cs" />
     <Compile Include="Engine\Data\Objects\Tiles\Impls\Brick.cs" />
     <Compile Include="Engine\Data\Objects\Tiles\Impls\Bridge.cs" />
     <Compile Include="Engine\Data\Objects\Tiles\Impls\Cactus.cs" />
@@ -75,13 +78,20 @@
     <Compile Include="Engine\Data\Objects\NPC\CharacterType.cs" />
     <Compile Include="Engine\Data\Objects\NPC\NPC.cs" />
     <Compile Include="Engine\Data\Objects\Tiles\Base\Object.cs" />
+    <Compile Include="Engine\Data\Player\Base\IBuff.cs" />
     <Compile Include="Engine\Data\Player\Base\Buff.cs" />
     <Compile Include="Engine\Data\Player\Base\Character.cs" />
+    <Compile Include="Engine\Data\Player\Base\ICharacteristics.cs" />
     <Compile Include="Engine\Data\Player\Base\Characteristics.cs" />
+    <Compile Include="Engine\Data\Player\Base\ICharacter.cs" />
+    <Compile Include="Engine\Data\Player\Inventory\IInventory.cs" />
     <Compile Include="Engine\Data\Player\Inventory\Inventory.cs" />
     <Compile Include="Engine\Data\Player\Player.cs" />
     <Compile Include="Engine\Data\View.cs" />
     <Compile Include="Engine\Data\World.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

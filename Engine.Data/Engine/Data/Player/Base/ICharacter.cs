@@ -1,30 +1,29 @@
 ﻿
+
 namespace Engine.Data
 {
 
-    public abstract class Character : Sprite, ICharacter
+    public interface ICharacter : ISprite
     {
-
         /// <summary>
         /// Параметры существа
         /// </summary>
-        public ICharacteristics Characteristics { get; set; } = new Characteristics();
+        ICharacteristics Characteristics { get; set; }
 
         /// <summary>
         /// Оружие
         /// </summary>
-        public IWeapon Weapon { get; set; } = null;
+        IWeapon Weapon { get; set; }
 
         /// <summary>
         /// Броня персонажа
         /// </summary>
-        public IArmor Armor { get; set; } = null;
+        IArmor Armor { get; set; }
 
         /// <summary>
         /// Инвентарь
         /// </summary>
-        public IInventory Inventory { get; set; } = new Inventory();
-
+        IInventory Inventory { get; set; }
     }
 
 }

@@ -78,7 +78,7 @@ namespace Engine.Services
         /// <param name="x">Располоэение объекта по X</param>
         /// <param name="y">Располоэение объекта по Y</param>
         /// <param name="obj">Рисуемый объект</param>
-        private void DrawObject(Sprite obj, int posX, int posY, Color backgroundClolor)
+        private void DrawObject(ISprite obj, int posX, int posY, Color backgroundClolor)
         {
             var image = obj == null ? null : ImageFactory.Instance.Get(obj.ID);
             console.Draw(image, backgroundClolor, posX, posY);

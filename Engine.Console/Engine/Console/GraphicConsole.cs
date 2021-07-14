@@ -1,5 +1,4 @@
-﻿using Engine.Data;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -77,40 +76,68 @@ namespace Engine.Console
 
         public GraphicConsole()
         {
-            TILE_SIZE_X = settings.TileSizeX;
-            TILE_SIZE_Y = settings.TileSizeY;
-            CELL_COUNT_X = settings.ConsoleResolutionX;
-            CELL_COUNT_Y = settings.ConsoleResolutionY;
+            try
+            {
+                TILE_SIZE_X = settings.TileSizeX;
+                TILE_SIZE_Y = settings.TileSizeY;
+                CELL_COUNT_X = settings.ConsoleResolutionX;
+                CELL_COUNT_Y = settings.ConsoleResolutionY;
+            }
+            catch { }
 
             InitializeComponent();
             DoubleBuffered = true;
 
             Resize += (o, e) =>
             {
-                var fontSize = CellSizeY;
-                bufferedImage = new Bitmap(CurrentWidth, CurrentHeight);
-                if(graphics != null)
-                    graphics.Dispose();
-                graphics = Graphics.FromImage(bufferedImage);
-                Font = new Font("arial", fontSize <= 0 ? 1 : fontSize);
+                Width = Math.Max(Width, 10);
+                Height = Math.Max(Height, 10);
+                try
+                {
+                    var fontSize = CellSizeY;
+                    bufferedImage = new Bitmap(CurrentWidth, CurrentHeight);
+                    if (graphics != null)
+                        graphics.Dispose();
+                    graphics = Graphics.FromImage(bufferedImage);
+                    graphics.Clear(BackColor);
+                    Font = new Font("arial", fontSize <= 0 ? 1 : fontSize);
+                }
+                catch { }
             };
+        }
+
+        /// <summary>
+        /// Рассчитывает и получает положение на матрице из положения в пикселях
+        /// </summary>
+        /// <param name="x">Положение в пикселях по X</param>
+        /// <param name="y">Положение в пикселях по Y</param>
+        /// <returns>Рассчитанную точку в матрице</returns>
+        public Point GetPosition(int x, int y)
+        {
+            if (x < 0 || x >= Width || y < 0 || y >= Height) // Точка за пределами карты
+                return Point.Empty;
+            var posX = x / CellSizeX;
+            var posY = y / CellSizeY;
+            return new Point(posX, posY);
+        }
+
+        public Point GetPosition(MouseEventArgs e)
+        {
+            if (e == null)
+                return Point.Empty;
+            return GetPosition(e.X, e.Y);
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             if(bufferedImage == null)
             {
-                e.Graphics.Clear(Color.Black);
+                e.Graphics.Clear(BackColor);
                 return;
             }
 
             e.Graphics.DrawImage(bufferedImage, 0, 0, Width, Height);
-            graphics.Clear(Color.Black);
-        }
-
-        private void GraphicConsole_Load(object sender, EventArgs e)
-        {
-
+            graphics.Clear(BackColor);
         }
 
         private SolidBrush foreColorBrush = new SolidBrush(Color.Black);
@@ -120,7 +147,7 @@ namespace Engine.Console
         {
             Draw(sprite, Color.Empty, x, y);
         }
-
+        
         public void Draw(Image sprite, Color backgroundColor, int x, int y)
         {
             var posX = x * CellSizeX;
