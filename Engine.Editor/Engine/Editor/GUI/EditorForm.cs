@@ -82,8 +82,7 @@ namespace GameEditor
             InitializeComponent();
             LoadObjectTreeList();
             world = new World();
-            world.Map = new Map(50, 50);
-            world.View = new Engine.Data.View();
+            world.Map.Resize(50, 50);
 
             Resize += ResizeMethod;
             mainMapSplitter.SplitterMoved += ResizeMethod;
@@ -259,11 +258,15 @@ namespace GameEditor
 
         private void MenuItemNew_Click(object sender, System.EventArgs e)
         {
-            var map = MapService.Instance.CreateNewMap();
-            if (map == null)
+            var dialog = new NewMapDialog();
+
+            if (dialog.ShowDialog() != DialogResult.OK)
                 return;
 
-            world.Map = map;
+            var size = dialog.MapSize;
+            world.Map.Resize(size.Width, size.Height);
+            world.Map.Name = dialog.MapName;
+
             MapService.Instance.DrawMap(world, console);
         }
 
@@ -352,7 +355,7 @@ namespace GameEditor
 
             try
             {
-                world.Map = Engine.Services.MapService.Instance.Load(dialog.FileName);
+                Engine.Services.MapService.Instance.Load(dialog.FileName, world);
                 MapService.Instance.DrawMap(world, console);
             }
             catch (Exception ex)

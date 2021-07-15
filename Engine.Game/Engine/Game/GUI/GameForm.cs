@@ -43,12 +43,11 @@ namespace Engine
 
             Shown += GameLoad;
 
-            map = MapService.Instance.Load("maps/map.dat");
-            world = new World();
 
-            world.Map = map;
-            world.View = new Data.View();
-            world.Player = new Data.Player();
+            world = new World();
+            MapService.Instance.Load("maps/map.dat", world);
+
+            map = world.Map;
             world.Player.PosX = map.PlayerStartPosX;
             world.Player.PosY = map.PlayerStartPosY;
             world.Player.Inventory.Items[0] = new IronSword(); // Добавляем предметы в инвентарь

@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace Engine.Data
 {
 
@@ -11,17 +13,27 @@ namespace Engine.Data
         /// <summary>
         /// Карта
         /// </summary>
-        public Map Map { get; set; }
+        public Map Map { get; } = new Map();
 
         /// <summary>
         /// Видимая часть мира (рамка карты)
         /// </summary>
-        public View View { get; set; }
+        public View View { get; } = new View();
+
+        /// <summary>
+        /// Снаряды в нашем мире
+        /// </summary>
+        public ICollection<IBullet> Bullets { get; } = new HashSet<IBullet>();
+
+        /// <summary>
+        /// НПС в нашем мире
+        /// </summary>
+        public ICollection<INPC> NPCs { get; } = new HashSet<INPC>();
 
         /// <summary>
         /// Персонаж
         /// </summary>
-        public Player Player { get; set; }
+        public Player Player { get; } = new Player();
 
     }
 

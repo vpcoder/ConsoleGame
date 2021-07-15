@@ -1,6 +1,7 @@
 ﻿using Engine.Data;
 using Engine.Data.Impls;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -115,17 +116,18 @@ namespace Engine.Services
                         }
                         var instance = (ISprite)Activator.CreateInstance(type);
                         map.Set(instance, layout, x, y);
+                        PostCreateSprite(instance);
                     }
                 }
             }
         }
 
         /// <summary>
-        /// Загружает наш мир из файла
+        /// Загружает нашу карту из файла в мир
         /// </summary>
         /// <param name="mapName">Файл мира, который нужно загрузить</param>
-        /// <returns>Прочитанный объект мира</returns>
-        public Map Load(string mapName)
+        /// <param name="world">Объект мира, куда нужно записать прочитаную карту</param>
+        public void Load(string mapName, World world)
         {
             Map map = null;
             var serializator = new BinaryFormatter();
@@ -142,7 +144,29 @@ namespace Engine.Services
                 WriteFromBody(body, map);
             }
 
-            return map;
+            world.Map.ResizeFrom(map);
+
+            var npcs = new HashSet<INPC>();
+            foreach(var obj in map.GetAll()) // Перебираем все объекты в мире
+            {
+                var npc = obj as INPC;
+
+                if (npc == null)
+                    continue;
+
+                world.NPCs.Add(npc); // Собираем НПС
+            }
+        }
+
+        public void PostCreateSprite(ISprite sprite)
+        {
+            var npc = sprite as INPC;
+
+            if (npc == null)
+                return;
+
+            // При инициализации точка интереса у НПС совпадает с местоположением
+            npc.IntrestingPoint = new Vector2(npc.PosX, npc.PosY);
         }
 
     }

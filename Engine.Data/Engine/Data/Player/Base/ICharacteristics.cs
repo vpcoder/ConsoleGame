@@ -25,6 +25,16 @@ namespace Engine.Data
         bool IsDead { get; }
 
         /// <summary>
+        /// Базовая атака
+        /// </summary>
+        int BaseDamage { get; set; }
+
+        /// <summary>
+        /// Базовая защита
+        /// </summary>
+        int BaseDefence { get; set; }
+
+        /// <summary>
         /// Баффы
         /// </summary>
         ICollection<IBuff> CurrentBuffs { get; }

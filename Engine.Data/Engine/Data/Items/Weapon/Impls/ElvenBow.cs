@@ -1,8 +1,10 @@
 ﻿
 namespace Engine.Data
 {
-    class ElvenBow : RangedWeapon
+
+    public class ElvenBow : RangedWeapon
     {
+
         public ElvenBow()
         {
             this.IsQuestItem = false;
@@ -16,5 +18,7 @@ namespace Engine.Data
             this.Title = "Эльфийский лук";
             this.Description = "Дальнобойное оружие со средним уроном";
         }
+
     }
+
 }

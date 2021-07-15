@@ -11,6 +11,8 @@ namespace Engine.Services
     public class CalculationService
     {
 
+        #region Singleton
+
         private static Lazy<CalculationService> instance = new Lazy<CalculationService>(() => new CalculationService());
 
         public static CalculationService Instance
@@ -21,13 +23,16 @@ namespace Engine.Services
             }
         }
 
+        #endregion
+
         /// <summary>
-        /// Текущий урон героя
+        /// Текущий урон персонажа/НПС
         /// </summary>
         public int GetDamage(Character character)
         {
             var characteristics = character.Characteristics;
-            int sumAdditionalDamage = characteristics.CurrentBuffs.Count == 0 ? 0 : characteristics.CurrentBuffs.Select(buff => buff.AdditionalDamage).Sum();
+            int sumAdditionalDamage = characteristics.BaseDamage;
+            sumAdditionalDamage += characteristics.CurrentBuffs.Count == 0 ? 0 : characteristics.CurrentBuffs.Select(buff => buff.AdditionalDamage).Sum();
 
             if (character.Weapon == null)
                 return sumAdditionalDamage;
@@ -36,12 +41,13 @@ namespace Engine.Services
         }
 
         /// <summary>
-        /// Текущая защита героя
+        /// Текущая защита персонажа/НПС
         /// </summary>
         public int GetDefence(Character character)
         {
             var characteristics = character.Characteristics;
-            int sumAdditionalDefence = characteristics.CurrentBuffs.Count == 0 ? 0 : characteristics.CurrentBuffs.Select(buff => buff.AdditionalDefence).Sum();
+            int sumAdditionalDefence = characteristics.BaseDefence;
+            sumAdditionalDefence += characteristics.CurrentBuffs.Count == 0 ? 0 : characteristics.CurrentBuffs.Select(buff => buff.AdditionalDefence).Sum();
 
             if (character.Armor == null)
                 return sumAdditionalDefence;

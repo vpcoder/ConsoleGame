@@ -1,8 +1,10 @@
 ﻿
 namespace Engine.Data
 {
-    class DavidsSling : RangedWeapon
+
+    public class DavidsSling : RangedWeapon
     {
+
         public DavidsSling()
         {
             this.IsQuestItem = false;
@@ -16,5 +18,7 @@ namespace Engine.Data
             this.Title = "Праща Давида";
             this.Description = "Мощное, но недальнобойное оружие";
         }
+
     }
+
 }

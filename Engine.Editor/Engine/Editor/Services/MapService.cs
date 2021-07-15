@@ -20,24 +20,6 @@ namespace GameEditor
             }
         }
 
-        /// <summary>
-        /// Спрашивает у пользователя как создавать новую карту
-        /// </summary>
-        /// <returns>Новую карту</returns>
-        public Map CreateNewMap()
-        {
-            var dialog = new NewMapDialog();
-
-            if (dialog.ShowDialog() != DialogResult.OK)
-                return null;
-
-            var size = dialog.MapSize;
-            var map = new Map(size.Width, size.Height);
-            map.Name = dialog.MapName;
-
-            return map;
-        }
-
         public void DrawMap(World world, IConsole console)
         {
             var map = world.Map;

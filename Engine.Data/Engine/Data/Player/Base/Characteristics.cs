@@ -20,6 +20,16 @@ namespace Engine.Data
         public int MaxHealth { get; set; } = 100;
 
         /// <summary>
+        /// Базовый урон
+        /// </summary>
+        public int BaseDamage { get; set; } = 0;
+
+        /// <summary>
+        /// Базовая защита
+        /// </summary>
+        public int BaseDefence { get; set; } = 0;
+
+        /// <summary>
         /// Персонаж умер
         /// </summary>
         public bool IsDead
