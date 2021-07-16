@@ -47,7 +47,7 @@ namespace Engine.Services
                         player.Direction = Direction.Up;
                         break;
                     }
-                    if(map.IsWalkable(playerPosX, playerPosY - 1))
+                    if(IsWalkable(playerPosX, playerPosY - 1))
                     {
                         player.PosY -= 1; // Двигаем персонажа
 
@@ -62,7 +62,7 @@ namespace Engine.Services
                         player.Direction = Direction.Left;
                         break;
                     }
-                    if (map.IsWalkable(playerPosX - 1, playerPosY))
+                    if (IsWalkable(playerPosX - 1, playerPosY))
                     {
                         player.PosX -= 1;
 
@@ -77,13 +77,13 @@ namespace Engine.Services
                         player.Direction = Direction.Down;
                         break;
                     }
-                    if (map.IsWalkable(playerPosX, playerPosY + 1))
+                    if (IsWalkable(playerPosX, playerPosY + 1))
                     {
                         player.PosY += 1;
 
                         var delta = player.PosY - view.PosY;
-                        if (delta > view.SizeY / 2 && view.PosY < map.SizeY - view.SizeY - 1)
-                            view.PosY -= 1; // Двигаем рамку
+                        if (delta > view.SizeY / 2 && view.PosY < map.SizeY - view.SizeY)
+                            view.PosY += 1; // Двигаем рамку
                     }
                     break;
                 case Keys.D:
@@ -92,13 +92,13 @@ namespace Engine.Services
                         player.Direction = Direction.Right;
                         break;
                     }
-                    if (map.IsWalkable(playerPosX + 1, playerPosY))
+                    if (IsWalkable(playerPosX + 1, playerPosY))
                     {
                         player.PosX += 1;
 
                         var delta = player.PosX - view.PosX;
-                        if (delta > view.SizeX / 2 && view.PosX < map.SizeX - view.SizeX - 1)
-                            view.PosX -= 1; // Двигаем рамку
+                        if (delta > view.SizeX / 2 && view.PosX < map.SizeX - view.SizeX)
+                            view.PosX += 1; // Двигаем рамку
                     }
                     break;
 
@@ -161,6 +161,18 @@ namespace Engine.Services
                     // Непонятно что за предмет, возможно ошибка в коде?
                     break;
             }
+        }
+
+        private bool IsWalkable(int posX, int posY)
+        {
+            if (!map.IsWalkable(posX, posY))
+                return false;
+
+            foreach (var npc in world.NPCs)
+                if (npc.PosX == posX && npc.PosY == posY)
+                    return false;
+
+            return true;
         }
 
     }

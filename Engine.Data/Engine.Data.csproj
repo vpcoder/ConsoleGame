@@ -72,7 +72,7 @@
     <Compile Include="Engine\Data\Objects\Direction.cs" />
     <Compile Include="Engine\Data\Objects\ISprite.cs" />
     <Compile Include="Engine\Data\NPC\Base\INPC.cs" />
-    <Compile Include="Engine\Data\NPC\Impls\Skillet.cs" />
+    <Compile Include="Engine\Data\NPC\Impls\Skeleton.cs" />
     <Compile Include="Engine\Data\Objects\Sprite.cs" />
     <Compile Include="Engine\Data\Objects\Tiles\Base\IObject.cs" />
     <Compile Include="Engine\Data\Objects\Tiles\Impls\Brick.cs" />

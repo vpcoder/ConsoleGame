@@ -63,8 +63,6 @@ namespace Engine.Services
             }
             DrawInventory();
             DrawPlayerCharacteristic();
-
-            console.Draw("input:", Color.White, 0, world.Map.SizeY + 1);
         }
 
         private void DrawBullets()
@@ -75,8 +73,14 @@ namespace Engine.Services
 
         private void DrawBullet(IBullet bullet)
         {
+            var posX = bullet.PosX - world.View.PosX;
+            if (posX < world.View.PosX || posX > world.View.SizeX)
+                return;
+            var posY = bullet.PosY - world.View.PosY;
+            if (posY < world.View.PosY || posY > world.View.SizeY)
+                return;
             var sprite = ImageFactory.Instance.Get(bullet.ID, bullet.Direction);
-            console.Draw(sprite, bullet.PosX, bullet.PosY);
+            console.Draw(sprite, posX, posY);
         }
 
         private void DrawNPCs()
@@ -87,8 +91,14 @@ namespace Engine.Services
 
         private void DrawCharacter(ICharacter character)
         {
+            var posX = character.PosX - world.View.PosX;
+            if (posX < world.View.PosX || posX > world.View.SizeX)
+                return;
+            var posY = character.PosY - world.View.PosY;
+            if (posY < world.View.PosY || posY > world.View.SizeY)
+                return;
             var sprite = ImageFactory.Instance.Get(character.ID, character.Direction);
-            console.Draw(sprite, character.PosX, character.PosY);
+            console.Draw(sprite, posX, posY);
         }
 
         /// <summary>
@@ -103,6 +113,10 @@ namespace Engine.Services
             console.Draw(image, backgroundClolor, posX, posY);
         }
 
+
+        private static readonly Color inventoryItemBackground = Color.FromArgb(64, 0, 255, 0);
+        private static readonly Color inventoryTextBackground = Color.FromArgb(64, 0, 0, 0);
+
         /// <summary>
         /// Рисует инвентарь в игре
         /// </summary>
@@ -115,13 +129,13 @@ namespace Engine.Services
                 index++;
                 if (inventory.SelectedIndex == index)
                 {
-                    console.Draw(GetNormalizedText(item?.Title), Color.White, world.Map.SizeX + 2, 6);
-                    console.Draw(GetNormalizedText(GenerateItemDescription(item)), Color.White, world.Map.SizeX + 2, 7);
-                    DrawObject(item, world.Map.SizeX - 6 + index % 5, 1 + index / 5, Color.Green);
+                    console.Draw(item?.Title, Color.White, inventoryTextBackground, world.View.SizeX - 12, 6);
+                    console.Draw(GenerateItemDescription(item), Color.White, inventoryTextBackground, world.View.SizeX - 12, 7);
+                    DrawObject(item, world.View.SizeX - 6 + index % 5, 1 + index / 5, inventoryItemBackground);
                 }
                 else
                 {
-                    DrawObject(item, world.Map.SizeX - 6 + index % 5, 1 + index / 5, Color.Empty);
+                    DrawObject(item, world.View.SizeX - 6 + index % 5, 1 + index / 5, Color.Empty);
 
                 }
             }
@@ -129,18 +143,11 @@ namespace Engine.Services
 
         private void DrawPlayerCharacteristic()
         {
-            /*
             var player = world.Player;
-
-            var barLength = world.Player.HP / (world.Player.MaxHP / 10);
-            var emptyLength = 10 - barLength;
-            var progress = (string.Empty.PadRight(barLength, '█')).PadRight(10, '▒') + $" {world.Player.HP}/{world.Player.MaxHP}";
-
-            console.Draw(progress, Color.DarkRed, world.Map.SizeX + 2, 9);
-
-            var info = $"АТК: {world.Player.Damage} ЗАЩ: {world.Player.Defence}   ";
-            console.Draw(info, Color.White, world.Map.SizeX + 2, 11);
-            */
+            var damage = CalculationService.Instance.GetDamage(player);
+            var defence = CalculationService.Instance.GetDefence(player);
+            var text = $"Здоровье: {player.Characteristics.Health}/{player.Characteristics.MaxHealth}\nАТК: {damage} ЗАЩ: {defence}";
+            console.Draw(text, Color.DarkRed, world.View.SizeX - 6, world.View.SizeY - 2);
         }
 
         private string GenerateItemDescription(Item item)

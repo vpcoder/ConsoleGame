@@ -47,6 +47,11 @@ namespace GameEditor
         private Point mouseDownPoint = Point.Empty;
 
         /// <summary>
+        /// Текущий выбранный тип объектов
+        /// </summary>
+        private ObjectType selectedType = ObjectType.Tile;
+
+        /// <summary>
         /// Что мы сейчас делаем
         /// </summary>
         private Mode Mode = Mode.None;
@@ -93,11 +98,38 @@ namespace GameEditor
             console.KeyDown += Console_KeyDown;
             console.KeyUp += Console_KeyUp;
 
-            treeItems.AfterSelect += AfterSelect;
+            treeTiles.Click += UpdateSelect;
+            treeItems.Click += UpdateSelect;
+            treeNPC.Click += UpdateSelect;
+
             treeTiles.AfterSelect += AfterSelect;
+            treeItems.AfterSelect += AfterSelect;
             treeNPC.AfterSelect += AfterSelect;
 
             InitEditor();
+        }
+
+        private void UpdateSelect(object sender, EventArgs e)
+        {
+            string selected = null;
+            switch(selectedType)
+            {
+                case ObjectType.Tile:
+                    selected = treeTiles.SelectedNode?.Text;
+                    break;
+                case ObjectType.Item:
+                    selected = treeItems.SelectedNode?.Text;
+                    break;
+                case ObjectType.NPC:
+                    selected = treeNPC.SelectedNode?.Text;
+                    break;
+            }
+            if (selected == null)
+            {
+                this.selected = null;
+                return;
+            }
+            this.selected = ObjectProviderService.Instance.GetByName<ISprite>(selected);
         }
 
         private void ResizeMethod(object sender, EventArgs e)
@@ -119,7 +151,10 @@ namespace GameEditor
         {
             var selected = e.Node.Text;
             if (selected == null)
+            {
                 this.selected = null;
+                return;
+            }
             this.selected = ObjectProviderService.Instance.GetByName<ISprite>(selected);
         }
 
@@ -128,47 +163,84 @@ namespace GameEditor
             if (obj == null)
                 return;
 
-            if (brushSize == 1)
+            switch(selectedType)
             {
-                // Добавляем объект на карту
-                world.Map.Set(obj, layout, pos.X, pos.Y);
-            }
-            else
-            {
-                brushSize -= 1;
-                for (int x = -brushSize; x <= brushSize; x++)
-                {
-                    for (int y = -brushSize; y <= brushSize; y++)
+                case ObjectType.Tile:
+                case ObjectType.Item:
+                    if (brushSize == 1)
                     {
                         // Добавляем объект на карту
-                        world.Map.Set(obj, layout, pos.X + x, pos.Y + y);
+                        world.Map.Set(obj, layout, pos.X, pos.Y);
                     }
-                }
+                    else
+                    {
+                        brushSize -= 1;
+                        for (int x = -brushSize; x <= brushSize; x++)
+                        {
+                            for (int y = -brushSize; y <= brushSize; y++)
+                            {
+                                // Добавляем объект на карту
+                                world.Map.Set(obj, layout, pos.X + x, pos.Y + y);
+                            }
+                        }
+                    }
+                    break;
+                case ObjectType.NPC:
+                    if(GetNPC(pos) == null) // В этой точке ещё нет НПС
+                    {
+                        var newNpc = (INPC)Activator.CreateInstance(obj.GetType());
+                        newNpc.PosX = pos.X;
+                        newNpc.PosY = pos.Y;
+                        newNpc.Direction = Direction.Down;
+                        world.NPCs.Add(newNpc);
+                    }
+                    break;
             }
 
             MapService.Instance.DrawMap(world, console);
         }
 
+        private INPC GetNPC(Point pos)
+        {
+            foreach (var npc in world.NPCs)
+            {
+                if (npc.PosX == pos.X && npc.PosY == pos.Y)
+                    return npc;
+            }
+            return null;
+        }
+
         private void DeleteFromMatrix(int layout, Point pos, int brushSize)
         {
-            if (brushSize == 1)
+            switch (selectedType)
             {
-                // Убираем объект с карту
-                world.Map.Set(null, layout, pos.X, pos.Y);
-            }
-            else
-            {
-                brushSize -= 1;
-                for (int x = -brushSize; x <= brushSize; x++)
-                {
-                    for (int y = -brushSize; y <= brushSize; y++)
+
+                case ObjectType.Tile:
+                case ObjectType.Item:
+                    if (brushSize == 1)
                     {
                         // Убираем объект с карту
-                        world.Map.Set(null, layout, pos.X + x, pos.Y + y);
+                        world.Map.Set(null, layout, pos.X, pos.Y);
                     }
-                }
+                    else
+                    {
+                        brushSize -= 1;
+                        for (int x = -brushSize; x <= brushSize; x++)
+                        {
+                            for (int y = -brushSize; y <= brushSize; y++)
+                            {
+                                // Убираем объект с карту
+                                world.Map.Set(null, layout, pos.X + x, pos.Y + y);
+                            }
+                        }
+                    }
+                    break;
+                case ObjectType.NPC:
+                    var npc = GetNPC(pos);
+                    if(npc != null)
+                        world.NPCs.Remove(npc);
+                    break;
             }
-
             MapService.Instance.DrawMap(world, console);
         }
 
@@ -304,7 +376,7 @@ namespace GameEditor
             var npcList = ObjectProviderService.Instance.Get<INPC>(ObjectType.NPC);
             foreach (var npc in npcList)
             {
-                images.Images.Add(npc.ID, ImageFactory.Instance.Get(npc.ID) ?? emptyImage);
+                images.Images.Add(npc.ID, ImageFactory.Instance.Get(npc.ID, Direction.Down) ?? emptyImage);
                 treeNPC.Nodes.Add(new TreeNode(npc.GetType().FullName, globalImageIndex, globalImageIndex));
                 idToImageIndex.Add(npc.ID, globalImageIndex++);
             }
@@ -336,7 +408,7 @@ namespace GameEditor
 
             try
             {
-                Engine.Services.MapService.Instance.Save(world.Map, dialog.FileName);
+                Engine.Services.MapService.Instance.Save(world, dialog.FileName);
             }
             catch (Exception ex)
             {
@@ -363,6 +435,27 @@ namespace GameEditor
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void TabObjects_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selected = null;
+            switch (tabObjects.SelectedIndex)
+            {
+                case 0:
+                    selectedType = ObjectType.Tile;
+                    break;
+                case 1:
+                    selectedType = ObjectType.Item;
+                    break;
+                case 2:
+                    selectedType = ObjectType.NPC;
+                    break;
+                default:
+                    selectedType = ObjectType.Unknown;
+                    break;
+            }
+        }
+
     }
 
 }

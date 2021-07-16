@@ -38,6 +38,18 @@ namespace GameEditor
                         console.Draw(image, x, y);
                     }
                 }
+                if(layout == map.CenterLayout)
+                {
+                    foreach(var npc in world.NPCs)
+                    {
+                        var x = npc.PosX - world.View.PosX;
+                        var y = npc.PosY - world.View.PosY;
+
+                        var image = ImageFactory.Instance.Get(npc.ID, Direction.Up);
+
+                        console.Draw(image, x, y);
+                    }
+                }
             }
             ((Control)console).Refresh();
         }

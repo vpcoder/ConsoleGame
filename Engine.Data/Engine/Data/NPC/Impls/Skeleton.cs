@@ -1,15 +1,13 @@
-﻿using System;
-
-
+﻿
 namespace Engine.Data
 {
 
-    public class Skillet : NPC
+    public class Skeleton : NPC
     {
 
-        public Skillet()
+        public Skeleton()
         {
-            ID = "npc/skillet";
+            ID = "npc/skeleton";
             Name = "Скелет";
             Character = CharacterType.Barbarian;
 
@@ -17,8 +15,8 @@ namespace Engine.Data
             {
                 BaseDefence = 1,
                 BaseDamage = 1,
-                MaxHealth = 20,
-                Health = 20,
+                MaxHealth = 5,
+                Health = 5,
             };
 
             Armor = null;

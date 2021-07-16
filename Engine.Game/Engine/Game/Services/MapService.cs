@@ -21,9 +21,18 @@ namespace Engine.Services
     }
 
     [Serializable]
+    public class NpcItem
+    {
+        public Type Type { get; set; }
+        public int PosX { get; set; }
+        public int PosY { get; set; }
+    }
+
+    [Serializable]
     public class MapBody
     {
-        public Type[][,] Data;
+        public Type[][,] Data { get; set; }
+        public NpcItem[] NPCs { get; set; }
     }
 
     /// <summary>
@@ -53,8 +62,9 @@ namespace Engine.Services
         /// </summary>
         /// <param name="map">Мир, который нужно сохранить</param>
         /// <param name="mapName">Имя файла, в который нужно сохранить мир</param>
-        public void Save(Map map, string mapName)
+        public void Save(World world, string mapName)
         {
+            var map = world.Map;
             var serializator = new BinaryFormatter();
 
             var header = new MapHeader();
@@ -67,17 +77,18 @@ namespace Engine.Services
             using (var stream = new StreamWriter(new FileStream(mapName, FileMode.CreateNew)))
             {
                 serializator.Serialize(stream.BaseStream, header); // Записываем заголовок карты
-                serializator.Serialize(stream.BaseStream, ToBody(map)); // Записываем тело карты
+                serializator.Serialize(stream.BaseStream, ToBody(world)); // Записываем мир
             }
         }
 
         /// <summary>
         /// Вытаскивает матрицу карты, преобразуя в тело для записи в файл
         /// </summary>
-        /// <param name="map">Карта</param>
+        /// <param name="world">Мир</param>
         /// <returns>Тело карты для записи в файл</returns>
-        private MapBody ToBody(Map map)
+        private MapBody ToBody(World world)
         {
+            var map = world.Map;
             var body = new MapBody();
             body.Data = new Type[map.LayoutCount][,];
             for(int layout = 0; layout < map.LayoutCount; layout++)
@@ -91,6 +102,16 @@ namespace Engine.Services
                         body.Data[layout][x, y] = sprite?.GetType() ?? null;
                     }
                 }
+            }
+            body.NPCs = new NpcItem[world.NPCs.Count];
+            int index = 0;
+            foreach (var npc in world.NPCs)
+            {
+                var item = new NpcItem();
+                body.NPCs[index++] = item;
+                item.PosX = npc.PosX;
+                item.PosY = npc.PosY;
+                item.Type = npc.GetType();
             }
             return body;
         }
@@ -130,6 +151,7 @@ namespace Engine.Services
         public void Load(string mapName, World world)
         {
             Map map = null;
+            MapBody body;
             var serializator = new BinaryFormatter();
 
             using (var stream = new StreamReader(new FileStream(mapName, FileMode.Open)))
@@ -140,7 +162,7 @@ namespace Engine.Services
                 map.PlayerStartPosX = header.PlayerPosX;
                 map.PlayerStartPosY = header.PlayerPosY;
 
-                var body = (MapBody)serializator.Deserialize(stream.BaseStream); // Читаем тело карты
+                body = (MapBody)serializator.Deserialize(stream.BaseStream); // Читаем тело карты
                 WriteFromBody(body, map);
             }
 
@@ -149,14 +171,11 @@ namespace Engine.Services
 
             world.Map.ResizeFrom(map);
 
-            var npcs = new HashSet<INPC>();
-            foreach(var obj in map.GetAll()) // Перебираем все объекты в мире
+            foreach(var npcData in body.NPCs) // Перебираем все объекты в мире
             {
-                var npc = obj as INPC;
-
-                if (npc == null)
-                    continue;
-
+                var npc = (INPC)Activator.CreateInstance(npcData.Type);
+                npc.PosX = npcData.PosX;
+                npc.PosY = npcData.PosY;
                 world.NPCs.Add(npc); // Собираем НПС
             }
         }

@@ -28,7 +28,7 @@ namespace Engine
 
             foreach (var bullet in world.Bullets)
             {
-                var move = bullet.Direction.ToVector(); // Перемещаем все снаряды в мире
+                var move = bullet.Direction.ToVector(); // Перемещаем все снаряды в мире, согласно их направлению движения
                 bullet.PosX += move.X;
                 bullet.PosY += move.Y;
                 if(bullet.MovePath++ >= bullet.MoveMaxPath)

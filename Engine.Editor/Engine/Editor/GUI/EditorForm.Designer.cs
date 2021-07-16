@@ -33,9 +33,9 @@ namespace GameEditor
             this.mainLayout = new System.Windows.Forms.TableLayoutPanel();
             this.manu = new System.Windows.Forms.MenuStrip();
             this.menuItemFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemNew = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemLoad = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemSave = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuItemNew = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemDebug = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemRun = new System.Windows.Forms.ToolStripMenuItem();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
@@ -45,7 +45,10 @@ namespace GameEditor
             this.btnMove = new System.Windows.Forms.RadioButton();
             this.btnDelete = new System.Windows.Forms.RadioButton();
             this.btnAdd = new System.Windows.Forms.RadioButton();
+            this.lblBrushSize = new System.Windows.Forms.Label();
+            this.brushSize = new System.Windows.Forms.DomainUpDown();
             this.mainMapSplitter = new System.Windows.Forms.SplitContainer();
+            this.console = new Engine.Console.GraphicConsole();
             this.tabObjects = new System.Windows.Forms.TabControl();
             this.tabTile = new System.Windows.Forms.TabPage();
             this.treeTiles = new System.Windows.Forms.TreeView();
@@ -53,9 +56,6 @@ namespace GameEditor
             this.treeItems = new System.Windows.Forms.TreeView();
             this.tabNPC = new System.Windows.Forms.TabPage();
             this.treeNPC = new System.Windows.Forms.TreeView();
-            this.console = new Engine.Console.GraphicConsole();
-            this.brushSize = new System.Windows.Forms.DomainUpDown();
-            this.lblBrushSize = new System.Windows.Forms.Label();
             this.mainLayout.SuspendLayout();
             this.manu.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -113,6 +113,13 @@ namespace GameEditor
             this.menuItemFile.Size = new System.Drawing.Size(48, 16);
             this.menuItemFile.Text = "Файл";
             // 
+            // menuItemNew
+            // 
+            this.menuItemNew.Name = "menuItemNew";
+            this.menuItemNew.Size = new System.Drawing.Size(141, 22);
+            this.menuItemNew.Text = "Новая карта";
+            this.menuItemNew.Click += new System.EventHandler(this.MenuItemNew_Click);
+            // 
             // menuItemLoad
             // 
             this.menuItemLoad.Name = "menuItemLoad";
@@ -126,13 +133,6 @@ namespace GameEditor
             this.menuItemSave.Size = new System.Drawing.Size(141, 22);
             this.menuItemSave.Text = "Сохранить";
             this.menuItemSave.Click += new System.EventHandler(this.MenuItemSave_Click);
-            // 
-            // menuItemNew
-            // 
-            this.menuItemNew.Name = "menuItemNew";
-            this.menuItemNew.Size = new System.Drawing.Size(141, 22);
-            this.menuItemNew.Text = "Новая карта";
-            this.menuItemNew.Click += new System.EventHandler(this.MenuItemNew_Click);
             // 
             // menuItemDebug
             // 
@@ -230,6 +230,32 @@ namespace GameEditor
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.CheckedChanged += new System.EventHandler(this.BtnAdd_CheckedChanged);
             // 
+            // lblBrushSize
+            // 
+            this.lblBrushSize.Location = new System.Drawing.Point(297, 10);
+            this.lblBrushSize.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.lblBrushSize.Name = "lblBrushSize";
+            this.lblBrushSize.Size = new System.Drawing.Size(81, 23);
+            this.lblBrushSize.TabIndex = 4;
+            this.lblBrushSize.Text = "Размер кисти:";
+            this.lblBrushSize.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // brushSize
+            // 
+            this.brushSize.Items.Add("1");
+            this.brushSize.Items.Add("2");
+            this.brushSize.Items.Add("3");
+            this.brushSize.Items.Add("4");
+            this.brushSize.Items.Add("5");
+            this.brushSize.Items.Add("6");
+            this.brushSize.Items.Add("7");
+            this.brushSize.Location = new System.Drawing.Point(384, 11);
+            this.brushSize.Margin = new System.Windows.Forms.Padding(3, 7, 3, 3);
+            this.brushSize.Name = "brushSize";
+            this.brushSize.Size = new System.Drawing.Size(46, 20);
+            this.brushSize.TabIndex = 3;
+            this.brushSize.Text = "1";
+            // 
             // mainMapSplitter
             // 
             this.mainLayout.SetColumnSpan(this.mainMapSplitter, 2);
@@ -248,6 +274,18 @@ namespace GameEditor
             this.mainMapSplitter.SplitterDistance = 594;
             this.mainMapSplitter.TabIndex = 5;
             // 
+            // console
+            // 
+            this.console.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.console.BackColor = System.Drawing.Color.Black;
+            this.console.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.console.Font = new System.Drawing.Font("Arial", 9F);
+            this.console.Location = new System.Drawing.Point(0, 0);
+            this.console.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
+            this.console.Name = "console";
+            this.console.Size = new System.Drawing.Size(594, 524);
+            this.console.TabIndex = 0;
+            // 
             // tabObjects
             // 
             this.tabObjects.Alignment = System.Windows.Forms.TabAlignment.Right;
@@ -262,6 +300,7 @@ namespace GameEditor
             this.tabObjects.SelectedIndex = 0;
             this.tabObjects.Size = new System.Drawing.Size(299, 524);
             this.tabObjects.TabIndex = 3;
+            this.tabObjects.SelectedIndexChanged += new System.EventHandler(this.TabObjects_SelectedIndexChanged);
             // 
             // tabTile
             // 
@@ -318,44 +357,6 @@ namespace GameEditor
             this.treeNPC.Name = "treeNPC";
             this.treeNPC.Size = new System.Drawing.Size(272, 516);
             this.treeNPC.TabIndex = 0;
-            // 
-            // console
-            // 
-            this.console.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.console.BackColor = System.Drawing.Color.Black;
-            this.console.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.console.Font = new System.Drawing.Font("Arial", 18F);
-            this.console.Location = new System.Drawing.Point(0, 0);
-            this.console.Margin = new System.Windows.Forms.Padding(0);
-            this.console.Name = "console";
-            this.console.Size = new System.Drawing.Size(594, 524);
-            this.console.TabIndex = 0;
-            // 
-            // brushSize
-            // 
-            this.brushSize.Items.Add("1");
-            this.brushSize.Items.Add("2");
-            this.brushSize.Items.Add("3");
-            this.brushSize.Items.Add("4");
-            this.brushSize.Items.Add("5");
-            this.brushSize.Items.Add("6");
-            this.brushSize.Items.Add("7");
-            this.brushSize.Location = new System.Drawing.Point(384, 11);
-            this.brushSize.Margin = new System.Windows.Forms.Padding(3, 7, 3, 3);
-            this.brushSize.Name = "brushSize";
-            this.brushSize.Size = new System.Drawing.Size(46, 20);
-            this.brushSize.TabIndex = 3;
-            this.brushSize.Text = "1";
-            // 
-            // lblBrushSize
-            // 
-            this.lblBrushSize.Location = new System.Drawing.Point(297, 10);
-            this.lblBrushSize.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
-            this.lblBrushSize.Name = "lblBrushSize";
-            this.lblBrushSize.Size = new System.Drawing.Size(81, 23);
-            this.lblBrushSize.TabIndex = 4;
-            this.lblBrushSize.Text = "Размер кисти:";
-            this.lblBrushSize.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // EditorForm
             // 

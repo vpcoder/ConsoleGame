@@ -110,7 +110,7 @@ namespace Engine.Console
                 Height = Math.Max(Height, 10);
                 try
                 {
-                    var fontSize = CellSizeY;
+                    var fontSize = CellSizeY * 0.5f;
                     bufferedImage = new Bitmap(CurrentWidth, CurrentHeight);
                     if (graphics != null)
                         graphics.Dispose();

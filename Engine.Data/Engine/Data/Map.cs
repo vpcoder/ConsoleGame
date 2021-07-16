@@ -169,7 +169,7 @@ namespace Engine.Data
         {
             if(!isIntersection(x,y))
                 return false;
-            for(int layout = CenterLayout; layout<=0; layout--)
+            for(int layout = 0; layout < CenterLayout; layout++)
             {
                 var sprite = Matrix[layout][x, y];
                 if(sprite == null)
