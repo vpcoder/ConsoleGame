@@ -1,7 +1,6 @@
 ﻿using Engine.Data;
-using Engine.Data.Impls;
-using System;
 using System.Windows.Forms;
+using View = Engine.Data.View;
 
 namespace Engine.Services
 {
@@ -13,6 +12,10 @@ namespace Engine.Services
     {
 
         private World world;
+        private Player player;
+        private View view;
+        private Map map;
+        private IInventory inventory;
 
         /// <summary>
         /// Конструктор, срабатывает при создании экземпляра сервиса управления, принемает мир, в рамках которого мы управляем игроком
@@ -20,6 +23,10 @@ namespace Engine.Services
         public ControllService(World world)
         {
             this.world = world;
+            this.map = world.Map;
+            this.player = world.Player;
+            this.inventory = player.Inventory;
+            this.view = world.View;
         }
 
         /// <summary>
@@ -29,62 +36,93 @@ namespace Engine.Services
         public void Controll(KeyEventArgs e)
         {
             var keyCode = e.KeyCode;
-            int playerPosX = world.Player.PosX;
-            int playerPosY = world.Player.PosY;
+            int playerPosX = player.PosX;
+            int playerPosY = player.PosY;
+
             switch (keyCode)
             {
                 case Keys.W:
-                    if(world.Map.IsWalkable(playerPosX, playerPosY - 1))
+                    if(player.Direction != Direction.Up)
                     {
-                        world.Player.PosY -= 1; // Двигаем персонажа
-                        world.View.PosY -= 1; // Двигаем рамку
+                        player.Direction = Direction.Up;
+                        break;
+                    }
+                    if(map.IsWalkable(playerPosX, playerPosY - 1))
+                    {
+                        player.PosY -= 1; // Двигаем персонажа
+
+                        var delta = player.PosY - view.PosY;
+                        if(delta < view.SizeY / 2 && view.PosY > 0)
+                            view.PosY -= 1; // Двигаем рамку
                     }
                     break;
                 case Keys.A:
-                    if (world.Map.IsWalkable(playerPosX - 1, playerPosY))
+                    if (player.Direction != Direction.Left)
                     {
-                        world.Player.PosX -= 1;
-                        world.View.PosX -= 1;
+                        player.Direction = Direction.Left;
+                        break;
+                    }
+                    if (map.IsWalkable(playerPosX - 1, playerPosY))
+                    {
+                        player.PosX -= 1;
+
+                        var delta = player.PosX - view.PosX;
+                        if (delta < view.SizeX / 2 && view.PosX > 0)
+                            view.PosX -= 1; // Двигаем рамку
                     }
                     break;
                 case Keys.S:
-                    if (world.Map.IsWalkable(playerPosX, playerPosY + 1))
+                    if (player.Direction != Direction.Down)
                     {
-                        world.Player.PosY += 1;
-                        world.View.PosY += 1;
+                        player.Direction = Direction.Down;
+                        break;
+                    }
+                    if (map.IsWalkable(playerPosX, playerPosY + 1))
+                    {
+                        player.PosY += 1;
+
+                        var delta = player.PosY - view.PosY;
+                        if (delta > view.SizeY / 2 && view.PosY < map.SizeY - view.SizeY - 1)
+                            view.PosY -= 1; // Двигаем рамку
                     }
                     break;
                 case Keys.D:
-                    if (world.Map.IsWalkable(playerPosX + 1, playerPosY))
+                    if (player.Direction != Direction.Right)
                     {
-                        world.Player.PosX += 1;
-                        world.View.PosX += 1;
+                        player.Direction = Direction.Right;
+                        break;
+                    }
+                    if (map.IsWalkable(playerPosX + 1, playerPosY))
+                    {
+                        player.PosX += 1;
+
+                        var delta = player.PosX - view.PosX;
+                        if (delta > view.SizeX / 2 && view.PosX < map.SizeX - view.SizeX - 1)
+                            view.PosX -= 1; // Двигаем рамку
                     }
                     break;
 
                 case Keys.Left:
-                    world.Player.Inventory.SelectedIndex--;
-                    if (world.Player.Inventory.SelectedIndex < 0)
-                        world.Player.Inventory.SelectedIndex = world.Player.Inventory.Items.Length - 1;
+                    inventory.SelectedIndex--;
+                    if (inventory.SelectedIndex < 0)
+                        inventory.SelectedIndex = 0;
                     break;
                 case Keys.Right:
-                    world.Player.Inventory.SelectedIndex++;
-                    if (world.Player.Inventory.SelectedIndex >= world.Player.Inventory.Items.Length)
-                        world.Player.Inventory.SelectedIndex = 0;
+                    inventory.SelectedIndex++;
+                    if (inventory.SelectedIndex >= inventory.InventoryMaxSize)
+                        inventory.SelectedIndex = inventory.InventoryMaxSize - 1;
                     break;
                 case Keys.Up:
-                    world.Player.Inventory.SelectedIndex -= 5;
-                    if (world.Player.Inventory.SelectedIndex < 0)
-                        world.Player.Inventory.SelectedIndex += world.Player.Inventory.Items.Length;
+                    if (inventory.SelectedIndex - 5 >= 0)
+                        inventory.SelectedIndex -= 5;
                     break;
                 case Keys.Down:
-                    world.Player.Inventory.SelectedIndex += 5;
-                    if (world.Player.Inventory.SelectedIndex >= world.Player.Inventory.Items.Length)
-                        world.Player.Inventory.SelectedIndex -= world.Player.Inventory.Items.Length;
+                    if (inventory.SelectedIndex + 5 < inventory.InventoryMaxSize)
+                        inventory.SelectedIndex += 5;
                     break;
 
                 case Keys.E:
-                    var selectedItem = world.Player.Inventory.Selected;
+                    var selectedItem = inventory.Selected;
                     if(selectedItem == null)
                     {
                         break;
@@ -100,24 +138,24 @@ namespace Engine.Services
                         }
                         else
                         {
-                            world.Player.Inventory.Selected = null;
+                            inventory.Selected = null;
                         }
                         break;
                     }
                     if (selectedItem is Armor) // Броня?
                     {
                         var armor = selectedItem as Armor;
-                        var tmpArmor = world.Player.Armor;
-                        world.Player.Armor = armor;
-                        world.Player.Inventory.Selected = tmpArmor;
+                        var tmpArmor = player.Armor;
+                        player.Armor = armor;
+                        inventory.Selected = tmpArmor;
                         break;
                     }
                     if (selectedItem is Weapon) // Оружие?
                     {
                         var weapon = selectedItem as Weapon;
-                        var tmpWeapon = world.Player.Weapon;
-                        world.Player.Weapon = weapon;
-                        world.Player.Inventory.Selected = tmpWeapon;
+                        var tmpWeapon = player.Weapon;
+                        player.Weapon = weapon;
+                        inventory.Selected = tmpWeapon;
                         break;
                     }
                     // Непонятно что за предмет, возможно ошибка в коде?

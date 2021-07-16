@@ -11,11 +11,12 @@ namespace Engine
     {
         private static int globalFps = 0;
 
-        private Map        map;
-        private World      world;
+        private World world;
 
-        private DrawService drawService;
+        private DrawService     drawService;
         private ControllService controllService;
+        private AIService       aiService;
+        private BattleService   battleService;
 
         public GameForm()
         {
@@ -46,26 +47,23 @@ namespace Engine
 
             world = new World();
             MapService.Instance.Load("maps/map.dat", world);
+            world.View.SizeX = console.SizeX;
+            world.View.SizeY = console.SizeY;
 
-            map = world.Map;
-            world.Player.PosX = map.PlayerStartPosX;
-            world.Player.PosY = map.PlayerStartPosY;
-            world.Player.Inventory.Items[0] = new IronSword(); // Добавляем предметы в инвентарь
-            world.Player.Inventory.Items[1] = new HealtPotion();
-            world.Player.Inventory.Items[1].StackSize = 10;
-            world.Player.Inventory.Items[2] = new IronArmor();
-            world.Player.Inventory.Items[3] = new ClothArmor();
-            world.Player.Inventory.Items[4] = new BronzeArmor();
-            world.Player.Inventory.Items[5] = new PowerPotion();
-            world.Player.Inventory.Items[5].StackSize = 8;
-            world.Player.Inventory.Items[6] = new Apple();
-            world.Player.Inventory.Items[6].StackSize = 5;
-            world.Player.Inventory.Items[7] = new PowerFruit();
-            world.Player.Inventory.Items[7].StackSize = 7;
-            world.Player.Inventory.Items[9] = new Katana();
+            world.Player.Inventory.TryAddItem(new IronSword()); // Добавляем предметы в инвентарь
+            world.Player.Inventory.TryAddItem(new HealtPotion(), 10);
+            world.Player.Inventory.TryAddItem(new IronArmor());
+            world.Player.Inventory.TryAddItem(new ClothArmor());
+            world.Player.Inventory.TryAddItem(new BronzeArmor());
+            world.Player.Inventory.TryAddItem(new PowerPotion(), 8);
+            world.Player.Inventory.TryAddItem(new Apple(), 5);
+            world.Player.Inventory.TryAddItem(new PowerFruit(), 7);
+            world.Player.Inventory.TryAddItem(new Katana());
 
             drawService = new DrawService(world, console);
             controllService = new ControllService(world);
+            aiService = new AIService(world);
+            battleService = new BattleService(world);
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)
@@ -78,6 +76,10 @@ namespace Engine
         private void Runtime(object sender, EventArgs e)
         {
             globalFps++;
+
+            aiService.DoIteration();
+            battleService.DoIteration();
+
             drawService.Draw();
             console.Refresh();
         }

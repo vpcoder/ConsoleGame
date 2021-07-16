@@ -144,6 +144,9 @@ namespace Engine.Services
                 WriteFromBody(body, map);
             }
 
+            world.Player.PosX = map.PlayerStartPosX;
+            world.Player.PosY = map.PlayerStartPosY;
+
             world.Map.ResizeFrom(map);
 
             var npcs = new HashSet<INPC>();

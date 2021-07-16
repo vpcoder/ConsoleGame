@@ -18,6 +18,22 @@ namespace Engine.Console
         private Image bufferedImage;
         private Graphics graphics;
 
+        public int SizeX
+        {
+            get
+            {
+                return settings.ConsoleResolutionX;
+            }
+        }
+
+        public int SizeY
+        {
+            get
+            {
+                return settings.ConsoleResolutionY;
+            }
+        }
+
         public int ViewWidth
         {
             get

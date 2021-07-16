@@ -2,7 +2,10 @@
 namespace Engine.Data
 {
 
-    public abstract class MeleeWeapon : Weapon
+    /// <summary>
+    /// Базовый класс оружия ближнего боя
+    /// </summary>
+    public abstract class MeleeWeapon : Weapon, IWeaponMelee
     {
 
     }

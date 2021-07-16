@@ -39,14 +39,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\Data\Items\Bullet\Base\Bullet.cs" />
     <Compile Include="Engine\Data\Items\Armor\Base\Armor.cs" />
     <Compile Include="Engine\Data\Items\Armor\Base\IArmor.cs" />
+    <Compile Include="Engine\Data\Items\Bullet\Base\IArrow.cs" />
+    <Compile Include="Engine\Data\Items\Bullet\Impls\WoodenArrow.cs" />
     <Compile Include="Engine\Data\Items\IItem.cs" />
     <Compile Include="Engine\Data\Items\Item.cs" />
     <Compile Include="Engine\Data\Items\Used\Impls\Apple.cs" />
     <Compile Include="Engine\Data\Items\Armor\Impls\BronzeArmor.cs" />
     <Compile Include="Engine\Data\Items\Armor\Impls\ClothArmor.cs" />
     <Compile Include="Engine\Data\Items\Weapon\Base\IWeapon.cs" />
+    <Compile Include="Engine\Data\Items\Weapon\Base\IWeaponMelee.cs" />
+    <Compile Include="Engine\Data\Items\Weapon\Base\IWeaponRanged.cs" />
     <Compile Include="Engine\Data\Items\Weapon\Impls\BrokenBone.cs" />
     <Compile Include="Engine\Data\Items\Weapon\Impls\DavidsSling.cs" />
     <Compile Include="Engine\Data\Items\Weapon\Impls\ElvenBow.cs" />
@@ -63,7 +68,7 @@
     <Compile Include="Engine\Data\Items\Weapon\Base\RangedWeapon.cs" />
     <Compile Include="Engine\Data\Items\Weapon\Base\Weapon.cs" />
     <Compile Include="Engine\Data\Map.cs" />
-    <Compile Include="Engine\Data\Bullet\IBullet.cs" />
+    <Compile Include="Engine\Data\Items\Bullet\Base\IBullet.cs" />
     <Compile Include="Engine\Data\Objects\Direction.cs" />
     <Compile Include="Engine\Data\Objects\ISprite.cs" />
     <Compile Include="Engine\Data\NPC\Base\INPC.cs" />
@@ -98,5 +103,6 @@
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -7,6 +7,8 @@ namespace Engine.Data
 
         public ElvenBow()
         {
+            this.Bullet = typeof(IArrow); // стреляет стрелами
+
             this.IsQuestItem = false;
             this.MaxStackSize = 1;
             this.StackSize = 1;

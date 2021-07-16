@@ -53,6 +53,13 @@ namespace Engine.Services
                         }
                     }
                 }
+
+                if(layout == map.CenterLayout) // Средний слой
+                {
+                    DrawBullets();
+                    DrawCharacter(world.Player);
+                    DrawNPCs();
+                }
             }
             DrawInventory();
             DrawPlayerCharacteristic();
@@ -60,16 +67,28 @@ namespace Engine.Services
             console.Draw("input:", Color.White, 0, world.Map.SizeY + 1);
         }
 
-        public void DrawPath(List<Node> path)
+        private void DrawBullets()
         {
-            if (path == null)
-            {
-                return;
-            }
-            foreach (var node in path)
-            {
-                console.Draw("▒", Color.Green, node.Position.X, node.Position.Y);
-            }
+            foreach (var bullet in world.Bullets)
+                DrawBullet(bullet);
+        }
+
+        private void DrawBullet(IBullet bullet)
+        {
+            var sprite = ImageFactory.Instance.Get(bullet.ID, bullet.Direction);
+            console.Draw(sprite, bullet.PosX, bullet.PosY);
+        }
+
+        private void DrawNPCs()
+        {
+            foreach (var npc in world.NPCs)
+                DrawCharacter(npc);
+        }
+
+        private void DrawCharacter(ICharacter character)
+        {
+            var sprite = ImageFactory.Instance.Get(character.ID, character.Direction);
+            console.Draw(sprite, character.PosX, character.PosY);
         }
 
         /// <summary>
@@ -98,11 +117,11 @@ namespace Engine.Services
                 {
                     console.Draw(GetNormalizedText(item?.Title), Color.White, world.Map.SizeX + 2, 6);
                     console.Draw(GetNormalizedText(GenerateItemDescription(item)), Color.White, world.Map.SizeX + 2, 7);
-                    DrawObject(item, world.Map.SizeX + 2 + index % 5, 1 + index / 5, Color.Green);
+                    DrawObject(item, world.Map.SizeX - 6 + index % 5, 1 + index / 5, Color.Green);
                 }
                 else
                 {
-                    DrawObject(item, world.Map.SizeX + 2 + index % 5, 1 + index / 5, Color.Empty);
+                    DrawObject(item, world.Map.SizeX - 6 + index % 5, 1 + index / 5, Color.Empty);
 
                 }
             }

@@ -6,6 +6,11 @@ namespace Engine.Data
     {
 
         /// <summary>
+        /// Направление персонажа
+        /// </summary>
+        public Direction Direction { get; set; } = Direction.Down;
+
+        /// <summary>
         /// Параметры существа
         /// </summary>
         public ICharacteristics Characteristics { get; set; } = new Characteristics();

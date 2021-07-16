@@ -9,6 +9,11 @@ namespace Engine.Data
     {
 
         /// <summary>
+        /// Урон снаряда
+        /// </summary>
+        int Damage { get; set; }
+
+        /// <summary>
         /// Направление движения снаряда
         /// </summary>
         Direction Direction { get; set; }

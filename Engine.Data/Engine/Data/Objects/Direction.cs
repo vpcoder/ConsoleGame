@@ -9,11 +9,6 @@ namespace Engine.Data
     {
 
         /// <summary>
-        /// Пустой вектор
-        /// </summary>
-        None,
-
-        /// <summary>
         /// Влево
         /// </summary>
         Left,
@@ -21,7 +16,7 @@ namespace Engine.Data
         /// <summary>
         /// Вверх
         /// </summary>
-        Top,
+        Up,
 
         /// <summary>
         /// Вправо
@@ -31,7 +26,7 @@ namespace Engine.Data
         /// <summary>
         /// Вниз
         /// </summary>
-        Bottom,
+        Down,
 
     };
 
@@ -44,8 +39,8 @@ namespace Engine.Data
             {
                 case Direction.Left:   return new Vector2(-1, 0);
                 case Direction.Right:  return new Vector2(+1, 0);
-                case Direction.Top:    return new Vector2(0, -1);
-                case Direction.Bottom: return new Vector2(0, +1);
+                case Direction.Up:    return new Vector2(0, -1);
+                case Direction.Down: return new Vector2(0, +1);
                 default:
                     return Vector2.Zero;
             }

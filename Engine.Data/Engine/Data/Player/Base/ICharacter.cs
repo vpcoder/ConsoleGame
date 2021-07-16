@@ -5,6 +5,12 @@ namespace Engine.Data
 
     public interface ICharacter : ISprite
     {
+
+        /// <summary>
+        /// Направление персонажа
+        /// </summary>
+        Direction Direction { get; set; }
+
         /// <summary>
         /// Параметры существа
         /// </summary>
