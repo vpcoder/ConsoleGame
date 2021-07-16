@@ -34,6 +34,8 @@ namespace Engine.Services
 
         #endregion
 
+        #region Hidden Fields
+
         /// <summary>
         /// Настройки
         /// </summary>
@@ -47,13 +49,19 @@ namespace Engine.Services
         /// <summary>
         /// Направленные спрайты
         /// </summary>
-        private IDictionary<Direction,IDictionary<string,Image>> directionalData = new Dictionary<Direction, IDictionary<string, Image>>();
+        private IDictionary<Direction,IDictionary<string, Image>> directionalData = new Dictionary<Direction, IDictionary<string, Image>>();
 
         /// <summary>
         /// Билдер для идентификаторов картинок
         /// </summary>
         private StringBuilder builder = new StringBuilder();
 
+        #endregion
+
+        /// <summary>
+        /// Вовращает простой спрайт
+        /// </summary>
+        /// <param name="id">Идентификатор спрайта</param>
         public Image Get(string id)
         {
             Image tmpImage = null;
@@ -73,19 +81,11 @@ namespace Engine.Services
             return tmpImage;
         }
 
-        private string GetPath(string id)
-        {
-            builder.Clear();
-#if DEBUG
-            builder.Append(settings.ImagesPath);
-#else
-            builder.Append("images/");
-#endif
-            builder.Append(id);
-            builder.Append(".png");
-            return builder.ToString();
-        }
-
+        /// <summary>
+        /// Возвращает направленный спрайт
+        /// </summary>
+        /// <param name="id">Идентификатор спрайта</param>
+        /// <param name="direction">Направление спрайта</param>
         public Image Get(string id, Direction direction)
         {
             Image tmpImage = null;
@@ -104,6 +104,21 @@ namespace Engine.Services
             return tmpImage;
         }
 
+        #region Hidden Methods
+
+        private string GetPath(string id)
+        {
+            builder.Clear();
+#if DEBUG
+            builder.Append(settings.ImagesPath);
+#else
+            builder.Append("images/");
+#endif
+            builder.Append(id);
+            builder.Append(".png");
+            return builder.ToString();
+        }
+
         private string GetPath(string id, Direction direction)
         {
             builder.Clear();
@@ -118,6 +133,8 @@ namespace Engine.Services
             builder.Append(".png");
             return builder.ToString();
         }
+
+        #endregion
 
     }
 

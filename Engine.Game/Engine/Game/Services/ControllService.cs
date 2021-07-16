@@ -35,71 +35,19 @@ namespace Engine.Services
         /// <param name="key">Что сделал игрок</param>
         public void Controll(KeyEventArgs e)
         {
-            var keyCode = e.KeyCode;
-            int playerPosX = player.PosX;
-            int playerPosY = player.PosY;
-
-            switch (keyCode)
+            switch (e.KeyCode)
             {
                 case Keys.W:
-                    if(player.Direction != Direction.Up)
-                    {
-                        player.Direction = Direction.Up;
-                        break;
-                    }
-                    if(IsWalkable(playerPosX, playerPosY - 1))
-                    {
-                        player.PosY -= 1; // Двигаем персонажа
-
-                        var delta = player.PosY - view.PosY;
-                        if(delta < view.SizeY / 2 && view.PosY > 0)
-                            view.PosY -= 1; // Двигаем рамку
-                    }
+                    DoMove(Direction.Up);
                     break;
                 case Keys.A:
-                    if (player.Direction != Direction.Left)
-                    {
-                        player.Direction = Direction.Left;
-                        break;
-                    }
-                    if (IsWalkable(playerPosX - 1, playerPosY))
-                    {
-                        player.PosX -= 1;
-
-                        var delta = player.PosX - view.PosX;
-                        if (delta < view.SizeX / 2 && view.PosX > 0)
-                            view.PosX -= 1; // Двигаем рамку
-                    }
+                    DoMove(Direction.Left);
                     break;
                 case Keys.S:
-                    if (player.Direction != Direction.Down)
-                    {
-                        player.Direction = Direction.Down;
-                        break;
-                    }
-                    if (IsWalkable(playerPosX, playerPosY + 1))
-                    {
-                        player.PosY += 1;
-
-                        var delta = player.PosY - view.PosY;
-                        if (delta > view.SizeY / 2 && view.PosY < map.SizeY - view.SizeY)
-                            view.PosY += 1; // Двигаем рамку
-                    }
+                    DoMove(Direction.Down);
                     break;
                 case Keys.D:
-                    if (player.Direction != Direction.Right)
-                    {
-                        player.Direction = Direction.Right;
-                        break;
-                    }
-                    if (IsWalkable(playerPosX + 1, playerPosY))
-                    {
-                        player.PosX += 1;
-
-                        var delta = player.PosX - view.PosX;
-                        if (delta > view.SizeX / 2 && view.PosX < map.SizeX - view.SizeX)
-                            view.PosX += 1; // Двигаем рамку
-                    }
+                    DoMove(Direction.Right);
                     break;
 
                 case Keys.Left:
@@ -122,45 +70,93 @@ namespace Engine.Services
                     break;
 
                 case Keys.E:
-                    var selectedItem = inventory.Selected;
-                    if(selectedItem == null)
-                    {
-                        break;
-                    }
-
-                    if (selectedItem is UsedItem) // Используемые предметы?
-                    {
-                        var usedItem = selectedItem as UsedItem;
-                        usedItem.Use(world);
-                        if (selectedItem.StackSize != 1)
-                        {
-                            selectedItem.StackSize -= 1;
-                        }
-                        else
-                        {
-                            inventory.Selected = null;
-                        }
-                        break;
-                    }
-                    if (selectedItem is Armor) // Броня?
-                    {
-                        var armor = selectedItem as Armor;
-                        var tmpArmor = player.Armor;
-                        player.Armor = armor;
-                        inventory.Selected = tmpArmor;
-                        break;
-                    }
-                    if (selectedItem is Weapon) // Оружие?
-                    {
-                        var weapon = selectedItem as Weapon;
-                        var tmpWeapon = player.Weapon;
-                        player.Weapon = weapon;
-                        inventory.Selected = tmpWeapon;
-                        break;
-                    }
-                    // Непонятно что за предмет, возможно ошибка в коде?
+                    DoUseItem(inventory.Selected);
                     break;
             }
+        }
+
+        private void DoMove(Direction direction)
+        {
+            var vector = direction.ToVector();
+
+            var playerPosX = player.PosX + vector.X;
+            var playerPosY = player.PosY + vector.Y;
+
+            if (player.Direction != direction)
+            {
+                player.Direction = direction;
+                return;
+            }
+
+            if (IsWalkable(playerPosX, playerPosY))
+            {
+                // Двигаем персонажа
+                player.PosX += vector.X;
+                player.PosX += vector.Y;
+
+                // Двигаем рамку
+                var deltaX = player.PosX - view.PosX;
+                var deltaY = player.PosY - view.PosY;
+
+                if (vector.X < 0 && deltaX < view.SizeX / 2 && view.PosX > 0)
+                {
+                    view.PosX -= 1;
+                    return;
+                }
+
+                if (vector.X > 0 && deltaX > view.SizeX / 2 && view.PosX < map.SizeX - view.SizeX) { 
+                    view.PosX += 1;
+                    return;
+                }
+
+                if (vector.Y < 0 && deltaY > view.SizeY / 2 && view.PosY > 0) { 
+                    view.PosY -= 1;
+                    return;
+                }
+
+                if (vector.Y > 0 && deltaY > view.SizeY / 2 && view.PosY < map.SizeY - view.SizeY) { 
+                    view.PosY += 1;
+                    return;
+                }
+            }
+        }
+
+        private void DoUseItem(IItem selectedItem)
+        {
+            if (selectedItem == null)
+                return;
+
+            if (selectedItem is IUsedItem) // Используемые предметы?
+            {
+                var usedItem = selectedItem as IUsedItem;
+                usedItem.Use(world);
+                if (selectedItem.StackSize != 1)
+                {
+                    selectedItem.StackSize -= 1;
+                }
+                else
+                {
+                    inventory.Selected = null;
+                }
+                return;
+            }
+            if (selectedItem is IArmor) // Броня?
+            {
+                var armor = selectedItem as IArmor;
+                var tmpArmor = player.Armor;
+                player.Armor = armor;
+                inventory.Selected = tmpArmor;
+                return;
+            }
+            if (selectedItem is IWeapon) // Оружие?
+            {
+                var weapon = selectedItem as IWeapon;
+                var tmpWeapon = player.Weapon;
+                player.Weapon = weapon;
+                inventory.Selected = tmpWeapon;
+                return;
+            }
+            // Непонятно что за предмет, возможно ошибка в коде?
         }
 
         private bool IsWalkable(int posX, int posY)
