@@ -137,7 +137,6 @@ namespace Engine.Services
                         }
                         var instance = (ISprite)Activator.CreateInstance(type);
                         map.Set(instance, layout, x, y);
-                        PostCreateSprite(instance);
                     }
                 }
             }
@@ -176,19 +175,10 @@ namespace Engine.Services
                 var npc = (INPC)Activator.CreateInstance(npcData.Type);
                 npc.PosX = npcData.PosX;
                 npc.PosY = npcData.PosY;
+                npc.IntrestingPoint = new Vector2(npc.PosX, npc.PosY);
+                npc.NextPoint = npc.IntrestingPoint;
                 world.NPCs.Add(npc); // Собираем НПС
             }
-        }
-
-        public void PostCreateSprite(ISprite sprite)
-        {
-            var npc = sprite as INPC;
-
-            if (npc == null)
-                return;
-
-            // При инициализации точка интереса у НПС совпадает с местоположением
-            npc.IntrestingPoint = new Vector2(npc.PosX, npc.PosY);
         }
 
     }

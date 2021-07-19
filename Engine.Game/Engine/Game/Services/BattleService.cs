@@ -11,7 +11,7 @@ namespace Engine
 
         private IList<IBullet> removeList = new List<IBullet>(50);
 
-        private long timestamp = 0;
+        private double timestamp = 0;
 
         public BattleService(World world)
         {
@@ -22,7 +22,7 @@ namespace Engine
         {
             var tmpTime = TimeService.Instance.Time;
 
-            if (TimeService.Instance.GetMills(tmpTime - timestamp) < 100) // Логика отрабатывает не чаще чем раз в 100 миллисекунд
+            if (tmpTime - timestamp < 200) // Логика отрабатывает не чаще чем раз в 100 миллисекунд
                 return;
             timestamp = tmpTime;
 

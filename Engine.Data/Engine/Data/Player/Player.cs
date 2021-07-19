@@ -11,6 +11,7 @@ namespace Engine.Data
         public Player()
         {
             this.ID = "player/character";
+            this.CharacterType = CharacterType.Human;
         }
 
     }

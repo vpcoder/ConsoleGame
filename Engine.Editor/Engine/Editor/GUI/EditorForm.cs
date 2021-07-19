@@ -44,7 +44,7 @@ namespace GameEditor
         private ImageList images = new ImageList();
         private World world;
 
-        private Point mouseDownPoint = Point.Empty;
+        private Vector2 mouseDownPoint = Vector2.Empty;
 
         /// <summary>
         /// Текущий выбранный тип объектов
@@ -158,7 +158,7 @@ namespace GameEditor
             this.selected = ObjectProviderService.Instance.GetByName<ISprite>(selected);
         }
 
-        private void AddToMatrix(int layout, Point pos, ISprite obj, int brushSize)
+        private void AddToMatrix(int layout, Vector2 pos, ISprite obj, int brushSize)
         {
             if (obj == null)
                 return;
@@ -189,8 +189,7 @@ namespace GameEditor
                     if(GetNPC(pos) == null) // В этой точке ещё нет НПС
                     {
                         var newNpc = (INPC)Activator.CreateInstance(obj.GetType());
-                        newNpc.PosX = pos.X;
-                        newNpc.PosY = pos.Y;
+                        newNpc.Move(pos);
                         newNpc.Direction = Direction.Down;
                         world.NPCs.Add(newNpc);
                     }
@@ -200,7 +199,7 @@ namespace GameEditor
             MapService.Instance.DrawMap(world, console);
         }
 
-        private INPC GetNPC(Point pos)
+        private INPC GetNPC(Vector2 pos)
         {
             foreach (var npc in world.NPCs)
             {
@@ -210,7 +209,7 @@ namespace GameEditor
             return null;
         }
 
-        private void DeleteFromMatrix(int layout, Point pos, int brushSize)
+        private void DeleteFromMatrix(int layout, Vector2 pos, int brushSize)
         {
             switch (selectedType)
             {
@@ -244,19 +243,19 @@ namespace GameEditor
             MapService.Instance.DrawMap(world, console);
         }
 
-        private void MoveMatrixView(Point posStart, Point pos)
+        private void MoveMatrixView(Vector2 posStart, Vector2 pos)
         {
             world.View.PosX += posStart.X - pos.X;
             world.View.PosY += posStart.Y - pos.Y;
             MapService.Instance.DrawMap(world, console);
         }
 
-        private Point GetPosition(MouseEventArgs e)
+        private Vector2 GetPosition(MouseEventArgs e)
         {
             var posInConsole = console.GetPosition(e);
             var posX = posInConsole.X + world.View.PosX;
             var posY = posInConsole.Y + world.View.PosY;
-            return new Point(posX, posY);
+            return new Vector2(posX, posY);
         }
 
         private void Console_MouseMove(object sender, MouseEventArgs e)

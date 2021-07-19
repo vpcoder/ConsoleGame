@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engine.Data;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -128,19 +129,19 @@ namespace Engine.Console
         /// <param name="x">Положение в пикселях по X</param>
         /// <param name="y">Положение в пикселях по Y</param>
         /// <returns>Рассчитанную точку в матрице</returns>
-        public Point GetPosition(int x, int y)
+        public Vector2 GetPosition(int x, int y)
         {
             if (x < 0 || x >= Width || y < 0 || y >= Height) // Точка за пределами карты
-                return Point.Empty;
+                return Vector2.Empty;
             var posX = x / CellSizeX;
             var posY = y / CellSizeY;
-            return new Point(posX, posY);
+            return new Vector2(posX, posY);
         }
 
-        public Point GetPosition(MouseEventArgs e)
+        public Vector2 GetPosition(MouseEventArgs e)
         {
             if (e == null)
-                return Point.Empty;
+                return Vector2.Empty;
             return GetPosition(e.X, e.Y);
         }
 

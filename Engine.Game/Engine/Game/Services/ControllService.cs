@@ -92,7 +92,7 @@ namespace Engine.Services
             {
                 // Двигаем персонажа
                 player.PosX += vector.X;
-                player.PosX += vector.Y;
+                player.PosY += vector.Y;
 
                 // Двигаем рамку
                 var deltaX = player.PosX - view.PosX;

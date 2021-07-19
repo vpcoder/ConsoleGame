@@ -6,6 +6,21 @@ namespace Engine.Data
     {
 
         /// <summary>
+        /// Время последнего использования оружия/рук
+        /// </summary>
+        public double LastUseWeaponTime { get; set; }
+
+        /// <summary>
+        /// Интервал использования рук (без оружия)
+        /// </summary>
+        public double HandsInterval { get; set; }
+
+        /// <summary>
+        /// Параметры поведения
+        /// </summary>
+        public CharacterType CharacterType { get; set; } = CharacterType.Human;
+
+        /// <summary>
         /// Направление персонажа
         /// </summary>
         public Direction Direction { get; set; } = Direction.Down;

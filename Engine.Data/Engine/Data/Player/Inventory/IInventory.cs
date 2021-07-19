@@ -32,7 +32,7 @@ namespace Engine.Data
         IItem Selected { get; set; }
 
         /// <summary>
-        /// Ищет и возвращает первый элемент в инвентаре, который соответствует типу Type
+        /// Ищет и возвращает первый элемент в инвентаре, который соответствует типу type
         /// </summary>
         /// <param name="type">тип искомого предмета в инвентаре</param>
         /// <returns>Возвращает первый элемент в инвентаре, который соответствует типу Type</returns>
@@ -46,12 +46,32 @@ namespace Engine.Data
         T GetFirstByType<T>() where T : class, IItem;
 
         /// <summary>
+        /// Ищет и возвращает элементы в инвентаре, которые соответствует типу type
+        /// </summary>
+        /// <param name="type">тип искомого предмета в инвентаре</param>
+        /// <returns>Возвращает элементы в инвентаре, которые соответствует типу type</returns>
+        ICollection<IItem> GetByType(Type type);
+
+        /// <summary>
+        /// Ищет и возвращает элементы в инвентаре, которые соответствует типу T
+        /// </summary>
+        /// <typeparam name="T">тип искомого предмета в инвентаре</typeparam>
+        /// <returns>Возвращает элементы в инвентаре, которые соответствует типу T</returns>
+        ICollection<T> GetByType<T>() where T : class, IItem;
+
+        /// <summary>
         /// Добавляет предмет в инвентарь
         /// </summary>
         /// <param name="item">Добавляемый предмет</param>
         /// <param name="count">Число добавляемых предметов (если не задано - берётся из item)</param>
         /// <returns>Возвращает true - если предмет успешно добавлен в инвентарь, и false - если предмет не удалось добавить (инвентарь переполнен)</returns>
         bool TryAddItem(IItem item, int count = -1);
+
+        /// <summary>
+        /// Удаляет указанный предмет по ссылке из инвентаря
+        /// </summary>
+        /// <param name="item">Ссылка на предмет в инвентаре</param>
+        void RemoveItem(IItem item);
 
         /// <summary>
         /// Удаляет из инвентаря указанное количество предметов определённого типа

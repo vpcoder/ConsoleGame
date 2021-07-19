@@ -22,4 +22,14 @@ namespace Engine.Data
 
     }
 
+    public static class CharacterTypeAdditionals
+    {
+
+        public static bool IsEnemy(this CharacterType type, CharacterType another)
+        {
+            return type != another;
+        }
+
+    }
+
 }

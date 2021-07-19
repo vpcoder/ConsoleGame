@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 namespace Engine.Data
 {
@@ -7,23 +6,13 @@ namespace Engine.Data
     /// <summary>
     /// Оружие дальнего боя
     /// </summary>
-    public interface IWeaponRanged
+    public interface IWeaponRanged : IWeapon
     {
 
         /// <summary>
         /// Снаряд, которым стреляет это оружие
         /// </summary>
         Type Bullet { get; set; }
-
-        /// <summary>
-        /// Частота стрельбы из оружия
-        /// </summary>
-        long ShootInterval { get; set; }
-
-        /// <summary>
-        /// Время последнего выстрела из этого оружия
-        /// </summary>
-        long LastShoot { get; set; }
 
         /// <summary>
         /// Дальность снарядов

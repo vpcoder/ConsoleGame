@@ -1,48 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Engine.Data;
 
-namespace Engine.AStarSharp
+namespace Engine.Data
 {
-    public struct Vector2
-    {
-        public int X;
-        public int Y;
-
-        public Vector2(int x, int y)
-        {
-            this.X = x;
-            this.Y = y;
-        }
-
-        public static bool operator ==(Vector2 o1, Vector2 o2)
-        {
-            return (o1.X == o2.X) && (o1.Y == o2.Y);
-        }
-        public static bool operator !=(Vector2 o1, Vector2 o2)
-        {
-            return !(o1 == o2);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null)
-                return false;
-            if ((object)this == obj)
-                return true;
-            if (!(obj is Vector2))
-                return false;
-
-            Vector2 other = (Vector2)obj;
-            return other == this;
-        }
-
-        public override int GetHashCode()
-        {
-            return ($"{X}.{Y}").GetHashCode();
-        }
-    }
 
     public class Node
     {
@@ -81,14 +42,22 @@ namespace Engine.AStarSharp
         }
     }
 
-    public class AStar
+    public class AStarService
     {
         public Node[,] Grid { get; set; }
         public int SizeY { get; set; }
         public int SizeX { get; set; }
 
-        public AStar(Map map)
+        public AStarService(Map map)
         {
+            this.UpdatePathMatrix(map);
+        }
+
+        public void UpdatePathMatrix(Map map)
+        {
+            if (map.SizeX == 0 || map.SizeY == 0)
+                return;
+
             this.Grid = new Node[map.SizeX, map.SizeY];
 
             for (int y = 0; y < map.SizeY; y++)
@@ -97,12 +66,8 @@ namespace Engine.AStarSharp
 
             this.SizeX = map.SizeX;
             this.SizeY = map.SizeY;
-            this.UpdatePathMatrix(map);
-        }
 
-        public void UpdatePathMatrix(Map map)
-        {
-            for(int y = 0; y < map.SizeY; y++)
+            for (int y = 0; y < map.SizeY; y++)
             {
                 for(int x = 0; x < map.SizeX; x++)
                 {
@@ -114,10 +79,20 @@ namespace Engine.AStarSharp
             }
         }
 
-        public List<Node> FindPath(Vector2 Start, Vector2 End)
+        public void Set(int x, int y, bool isWalkable)
         {
-            Node start = new Node(new Vector2(Start.X, Start.Y), true);
-            Node end = new Node(new Vector2(End.X, End.Y), true);
+            var node = Grid[x, y];
+            node.Walkable = isWalkable;
+            node.Weight = isWalkable ? 1f : 2f;
+        }
+
+        public List<Node> FindPath(Vector2 startPoint, Vector2 endPoint)
+        {
+            if (startPoint == endPoint)
+                return null;
+
+            Node start = new Node(new Vector2(startPoint.X, startPoint.Y), true);
+            Node end = new Node(new Vector2(endPoint.X, endPoint.Y), true);
 
             List<Node> Path = new List<Node>();
             List<Node> OpenList = new List<Node>();
@@ -164,6 +139,16 @@ namespace Engine.AStarSharp
                 temp = temp.Parent;
             } while (temp != start && temp != null);
             return Path;
+        }
+
+        public Node FindPathNextPoint(Vector2 startPoint, Vector2 endPoint)
+        {
+            var path = FindPath(startPoint, endPoint);
+
+            if (path == null || path.Count == 0)
+                return null;
+
+            return path[path.Count -1];
         }
 
         private List<Node> GetAdjacentNodes(Node n)

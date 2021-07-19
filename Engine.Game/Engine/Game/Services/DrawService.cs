@@ -1,7 +1,5 @@
-﻿using Engine.AStarSharp;
-using Engine.Console;
+﻿using Engine.Console;
 using Engine.Data;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
@@ -16,6 +14,7 @@ namespace Engine.Services
 
         private IConsole console;
         private World world;
+        private View view;
 
         /// <summary>
         /// Конструктор, срабатывает при создании экземпляра сервиса отрисовки
@@ -23,6 +22,7 @@ namespace Engine.Services
         public DrawService(World world, IConsole console)
         {
             this.world = world;
+            this.view = world.View;
             this.console = console;
         }
 
@@ -40,17 +40,9 @@ namespace Engine.Services
                 {
                     for (var x = 0; x < console.ViewWidth; x++) // Перебираем объекты во фрейме
                     {
-                        var indexX = x + world.View.PosX;
-                        var indexY = y + world.View.PosY;
-
-                        var sprite = map.Get(layout, indexX, indexY); // Получаем объект в указанной точке карты на указанном слое
-
-                        DrawObject(sprite, x, y, Color.Empty); // Рисуем объект в области видимости на указанном слое
-
-                        if (map.CenterLayout == layout && world.Player.PosX == x && world.Player.PosY == y)
-                        {
-                            DrawObject(world.Player, x, y, Color.Empty);
-                        }
+                        var worldPos = view.GetPointInWorld(x, y); // получаем координаты в мире
+                        var sprite = map.Get(layout, worldPos); // Получаем объект в указанной точке карты на указанном слое
+                        DrawTile(sprite, x, y, Color.Empty); // Рисуем объект в области видимости на указанном слое
                     }
                 }
 
@@ -73,14 +65,11 @@ namespace Engine.Services
 
         private void DrawBullet(IBullet bullet)
         {
-            var posX = bullet.PosX - world.View.PosX;
-            if (posX < world.View.PosX || posX > world.View.SizeX)
-                return;
-            var posY = bullet.PosY - world.View.PosY;
-            if (posY < world.View.PosY || posY > world.View.SizeY)
+            if (!world.View.IsPointInView(bullet.ToPos()))
                 return;
             var sprite = ImageFactory.Instance.Get(bullet.ID, bullet.Direction);
-            console.Draw(sprite, posX, posY);
+            var pos = view.GetPointInView(bullet.ToPos());
+            console.Draw(sprite, pos.X, pos.Y);
         }
 
         private void DrawNPCs()
@@ -91,14 +80,11 @@ namespace Engine.Services
 
         private void DrawCharacter(ICharacter character)
         {
-            var posX = character.PosX - world.View.PosX;
-            if (posX < world.View.PosX || posX > world.View.SizeX)
-                return;
-            var posY = character.PosY - world.View.PosY;
-            if (posY < world.View.PosY || posY > world.View.SizeY)
+            if (!world.View.IsPointInView(character.ToPos()))
                 return;
             var sprite = ImageFactory.Instance.Get(character.ID, character.Direction);
-            console.Draw(sprite, posX, posY);
+            var pos = view.GetPointInView(character.ToPos());
+            console.Draw(sprite, pos.X, pos.Y);
         }
 
         /// <summary>
@@ -107,7 +93,7 @@ namespace Engine.Services
         /// <param name="x">Располоэение объекта по X</param>
         /// <param name="y">Располоэение объекта по Y</param>
         /// <param name="obj">Рисуемый объект</param>
-        private void DrawObject(ISprite obj, int posX, int posY, Color backgroundClolor)
+        private void DrawTile(ISprite obj, int posX, int posY, Color backgroundClolor)
         {
             var image = obj == null ? null : ImageFactory.Instance.Get(obj.ID);
             console.Draw(image, backgroundClolor, posX, posY);
@@ -131,12 +117,11 @@ namespace Engine.Services
                 {
                     console.Draw(item?.Title, Color.White, inventoryTextBackground, world.View.SizeX - 12, 6);
                     console.Draw(GenerateItemDescription(item), Color.White, inventoryTextBackground, world.View.SizeX - 12, 7);
-                    DrawObject(item, world.View.SizeX - 6 + index % 5, 1 + index / 5, inventoryItemBackground);
+                    DrawTile(item, world.View.SizeX - 6 + index % 5, 1 + index / 5, inventoryItemBackground);
                 }
                 else
                 {
-                    DrawObject(item, world.View.SizeX - 6 + index % 5, 1 + index / 5, Color.Empty);
-
+                    DrawTile(item, world.View.SizeX - 6 + index % 5, 1 + index / 5, Color.Empty);
                 }
             }
         }
@@ -177,15 +162,6 @@ namespace Engine.Services
                 builder.Append(" " + item.StackSize + "/" + item.MaxStackSize + " шт.");
 
             return builder.ToString();
-        }
-
-        private string GetNormalizedText(string text)
-        {
-            if (text == null)
-            {
-                return string.Empty.PadRight(70, ' ');
-            }
-            return text.PadRight(70, ' ');
         }
 
     }

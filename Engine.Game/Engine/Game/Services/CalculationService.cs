@@ -23,12 +23,14 @@ namespace Engine.Services
             }
         }
 
+        private CalculationService() { }
+
         #endregion
 
         /// <summary>
         /// Текущий урон персонажа/НПС
         /// </summary>
-        public int GetDamage(Character character)
+        public int GetDamage(ICharacter character)
         {
             var characteristics = character.Characteristics;
             int sumAdditionalDamage = characteristics.BaseDamage;
@@ -43,7 +45,7 @@ namespace Engine.Services
         /// <summary>
         /// Текущая защита персонажа/НПС
         /// </summary>
-        public int GetDefence(Character character)
+        public int GetDefence(ICharacter character)
         {
             var characteristics = character.Characteristics;
             int sumAdditionalDefence = characteristics.BaseDefence;

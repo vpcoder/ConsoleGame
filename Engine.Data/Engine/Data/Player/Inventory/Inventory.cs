@@ -48,7 +48,7 @@ namespace Engine.Data
         /// <returns>Возвращает первый элемент в инвентаре, который соответствует типу Type</returns>
         public IItem GetFirstByType(Type type)
         {
-            return Items.Where(o => o != null && o.GetType().Equals(type)).FirstOrDefault();
+            return Items.Where(o => o != null && (type == o.GetType() || type.IsAssignableFrom(o.GetType()))).FirstOrDefault();
         }
 
         /// <summary>
@@ -59,6 +59,27 @@ namespace Engine.Data
         public T GetFirstByType<T>() where T : class, IItem
         {
             return (T)GetFirstByType(typeof(T));
+        }
+
+
+        /// <summary>
+        /// Ищет и возвращает элементы в инвентаре, которые соответствует типу type
+        /// </summary>
+        /// <param name="type">тип искомого предмета в инвентаре</param>
+        /// <returns>Возвращает элементы в инвентаре, которые соответствует типу type</returns>
+        public ICollection<IItem> GetByType(Type type)
+        {
+            return Items.Where(o => o != null && (type == o.GetType() || type.IsAssignableFrom(o.GetType()))).ToList();
+        }
+
+        /// <summary>
+        /// Ищет и возвращает элементы в инвентаре, которые соответствует типу T
+        /// </summary>
+        /// <typeparam name="T">тип искомого предмета в инвентаре</typeparam>
+        /// <returns>Возвращает элементы в инвентаре, которые соответствует типу T</returns>
+        public ICollection<T> GetByType<T>() where T : class, IItem
+        {
+            return Items.Where(o => o != null && (typeof(T) == o.GetType() || typeof(T).IsAssignableFrom(o.GetType()))).Select(o => o as T).ToList();
         }
 
         /// <summary>
@@ -111,6 +132,22 @@ namespace Engine.Data
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Удаляет указанный предмет по ссылке из инвентаря
+        /// </summary>
+        /// <param name="item">Ссылка на предмет в инвентаре</param>
+        public void RemoveItem(IItem item)
+        {
+            for (int i = 0; i < InventoryMaxSize; i++)
+            {
+                if (items[i] == item)
+                {
+                    items[i] = null;
+                    return;
+                }
+            }
         }
 
         /// <summary>

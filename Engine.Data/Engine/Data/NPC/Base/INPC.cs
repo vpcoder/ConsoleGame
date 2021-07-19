@@ -12,14 +12,14 @@ namespace Engine.Data
         string Name { get; set; }
 
         /// <summary>
-        /// Параметры НПС
-        /// </summary>
-        CharacterType Character { get; set; }
-
-        /// <summary>
         /// Цель охоты этого НПС, если не на кого охотится - null
         /// </summary>
         ICharacter Target { get; set; }
+
+        /// <summary>
+        /// Стратегия битвы
+        /// </summary>
+        BattleStrategyType Strategy { get; set; }
 
         /// <summary>
         /// В каком радиусе от точки интереса NPC гуляет
@@ -43,9 +43,14 @@ namespace Engine.Data
         Vector2 NextPoint { get; set; }
 
         /// <summary>
+        /// Время последнего действия НПС
+        /// </summary>
+        double LastUpdateTime { get; set; }
+
+        /// <summary>
         /// Время, через которое NPC решит пойти в новую точку
         /// </summary>
-        long NextPointChangeTime { get; set; }
+        double NextPointChangeTime { get; set; }
 
     }
 

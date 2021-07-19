@@ -25,4 +25,23 @@ namespace Engine.Data
 
     }
 
+    public static class ISpriteAdditional
+    {
+        public static Vector2 ToPos(this ISprite sprite)
+        {
+            return new Vector2(sprite.PosX, sprite.PosY);
+        }
+
+        public static void Move(this ISprite sprite, int x, int y)
+        {
+            sprite.PosX = x;
+            sprite.PosY = y;
+        }
+
+        public static void Move(this ISprite sprite, Vector2 pos)
+        {
+            Move(sprite, pos.X, pos.Y);
+        }
+    }
+
 }

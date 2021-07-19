@@ -61,7 +61,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Engine\Game\Services\AStar.cs" />
     <Compile Include="Engine\Game\Services\CalculationService.cs" />
     <Compile Include="Engine\Game\Services\ControllService.cs" />
     <Compile Include="Engine\Game\Services\DrawService.cs" />

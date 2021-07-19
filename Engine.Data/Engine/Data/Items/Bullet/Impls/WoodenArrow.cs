@@ -15,6 +15,10 @@ namespace Engine.Data
 
             this.Title = "Деревянная стрела";
             this.Description = "Простая стрела из дерева";
+
+            this.Damage = 1;
+            this.MovePath = 0;
+            this.MoveMaxPath = 4;
         }
 
     }

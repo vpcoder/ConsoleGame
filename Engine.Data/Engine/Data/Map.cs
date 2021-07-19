@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Engine.Data
@@ -46,6 +45,11 @@ namespace Engine.Data
         private ISprite[][,] Matrix;
 
         /// <summary>
+        /// Сервис поиска путей
+        /// </summary>
+        public AStarService AStarService { get; set; }
+
+        /// <summary>
         /// Инициализация карты (конструкторв)
         /// </summary>
         /// <param name="w">Размер карты по X (ширина)</param>
@@ -53,6 +57,7 @@ namespace Engine.Data
         public Map(int w, int h)
         {
             Resize(w, h);
+            AStarService = new AStarService(this);
         }
 
         /// <summary>
@@ -62,6 +67,7 @@ namespace Engine.Data
         {
             SizeX = 0;
             SizeY = 0;
+            AStarService = new AStarService(this);
         }
 
         /// <summary>
@@ -108,6 +114,7 @@ namespace Engine.Data
             this.Matrix = map.Matrix;
             this.SizeX  = map.SizeX;
             this.SizeY  = map.SizeY;
+            this.AStarService.UpdatePathMatrix(this);
         }
 
         /// <summary>
@@ -146,6 +153,17 @@ namespace Engine.Data
         }
 
         /// <summary>
+        /// Возвращает объект со слоя layout на позиции x, y
+        /// </summary>
+        /// <param name="layout">слой, с которого получаем объект</param>
+        /// <param name="index">Позиция объекта по x, y</param>
+        /// <returns>Объект с карты</returns>
+        public ISprite Get(int layout, Vector2 index)
+        {
+            return Get(layout, index.X, index.Y);
+        }
+
+        /// <summary>
         /// Устанавливает объект на слое layout на позиции x, y
         /// </summary>
         /// <param name="sprite">устанавливаемый объект</param>
@@ -157,6 +175,7 @@ namespace Engine.Data
             if (!isIntersection(x, y))
                 return;
             this.Matrix[layout][x, y] = sprite;
+            this.AStarService.Set(x, y, IsWalkable(x, y));
         }
 
         /// <summary>

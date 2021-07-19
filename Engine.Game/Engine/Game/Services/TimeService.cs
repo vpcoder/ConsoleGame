@@ -16,17 +16,14 @@ namespace Engine
 
         #endregion
 
-        public long Time
+        private static readonly DateTime START_DATE = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+        public double Time
         {
             get
             {
-                return DateTime.Now.Ticks;
+                return DateTime.Now.ToUniversalTime().Subtract(START_DATE).TotalMilliseconds;
             }
-        }
-
-        public long GetMills(long time)
-        {
-            return time / 1000;
         }
 
     }
