@@ -35,6 +35,16 @@ namespace Engine.Data
         /// </summary>
         public Player Player { get; } = new Player();
 
+        public IEnumerable<ICharacter> Characters
+        {
+            get
+            {
+                yield return Player;
+                foreach (var npc in NPCs)
+                    yield return npc;
+            }
+        }
+
     }
 
 }

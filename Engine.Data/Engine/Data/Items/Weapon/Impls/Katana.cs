@@ -13,6 +13,8 @@ namespace Engine.Data
 
             this.Title = "Катана";
             this.Description = "Кровавый привет из Японии";
+
+            UseInterval = 1000;
         }
     }
 }

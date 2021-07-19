@@ -14,6 +14,8 @@ namespace Engine.Data
 
             this.Title = "Сломаная кость";
             this.Description = "Фрагмент человеческой кости";
+
+            UseInterval = 1200;
         }
     }
 }

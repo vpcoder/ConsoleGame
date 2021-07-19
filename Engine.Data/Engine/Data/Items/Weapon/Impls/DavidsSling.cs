@@ -17,6 +17,8 @@ namespace Engine.Data
 
             this.Title = "Праща Давида";
             this.Description = "Мощное, но недальнобойное оружие";
+
+            UseInterval = 1500;
         }
 
     }

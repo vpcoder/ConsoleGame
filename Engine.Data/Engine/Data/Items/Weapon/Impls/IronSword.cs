@@ -15,6 +15,8 @@ namespace Engine.Data
 
             this.Title        = "Железный меч";
             this.Description  = "Простейший меч из железа";
+
+            UseInterval = 1500;
         }
 
     }

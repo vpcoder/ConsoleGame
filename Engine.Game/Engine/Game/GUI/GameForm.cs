@@ -62,7 +62,7 @@ namespace Engine
             drawService = new DrawService(world, console);
             controllService = new ControllService(world);
             aiService = new AIService(world);
-            battleService = new BattleService(world);
+            battleService = new BattleService(world, aiService);
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)

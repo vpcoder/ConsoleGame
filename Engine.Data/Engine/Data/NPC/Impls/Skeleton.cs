@@ -22,9 +22,9 @@ namespace Engine.Data
             Armor = null;
             Weapon = new BrokenBone();
 
-            Inventory.TryAddItem(new ElvenBow());
-            Inventory.TryAddItem(new WoodenArrow(), 30);
-            Inventory.TryAddItem(new WoodenArrow(), 30);
+            //Inventory.TryAddItem(new ElvenBow());
+            //Inventory.TryAddItem(new WoodenArrow(), 30);
+            //Inventory.TryAddItem(new WoodenArrow(), 30);
 
             MoveRadius = 4;
             AgressionRadius = 4;

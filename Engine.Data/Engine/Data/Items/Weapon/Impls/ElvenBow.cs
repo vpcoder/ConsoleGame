@@ -15,10 +15,12 @@ namespace Engine.Data
             this.Damage = 10;
 
             this.ID = "item/weapon/elvenbow";
-            this.Distance = 10;
+            this.Distance = 4;
 
             this.Title = "Эльфийский лук";
             this.Description = "Дальнобойное оружие со средним уроном";
+
+            this.UseInterval = 1000; // Раз в 1 секунду
         }
 
     }

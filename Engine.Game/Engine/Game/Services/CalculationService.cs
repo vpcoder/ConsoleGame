@@ -57,6 +57,37 @@ namespace Engine.Services
             return character.Armor.Defence + sumAdditionalDefence;
         }
 
+        /// <summary>
+        /// Выполняет нанесение урона от source к target
+        /// </summary>
+        /// <param name="source">Тот кто наносит урон</param>
+        /// <param name="bullet">Снаряд, если используется (null, если не используется)</param>
+        /// <param name="target">Тот кто получает урон</param>
+        public void DoDamage(ICharacter source, IBullet bullet, ICharacter target)
+        {
+            var damage = GetDamage(source); // Получаем урон, который нужно наносить
+            if (bullet != null)
+                damage += bullet.Damage; // Если это снаряд, добавляем урон от снаряда
+
+            var defence = GetDefence(target); // Получаем защиту оппонента
+
+            damage -= defence; // Получаем урон, который пройдёт через защиту
+            if (damage < 0) // Урона было недостаточно...
+                return;
+
+            target.Characteristics.Health -= damage; // Наносим урон
+        }
+
+        // <summary>
+        /// Выполняет нанесение урона от source к target
+        /// </summary>
+        /// <param name="source">Тот кто наносит урон</param>
+        /// <param name="target">Тот кто получает урон</param>
+        public void DoDamage(ICharacter source, ICharacter target)
+        {
+            DoDamage(source, null, target);
+        }
+
     }
 
 }

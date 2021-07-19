@@ -16,6 +16,8 @@ namespace Engine.Data
 
             this.Description = "Копьё, выкованное из осветлённого золота";
 
+
+            UseInterval = 2000;
         }
     }
 }

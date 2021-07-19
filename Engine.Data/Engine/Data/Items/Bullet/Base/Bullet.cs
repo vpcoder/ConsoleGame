@@ -11,6 +11,11 @@ namespace Engine.Data
     {
 
         /// <summary>
+        /// Кто выпустил снаряд
+        /// </summary>
+        public ICharacter Source { get; set; }
+
+        /// <summary>
         /// Урон снаряда
         /// </summary>
         public int Damage { get; set; }

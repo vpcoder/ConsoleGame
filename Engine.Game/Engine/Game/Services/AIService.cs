@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Engine.Services;
 
 namespace Engine
 {
@@ -24,16 +25,6 @@ namespace Engine
             this.astarService = map.AStarService;
             this.player = world.Player;
             this.npcs = world.NPCs;
-        }
-
-        private IEnumerable<ICharacter> AllCharacters
-        {
-            get
-            {
-                yield return player;
-                foreach (var npc in npcs)
-                    yield return npc;
-            }
         }
 
         public void DoIteration()
@@ -99,7 +90,7 @@ namespace Engine
         /// </summary>
         private void DoAgressionIteration(INPC npc)
         {
-            foreach(var another in AllCharacters) // Смотрим других НПС и персонажа
+            foreach(var another in world.Characters) // Смотрим других НПС и персонажа
             {
                 if (another == npc) // Не смотрим сами на себя
                     continue;
@@ -194,6 +185,13 @@ namespace Engine
                 return;
             }
 
+            // Если это необходимо, выравниваем ось
+            if(!IsOneAxis(npc, target)) // НПС не стоит на одной оси с целью
+            {
+                GoToOneAxis(npc, target);
+                return;
+            }
+
             var attackDistance = npc.Strategy == BattleStrategyType.Near ? 1 : ((IWeaponRanged)npc.Weapon).Distance; // Дистанция атаки
 
             if (distance > attackDistance) // До цели всё ещё нужно идти
@@ -202,14 +200,7 @@ namespace Engine
                 return;
             }
 
-            // Если это необходимо, выравниваем ось
-            if(npc.Strategy == BattleStrategyType.Far && !IsOneAxis(npc, target)) // Выбрали стратегию битвы на дальней дистанции, но, НПС не стоит на одной оси с целью
-            {
-                GoToOneAxis(npc, target);
-                return;
-            }
-
-            switch(npc.Strategy)
+            switch (npc.Strategy)
             {
                 case BattleStrategyType.Far: // Дальний бой, мы готовы к атакам
                     DoFarStrategy(npc);
@@ -231,13 +222,23 @@ namespace Engine
             npc.LastUseWeaponTime = timestamp;
 
             var bulletSet = npc.Inventory.GetFirstByType(weapon.Bullet); // Извлекаем первый попавшийся набор подходящих нашему оружию в руках снарядов из инвентаря
+
+            if(bulletSet == null) // Кончились все снаряды в инвентаре
+            {
+                CheckStrategy(npc); // Пересматриваем стратегию боя
+                return;
+            }
             bulletSet.StackSize--; // Расходуем снаряд
             if (bulletSet.StackSize == 0) // Полностью израсходовали пачку?
             {
                 npc.Inventory.RemoveItem(bulletSet); // Удаляем пустую пачку из инвентаря
             }
 
-            DoRangedAttack(npc, weapon, npc.Target);
+            var bullet = (IBullet)Activator.CreateInstance(bulletSet.GetType());
+            bullet.MovePath = 0;
+            bullet.MoveMaxPath = weapon.Distance;
+
+            DoRangedAttack(npc, weapon, bullet, npc.Target);
         }
 
         private void DoNearStrategy(INPC npc)
@@ -250,7 +251,7 @@ namespace Engine
 
             npc.LastUseWeaponTime = timestamp;
 
-            DoMeleeAttack(npc, weapon, npc.Target);
+            DoMeleeAttack(npc, npc.Target);
         }
 
         /// <summary>
@@ -303,38 +304,8 @@ namespace Engine
             }
         }
 
-
-        /// <summary>
-        /// Выполняет атаку оружием ближнего действия (или же без оружия)
-        /// </summary>
-        /// <param name="source">Атакующий</param>
-        /// <param name="weapon">Оружие, которым атакуют, если null - атакуют руками</param>
-        /// <param name="target">Цель, которую атакуют</param>
-        public void DoMeleeAttack(ICharacter source, IWeaponMelee weapon, ICharacter target)
+        private Vector2 GoToOneAxis(ICharacter source, ICharacter target)
         {
-            if(weapon == null) // Атакуем без оружия, голыми руками
-            {
-
-
-                return;
-            }
-        }
-
-        /// <summary>
-        /// Выполняет атаку оружием дальнего действия
-        /// </summary>
-        /// <param name="source">Атакующий</param>
-        /// <param name="weapon">Оружие, которым атакуют</param>
-        /// <param name="target">Цель, которую атакуют</param>
-        public void DoRangedAttack(ICharacter source, IWeaponRanged weapon, ICharacter target)
-        {
-            if (weapon == null)
-                return;
-
-            var bullet = (IBullet)Activator.CreateInstance(weapon.Bullet);
-            bullet.Direction = source.ToPos().LookTo(target.ToPos());
-            bullet.Damage += weapon.Damage; // передаём снаряду урон от оружия
-
             int posX = source.PosX;
             int posY = source.PosY;
 
@@ -352,8 +323,46 @@ namespace Engine
             if (target.PosY != source.PosY && target.PosY < source.PosY)
                 posY--;
 
-            bullet.Move(posX, posY);
+            return new Vector2(posX, posY);
+        }
+
+        /// <summary>
+        /// Выполняет атаку оружием ближнего действия (или же без оружия)
+        /// </summary>
+        /// <param name="source">Атакующий</param>
+        /// <param name="weapon">Оружие, которым атакуют, если null - атакуют руками</param>
+        /// <param name="target">Цель, которую атакуют</param>
+        public void DoMeleeAttack(ICharacter source, ICharacter target)
+        {
+            
+            CalculationService.Instance.DoDamage(source, target); // Рассчитываем передачу урона
+        }
+
+        /// <summary>
+        /// Выполняет атаку оружием дальнего действия
+        /// </summary>
+        /// <param name="source">Атакующий</param>
+        /// <param name="weapon">Оружие, которым атакуют</param>
+        /// <param name="target">Цель, которую атакуют</param>
+        public void DoRangedAttack(ICharacter source, IWeaponRanged weapon, IBullet bullet, ICharacter target)
+        {
+            if (weapon == null)
+                return;
+
+            bullet.Source = source; // Запоминаем кто выпустил снаряд
+            bullet.Direction = source.ToPos().LookTo(target.ToPos()); // Поворачиваем снаряд в сторону цели
+            bullet.Damage += weapon.Damage; // передаём снаряду урон от оружия
+            bullet.Move(GoToOneAxis(source, target)); // Выдвигаем снаряд вперёд, относительно направления атакующего
             world.Bullets.Add(bullet); // Добавляем запущенный снаряд в мир
+        }
+
+        /// <summary>
+        /// Выполняет атаку оружием дальнего действия
+        /// </summary>
+        /// <param name="target">Цель, которую атакуют</param>
+        public void DoRangedDamage(IBullet bullet, ICharacter target)
+        {
+            CalculationService.Instance.DoDamage(bullet.Source, bullet, target); // Рассчитываем передачу урона
         }
 
     }
