@@ -55,6 +55,15 @@ namespace Engine.Data
             return !(o1 == o2);
         }
 
+        public static Vector2 operator +(Vector2 o1, Vector2 o2)
+        {
+            return new Vector2(o1.X + o2.X, o1.Y + o2.Y);
+        }
+        public static Vector2 operator -(Vector2 o1, Vector2 o2)
+        {
+            return new Vector2(o1.X - o2.X, o1.Y - o2.Y);
+        }
+
         public override bool Equals(object obj)
         {
             if (obj == null)

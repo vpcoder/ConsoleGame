@@ -1,4 +1,5 @@
 ﻿using Engine.Data;
+using System;
 using System.Windows.Forms;
 using View = Engine.Data.View;
 
@@ -11,22 +12,41 @@ namespace Engine.Services
     public class ControllService
     {
 
+        private BattleService battleService;
         private World world;
         private Player player;
         private View view;
         private Map map;
         private IInventory inventory;
 
+        private BattleStrategyType playerStrategy;
+
         /// <summary>
         /// Конструктор, срабатывает при создании экземпляра сервиса управления, принемает мир, в рамках которого мы управляем игроком
         /// </summary>
-        public ControllService(World world)
+        public ControllService(World world, BattleService battleService)
         {
             this.world = world;
+            this.battleService = battleService;
             this.map = world.Map;
             this.player = world.Player;
             this.inventory = player.Inventory;
             this.view = world.View;
+            this.playerStrategy = CurrentStrategy;
+        }
+
+        private BattleStrategyType CurrentStrategy
+        {
+            get
+            {
+                if (player.Weapon == null)
+                    return BattleStrategyType.Near;
+
+                if (player.Weapon is IWeaponRanged)
+                    return BattleStrategyType.Far;
+
+                return BattleStrategyType.Near;
+            }
         }
 
         /// <summary>
@@ -35,6 +55,9 @@ namespace Engine.Services
         /// <param name="key">Что сделал игрок</param>
         public void Controll(KeyEventArgs e)
         {
+            if (player.Characteristics.IsDead)
+                return;
+
             switch (e.KeyCode)
             {
                 case Keys.W:
@@ -71,6 +94,10 @@ namespace Engine.Services
 
                 case Keys.E:
                     DoUseItem(inventory.Selected);
+                    break;
+
+                case Keys.Space:
+                    DoAttack();
                     break;
             }
         }
@@ -154,6 +181,7 @@ namespace Engine.Services
                 var tmpWeapon = player.Weapon;
                 player.Weapon = weapon;
                 inventory.Selected = tmpWeapon;
+                playerStrategy = CurrentStrategy;
                 return;
             }
             // Непонятно что за предмет, возможно ошибка в коде?
@@ -171,6 +199,59 @@ namespace Engine.Services
             return true;
         }
 
+        private void DoAttack()
+        {
+            var timestamp = TimeService.Instance.Time;
+
+            if ((player.Weapon != null && timestamp - player.LastUseWeaponTime < player.Weapon.UseInterval)
+                || (player.Weapon == null && timestamp - player.LastUseWeaponTime < player.HandsInterval)) // Оружие не готово к использованию, перезаряжаемся...
+                return;
+
+            player.LastUseWeaponTime = timestamp;
+
+
+            switch (playerStrategy)
+            {
+                case BattleStrategyType.Near:
+                    var enemy = GetCharacterInDirection(player.ToPos(), player.Direction);
+                    if (enemy == null)
+                        return;
+
+                    battleService.DoMeleeAttack(player, enemy);
+                    break;
+                case BattleStrategyType.Far:
+
+                    var weapon = (IWeaponRanged)player.Weapon;
+                    var bulletSet = inventory.GetFirstByType(weapon.Bullet); // Извлекаем первый попавшийся набор подходящих нашему оружию в руках снарядов из инвентаря
+
+                    if (bulletSet == null) // Кончились все снаряды в инвентаре
+                        return;
+
+                    bulletSet.StackSize--; // Расходуем снаряд
+                    if (bulletSet.StackSize == 0) // Полностью израсходовали пачку?
+                    {
+                        inventory.RemoveItem(bulletSet); // Удаляем пустую пачку из инвентаря
+                    }
+
+                    var bullet = (IBullet)Activator.CreateInstance(bulletSet.GetType());
+                    battleService.DoRangedAttack(player, weapon, bullet);
+                    break;
+            }
+        }
+
+        private ICharacter GetCharacterInDirection(Vector2 pos, Direction direction)
+        {
+            var selPos = pos + direction.ToVector(); // Позиция рассчитанная от текущей позиции + клетка в сторону направления взгляда
+            foreach(var character in world.NPCs)
+            {
+                if (character.Characteristics.IsDead)
+                    continue;
+                if (character.ToPos() == selPos)
+                    return character;
+            }
+            return null;
+        }
+        
     }
 
 }

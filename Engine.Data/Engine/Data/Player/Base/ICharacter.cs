@@ -5,7 +5,7 @@ namespace Engine.Data
 
     public interface ICharacter : ISprite
     {
-
+        
         /// <summary>
         /// Время последнего использования оружия/рук
         /// </summary>
@@ -45,6 +45,7 @@ namespace Engine.Data
         /// Инвентарь
         /// </summary>
         IInventory Inventory { get; set; }
+
     }
 
 }

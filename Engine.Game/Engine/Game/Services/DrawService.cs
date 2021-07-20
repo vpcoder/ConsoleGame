@@ -82,7 +82,9 @@ namespace Engine.Services
         {
             if (!world.View.IsPointInView(character.ToPos()))
                 return;
-            var sprite = ImageFactory.Instance.Get(character.ID, character.Direction);
+            var sprite = character.Characteristics.IsDead ?
+                     ImageFactory.Instance.GetDead(character.ID)
+                   : ImageFactory.Instance.Get(character.ID, character.Direction);
             var pos = view.GetPointInView(character.ToPos());
             console.Draw(sprite, pos.X, pos.Y);
         }

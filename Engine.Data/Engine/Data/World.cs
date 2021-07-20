@@ -35,6 +35,9 @@ namespace Engine.Data
         /// </summary>
         public Player Player { get; } = new Player();
 
+        /// <summary>
+        /// Все персонади на карте, включая игрока
+        /// </summary>
         public IEnumerable<ICharacter> Characters
         {
             get

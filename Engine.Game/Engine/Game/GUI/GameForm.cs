@@ -58,18 +58,20 @@ namespace Engine
             world.Player.Inventory.TryAddItem(new Apple(), 5);
             world.Player.Inventory.TryAddItem(new PowerFruit(), 7);
             world.Player.Inventory.TryAddItem(new Katana());
+            world.Player.Inventory.TryAddItem(new ElvenBow());
+            world.Player.Inventory.TryAddItem(new WoodenArrow(), 30);
 
             drawService = new DrawService(world, console);
-            controllService = new ControllService(world);
-            aiService = new AIService(world);
-            battleService = new BattleService(world, aiService);
+            battleService = new BattleService(world);
+            controllService = new ControllService(world, battleService);
+            aiService = new AIService(world, battleService);
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
             controllService.Controll(e);
             drawService.Draw();
-            console.Refresh();
+            console.Update();
         }
 
         private void Runtime(object sender, EventArgs e)
@@ -80,7 +82,8 @@ namespace Engine
             battleService.DoIteration();
 
             drawService.Draw();
-            console.Refresh();
+            //console.Refresh();
+            console.Invalidate(false);
         }
 
         private void GameLoad(object sender, EventArgs e)

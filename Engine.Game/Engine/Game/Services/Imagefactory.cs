@@ -52,6 +52,11 @@ namespace Engine.Services
         private IDictionary<Direction,IDictionary<string, Image>> directionalData = new Dictionary<Direction, IDictionary<string, Image>>();
 
         /// <summary>
+        /// Спрайты мёртвых персонажей
+        /// </summary>
+        private IDictionary<string, Image> deadData = new Dictionary<string, Image>();
+
+        /// <summary>
         /// Билдер для идентификаторов картинок
         /// </summary>
         private StringBuilder builder = new StringBuilder();
@@ -104,6 +109,28 @@ namespace Engine.Services
             return tmpImage;
         }
 
+        /// <summary>
+        /// Возвращает спрайт мёртвого персонажа
+        /// </summary>
+        /// <param name="id">Идентификатор спрайта</param>
+        public Image GetDead(string id)
+        {
+            Image tmpImage = null;
+            if (deadData.TryGetValue(id, out tmpImage))
+            {
+                return tmpImage;
+            }
+
+            var path = GetPathDead(id);
+            if (!System.IO.File.Exists(path))
+            {
+                return null;
+            }
+            tmpImage = Image.FromFile(path);
+            deadData.Add(id, tmpImage);
+            return tmpImage;
+        }
+
         #region Hidden Methods
 
         private string GetPath(string id)
@@ -131,6 +158,19 @@ namespace Engine.Services
             builder.Append("_");
             builder.Append(direction.ToString());
             builder.Append(".png");
+            return builder.ToString();
+        }
+
+        private string GetPathDead(string id)
+        {
+            builder.Clear();
+#if DEBUG
+            builder.Append(settings.ImagesPath);
+#else
+            builder.Append("images/");
+#endif
+            builder.Append(id);
+            builder.Append("_dead.png");
             return builder.ToString();
         }
 

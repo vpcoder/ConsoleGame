@@ -7,23 +7,27 @@ using Engine.Services;
 namespace Engine
 {
 
+    /// <summary>
+    /// ИИ у НПС
+    /// </summary>
     public class AIService
     {
-        private World  world;
+
+        private World world;
         private AStarService astarService;
+        private BattleService battleService;
         private Map map;
-        private Player player;
         private ICollection<INPC> npcs;
 
         private double timestamp = 0;
         private Random rnd = new Random();
 
-        public AIService(World world)
+        public AIService(World world, BattleService battleService)
         {
             this.world = world;
             this.map = world.Map;
             this.astarService = map.AStarService;
-            this.player = world.Player;
+            this.battleService = battleService;
             this.npcs = world.NPCs;
         }
 
@@ -38,13 +42,15 @@ namespace Engine
 
             foreach(INPC npc in npcs)
             {
+                if (npc.Characteristics.IsDead) // Мёртвый нпс не думает ни о чём...
+                    continue;
                 if(npc.Target == null) // Вокруг всё чисто, нпс спокоен
                 {
                     DoWaitMoveIteration(npc);
                     DoAgressionIteration(npc);
                     continue;
                 }
-                // НПС проявил агрессию к кому то
+                // НПС проявил агрессию к кому то, надо бить морды
                 DoBattleIteration(npc);
             }
         }
@@ -95,7 +101,7 @@ namespace Engine
                 if (another == npc) // Не смотрим сами на себя
                     continue;
 
-                if(npc.CharacterType.IsEnemy(another.CharacterType)) // Враждебен для НПС?
+                if(!another.Characteristics.IsDead && npc.CharacterType.IsEnemy(another.CharacterType)) // Враждебен для НПС?
                 {
                     if(npc.ToPos().Distance(another.ToPos()) <= npc.AgressionRadius) // Чужак находится в зоне агрессии этого НПС
                     {
@@ -177,7 +183,7 @@ namespace Engine
             var target = npc.Target; // Враждебная цель для НПС
             var distance = target.ToPos().Distance(npc.ToPos());
             
-            if(distance > npc.AgressionRadius * 2) // Цель ушла дальше чем на 2 радиуса агрессии, значит потерялась из виду
+            if(target.Characteristics.IsDead || distance > npc.AgressionRadius * 2) // Цель мертва, или ушла дальше чем на 2 радиуса агрессии, значит потерялась из виду
             {
                 npc.Target = null; // Отстаём от цели, так как не можем до неё добраться
                 npc.NextPoint = npc.ToPos();
@@ -235,10 +241,8 @@ namespace Engine
             }
 
             var bullet = (IBullet)Activator.CreateInstance(bulletSet.GetType());
-            bullet.MovePath = 0;
-            bullet.MoveMaxPath = weapon.Distance;
-
-            DoRangedAttack(npc, weapon, bullet, npc.Target);
+            
+            battleService.DoRangedAttack(npc, weapon, bullet);
         }
 
         private void DoNearStrategy(INPC npc)
@@ -251,7 +255,7 @@ namespace Engine
 
             npc.LastUseWeaponTime = timestamp;
 
-            DoMeleeAttack(npc, npc.Target);
+            battleService.DoMeleeAttack(npc, npc.Target);
         }
 
         /// <summary>
@@ -302,67 +306,6 @@ namespace Engine
                     npc.PosY--;
                 }
             }
-        }
-
-        private Vector2 GoToOneAxis(ICharacter source, ICharacter target)
-        {
-            int posX = source.PosX;
-            int posY = source.PosY;
-
-            // Вычисляем положение снаряда от атакующего на + 1 клетку в сторону цели
-
-            if (target.PosX != source.PosX && target.PosX > source.PosX)
-                posX++;
-
-            if (target.PosY != source.PosY && target.PosY > source.PosY)
-                posY++;
-
-            if (target.PosX != source.PosX && target.PosX < source.PosX)
-                posX--;
-
-            if (target.PosY != source.PosY && target.PosY < source.PosY)
-                posY--;
-
-            return new Vector2(posX, posY);
-        }
-
-        /// <summary>
-        /// Выполняет атаку оружием ближнего действия (или же без оружия)
-        /// </summary>
-        /// <param name="source">Атакующий</param>
-        /// <param name="weapon">Оружие, которым атакуют, если null - атакуют руками</param>
-        /// <param name="target">Цель, которую атакуют</param>
-        public void DoMeleeAttack(ICharacter source, ICharacter target)
-        {
-            
-            CalculationService.Instance.DoDamage(source, target); // Рассчитываем передачу урона
-        }
-
-        /// <summary>
-        /// Выполняет атаку оружием дальнего действия
-        /// </summary>
-        /// <param name="source">Атакующий</param>
-        /// <param name="weapon">Оружие, которым атакуют</param>
-        /// <param name="target">Цель, которую атакуют</param>
-        public void DoRangedAttack(ICharacter source, IWeaponRanged weapon, IBullet bullet, ICharacter target)
-        {
-            if (weapon == null)
-                return;
-
-            bullet.Source = source; // Запоминаем кто выпустил снаряд
-            bullet.Direction = source.ToPos().LookTo(target.ToPos()); // Поворачиваем снаряд в сторону цели
-            bullet.Damage += weapon.Damage; // передаём снаряду урон от оружия
-            bullet.Move(GoToOneAxis(source, target)); // Выдвигаем снаряд вперёд, относительно направления атакующего
-            world.Bullets.Add(bullet); // Добавляем запущенный снаряд в мир
-        }
-
-        /// <summary>
-        /// Выполняет атаку оружием дальнего действия
-        /// </summary>
-        /// <param name="target">Цель, которую атакуют</param>
-        public void DoRangedDamage(IBullet bullet, ICharacter target)
-        {
-            CalculationService.Instance.DoDamage(bullet.Source, bullet, target); // Рассчитываем передачу урона
         }
 
     }
